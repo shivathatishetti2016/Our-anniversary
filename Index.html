@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 11th Anniversary ❤️</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #4a4a4a;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* Counter Styles */
+        .counter-box {
+            background: #fff0f3;
+            border: 2px dashed #ff80ab;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .time-unit {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .time-unit span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #d81b60;
+        }
+
+        .time-unit label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* Wish & Cake Section */
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            background: #d81b60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #c2185b;
+            transform: scale(1.05);
+        }
+
+        /* Cake Styling */
+        .cake {
+            font-size: 4rem;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cake:hover {
+            transform: scale(1.1);
+        }
+
+        /* Proposal Section */
+        #proposal-section {
+            display: none;
+        }
+
+        .proposal-buttons {
+            position: relative;
+            height: 60px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #btn-no {
+            background: #757575;
+            position: absolute;
+            transition: 0.1s ease;
+        }
+
+        /* Timeline Section */
+        .timeline {
+            position: relative;
+            text-align: left;
+            border-left: 3px solid #ff80ab;
+            margin: 20px 0 20px 10px;
+            padding-left: 20px;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26.5px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d81b60;
+            border: 2px solid white;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: #d81b60;
+            font-weight: bold;
+        }
+
+        .timeline-text {
+            font-size: 0.95rem;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Happy 11th Anniversary, My Love! ❤️</h1>
+        <p class="subtitle">Distance means so little when someone means so much.</p>
+
+        <!-- Live Counter Section -->
+        <div class="counter-box">
+            <h3>We have been together for:</h3>
+            <div class="counter-grid">
+                <div class="time-unit"><span id="years">0</span><label>Years</label></div>
+                <div class="time-unit"><span id="days">0</span><label>Days</label></div>
+                <div class="time-unit"><span id="hours">0</span><label>Hours</label></div>
+                <div class="time-unit"><span id="minutes">0</span><label>Minutes</label></div>
+                <div class="time-unit" style="grid-column: span 2;"><span id="seconds">0</span><label>Seconds</label></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Make a Wish -->
+        <div class="section" id="wish-section">
+            <h3>Make a Secret Wish ✨</h3>
+            <p style="font-size: 0.9rem; color: #666;">Type your wish below before cutting the cake!</p>
+            <input type="text" id="wish-input" placeholder="Type your wish here...">
+            <br>
+            <button class="btn" onclick="saveWish()">Save Wish & Cut Cake 🎂</button>
+        </div>
+
+        <!-- Step 2: Cut the Cake (Hidden initially) -->
+        <div class="section" id="cake-section" style="display:none;">
+            <h3>Cut the Anniversary Cake! 🍰</h3>
+            <div class="cake" onclick="cutCake()">🎂</div>
+            <p id="cake-instruction" style="font-size: 0.9rem; color: #d81b60;">Click the cake to cut it!</p>
+        </div>
+
+        <!-- Step 3: Proposal Section (Hidden initially) -->
+        <div class="section" id="proposal-section">
+            <h2 style="color: #d81b60;">Will you accept my love forever? 💍</h2>
+            <div class="proposal-buttons">
+                <button class="btn" id="btn-yes" onclick="sayYes()">Yes! ❤️</button>
+                <button class="btn" id="btn-no" onmouseover="moveNoButton()" onclick="moveNoButton()">No 🙈</button>
+            </div>
+            <div id="response-msg" style="margin-top: 20px; font-size: 1.2rem; font-weight: bold; color: #d81b60;"></div>
+        </div>
+
+        <!-- Step 4: Love Story Timeline -->
+        <div class="section">
+            <h3>Our Love Story Timeline 🕰️</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Year 1</div>
+                    <div class="timeline-text">The magical beginning of our journey together.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Year 5</div>
+                    <div class="timeline-text">Growing stronger through every mile apart.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Year 11 (Today)</div>
+                    <div class="timeline-text">Celebrating 11 incredible years of pure love!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // REPLACE THE DATE BELOW WITH YOUR EXACT PROPOSAL DATE AND TIME (Format: YYYY-MM-DDTHH:MM:SS)
+        const proposalDate = new Date("2015-08-15T14:30:00");
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - proposalDate;
+
+            if (diff < 0) return;
+
+            const seconds = Math.floor(diff / 1000) % 60;
+            const minutes = Math.floor(diff / (1000 * 60)) % 60;
+            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+            const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            const years = Math.floor(daysTotal / 365);
+            const days = daysTotal % 365;
+
+            document.getElementById("years").innerText = years;
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
+        }
+
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        function saveWish() {
+            const wish = document.getElementById("wish-input").value;
+            if (wish.trim() === "") {
+                alert("Please write a small wish first! ❤️");
+                return;
+            }
+            document.getElementById("wish-section").style.display = "none";
+            document.getElementById("cake-section").style.display = "block";
+        }
+
+        function cutCake() {
+            document.getElementById("cake-section").innerHTML = "<h3>🎉 Cake Cut Successfully! 🎉</h3><div class='cake'>🥳🍰</div><p style='color:#d81b60;'>Your wish has been locked in our hearts!</p>";
+            setTimeout(() => {
+                document.getElementById("proposal-section").style.display = "block";
+            }, 1000);
+        }
+
+        function moveNoButton() {
+            const btnNo = document.getElementById("btn-no");
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 100 - 50;
+            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function sayYes() {
+            document.getElementById("response-msg").innerHTML = "Yay! Thank you for making me the happiest person alive! I love you so much! 🥰❤️";
+            document.getElementById("btn-no").style.display = "none";
+            document.getElementById("btn-yes").style.display = "none";
+        }
+    </script>
+</body>
+</html>
