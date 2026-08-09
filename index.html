@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>11 Years of Us | Happy Anniversary ❤️</title>
+  <title>Our Love Story | Happy Anniversary ❤️</title>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -252,7 +252,7 @@
       position: relative;
     }
 
-    /* Magazine 11-Year Timeline */
+    /* Magazine Timeline */
     .magazine-section {
       display: none;
     }
@@ -260,7 +260,7 @@
     .magazine-wrapper {
       position: relative;
       width: 100%;
-      min-height: 480px;
+      min-height: 520px;
       perspective: 1000px;
       margin-top: 30px;
     }
@@ -279,11 +279,12 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 40px 25px;
+      padding: 35px 25px;
       background: linear-gradient(145deg, rgba(30,21,53,0.9), rgba(15,12,27,0.95));
       border: 1px solid rgba(247, 208, 112, 0.3);
       border-radius: 20px;
       box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+      overflow-y: auto;
     }
 
     .magazine-page.active {
@@ -301,27 +302,36 @@
       font-size: 1.1rem;
       margin-bottom: 15px;
       letter-spacing: 2px;
+      display: inline-block;
     }
 
     .page-title {
       font-family: 'Playfair Display', serif;
-      font-size: 2rem;
+      font-size: 1.8rem;
       color: var(--text-gold);
       margin-bottom: 15px;
     }
 
-    .page-desc {
-      font-size: 1.05rem;
-      line-height: 1.8;
+    .timeline-events {
+      text-align: left;
+      max-width: 700px;
+      margin: 0 auto 15px auto;
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .timeline-events li {
+      font-size: 0.95rem;
+      line-height: 1.6;
       color: #e2e8f0;
-      max-width: 650px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .page-quote {
       font-family: 'Great Vibes', cursive;
       font-size: 1.8rem;
       color: var(--secondary);
+      margin-top: 10px;
     }
 
     /* Magazine Navigation */
@@ -335,6 +345,9 @@
     .page-dots {
       display: flex;
       gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 60%;
     }
 
     .dot {
@@ -356,8 +369,8 @@
       .script-title { font-size: 2.8rem; }
       .sub-title { font-size: 1.1rem; }
       .magazine-page { padding: 25px 15px; }
-      .page-title { font-size: 1.5rem; }
-      .page-desc { font-size: 0.95rem; }
+      .page-title { font-size: 1.4rem; }
+      .timeline-events li { font-size: 0.88rem; }
     }
   </style>
 </head>
@@ -370,8 +383,8 @@
     
     <!-- HEADER & LIVE COUNTER SECTION -->
     <header class="glass-card">
-      <h1 class="script-title">Happy 11th Anniversary</h1>
-      <p class="sub-title">11 Years of Magic, Love & Togetherness</p>
+      <h1 class="script-title">Happy Anniversary</h1>
+      <p class="sub-title">Years of Magic, Resilient Growth & Togetherness</p>
       
       <div class="timer-grid">
         <div class="timer-box">
@@ -413,7 +426,7 @@
         <p id="cake-instruction" style="color: #bbb; margin-top: 10px;">Click to celebrate our special day!</p>
       </div>
 
-      <!-- COUPLE PORTRAITS (Christian Bride & Hindu Groom Style) -->
+      <!-- COUPLE PORTRAITS -->
       <div class="couple-showcase" id="couple-section">
         <div class="avatar-card" id="bride-card">
           <div class="avatar-frame">👰‍♀️</div>
@@ -431,7 +444,7 @@
     <!-- PROPOSAL INTERACTIVE SECTION -->
     <section class="glass-card proposal-box" id="proposal-section">
       <h2 class="script-title">Will You Love Me Forever?</h2>
-      <p class="sub-title">Through every smile, adventure, and milestone ahead...</p>
+      <p class="sub-title">Through every smile, distance, and milestone ahead...</p>
       
       <div class="proposal-buttons">
         <button class="btn" id="btn-yes">Yes, Absolutely! ❤️</button>
@@ -440,107 +453,126 @@
       <p id="response-msg" style="margin-top: 20px; font-size: 1.3rem; color: var(--text-gold); font-weight: 600;"></p>
     </section>
 
-    <!-- 11-YEAR MAGAZINE TIMELINE SECTION -->
+    <!-- CUSTOMIZED MAGAZINE TIMELINE SECTION -->
     <section class="glass-card magazine-section" id="timeline-section">
-      <h2 class="script-title">Our 11-Year Love Story</h2>
-      <p class="sub-title">Flip through the chapters of our journey (2015 – 2026)</p>
+      <h2 class="script-title">Our Love Story Timeline</h2>
+      <p class="sub-title">Flip through the real chapters of our journey (2016 – Present)</p>
 
       <div class="magazine-wrapper">
         
-        <!-- Year 2015 -->
+        <!-- Page 1: 2016 -->
         <div class="magazine-page active">
-          <span class="year-badge">2015 — CHAPTER 1</span>
-          <h3 class="page-title">The First Spark & Proposal</h3>
-          <p class="page-desc">It all began on January 11, 2015 at 2:30 PM. A single conversation turned into hours of endless laughter, sparking a bond that time could never fade.</p>
-          <span class="page-quote">"Where our forever story officially started..."</span>
+          <span class="year-badge">2016</span>
+          <h3 class="page-title">The Beginning of Our Journey</h3>
+          <ul class="timeline-events">
+            <li><strong>January 11, 2016:</strong> Our beautiful love story officially began in Madhya Pradesh.</li>
+            <li>We spent quality time together in the school classroom, where our love first blossomed.</li>
+          </ul>
+          <span class="page-quote">"Where our story officially started in Madhya Pradesh..."</span>
         </div>
 
-        <!-- Year 2016 -->
+        <!-- Page 2: 2017 -->
         <div class="magazine-page">
-          <span class="year-badge">2016 — CHAPTER 2</span>
-          <h3 class="page-title">Falling Deeper</h3>
-          <p class="page-desc">Late night calls, secret jokes, and discovering each other's quirks. Our love grew quietly but deeply with every passing sunrise.</p>
-          <span class="page-quote">"Two souls learning to dance to the same rhythm."</span>
+          <span class="year-badge">2017</span>
+          <h3 class="page-title">10th Class, The Public Proposal & Family Support</h3>
+          <ul class="timeline-events">
+            <li><strong>Classroom Memories:</strong> We were placed in different sections for 10th class, but we looked forward to the evenings during classroom sweeping duties just to meet and talk.</li>
+            <li><strong>Birthday Surprise:</strong> Even after completing my exams, I went back to school just to celebrate her birthday with her while she was still giving her exams.</li>
+            <li><strong>The Grand Proposal:</strong> Before finishing 10th class, right around the final exams, I proposed to her in front of the entire classroom.</li>
+            <li><strong>First Family Conversation:</strong> During final exams in 2017, I opened up to my father about our relationship. He was understanding and told me that once we both got settled in our futures, our families would happily accept our bond.</li>
+            <li><strong>Summer 2017:</strong> During the summer break, Facebook Messenger was our only source of contact, and we spent hours messaging each other.</li>
+          </ul>
+          <span class="page-quote">"A fearless leap of love and our very first promises."</span>
         </div>
 
-        <!-- Year 2017 -->
+        <!-- Page 3: 2017 – 2018 -->
         <div class="magazine-page">
-          <span class="year-badge">2017 — CHAPTER 3</span>
-          <h3 class="page-title">Grand Adventures</h3>
-          <p class="page-desc">Exploring new places, holding hands under starry skies, and creating core memories that we still look back on with smiles.</p>
-          <span class="page-quote">"Every location became special because you were there."</span>
+          <span class="year-badge">2017 – 2018</span>
+          <h3 class="page-title">Intermediate / First Long-Distance Phase & Secret Hostel Call</h3>
+          <ul class="timeline-events">
+            <li><strong>First LDR Phase:</strong> I joined Intermediate 1st year, marking our first long-distance chapter. We eagerly waited for holidays just so we could call and text each other.</li>
+            <li><strong>The Night Call Mystery:</strong> In 2018, we pulled off a secret operation—sneaking a mobile phone into her hostel. We stayed up all night excited, talking about our memories and sharing special moments.</li>
+            <li><strong>Hostel Teasing & Secret Signals:</strong> In the days after, her friends teased her constantly, waiting for my calls. To contact her, whenever my parents or friends' parents visited, I would give her a missed call, and she would call me back so we could talk.</li>
+          </ul>
+          <span class="page-quote">"Miles apart, but closer at heart with every passing night."</span>
         </div>
 
-        <!-- Year 2018 -->
+        <!-- Page 4: 2019 -->
         <div class="magazine-page">
-          <span class="year-badge">2018 — CHAPTER 4</span>
-          <h3 class="page-title">Overcoming Storms</h3>
-          <p class="page-desc">Life threw challenges our way, but standing side-by-side proved that together, we can conquer any storm with grace.</p>
-          <span class="page-quote">"Stronger through every challenge we faced."</span>
+          <span class="year-badge">2019</span>
+          <h3 class="page-title">JEE Mains, B.Tech, and First Outings</h3>
+          <ul class="timeline-events">
+            <li><strong>Early 2019 (JEE Mains Day):</strong> She surprised me by coming to my exam center on the day of my JEE Mains exam. Seeing each other brought so much excitement!</li>
+            <li><strong>First B.Tech Reunion (Railway Station):</strong> When I started B.Tech in 2019, we met at the railway station. I was so nervous and shy that I couldn’t even hold her hand for the first time—a memory we fondly laugh about now!</li>
+            <li><strong>First Outing (Oxygen Park, 2019):</strong> We went on our very first official outing to Oxygen Park, creating one of our cutest initial memories together.</li>
+          </ul>
+          <span class="page-quote">"Shy hand-holds and unforgettable first dates."</span>
         </div>
 
-        <!-- Year 2019 -->
+        <!-- Page 5: 2020 -->
         <div class="magazine-page">
-          <span class="year-badge">2019 — CHAPTER 5</span>
-          <h3 class="page-title">Unforgettable Milestones</h3>
-          <p class="page-desc">A year filled with major personal victories, celebrations, and promises that sealed our commitment even stronger.</p>
-          <span class="page-quote">"Hand in hand through every triumph."</span>
+          <span class="year-badge">2020</span>
+          <h3 class="page-title">Bhongir Fort, Corona Lockdown & Virtual Love</h3>
+          <ul class="timeline-events">
+            <li><strong>Bhongir Fort Trip:</strong> We went to Bhongir, a crucial landmark in our journey that brought us significantly closer to each other.</li>
+            <li><strong>Pre-Lockdown Meal:</strong> Before heading home, we ate lunch together at Bawarchi / Mehfil, assuming we would meet again in a few weeks or months.</li>
+            <li><strong>Corona Lockdown LDR:</strong> Lockdown separated us unexpectedly for much longer than planned. We kept our connection alive through video calls, Instagram, Zoom meetings, and sending funny/crazy snaps on Snapchat.</li>
+          </ul>
+          <span class="page-quote">"Overcoming distance through virtual smiles and endless calls."</span>
         </div>
 
-        <!-- Year 2020 -->
+        <!-- Page 6: 2021 -->
         <div class="magazine-page">
-          <span class="year-badge">2020 — CHAPTER 6</span>
-          <h3 class="page-title">Cozy Isolation & Togetherness</h3>
-          <p class="page-desc">When the world paused, our world became each other. Finding comfort in home-cooked meals, movie marathons, and simple presence.</p>
-          <span class="page-quote">"In a chaotic world, you were my peaceful home."</span>
+          <span class="year-badge">2021</span>
+          <h3 class="page-title">A Special Gift Across the Distance</h3>
+          <ul class="timeline-events">
+            <li><strong>January 11, 2021 (Anniversary Surprise):</strong> While she was working in Hyderabad and I was at home, I sent her a surprise gift for our anniversary: a golden rose and a special locket that projects "I Love You" in 100 different languages.</li>
+          </ul>
+          <span class="page-quote">"Expressing love in a hundred different languages."</span>
         </div>
 
-        <!-- Year 2021 -->
+        <!-- Page 7: 2022 -->
         <div class="magazine-page">
-          <span class="year-badge">2021 — CHAPTER 7</span>
-          <h3 class="page-title">Building Our Dreams</h3>
-          <p class="page-desc">Planning our future, dreaming bigger dreams, and taking confident strides toward the life we always wanted to build.</p>
-          <span class="page-quote">"Architects of our own happiness."</span>
+          <span class="year-badge">2022</span>
+          <h3 class="page-title">Surprises & Vikarabad Trip</h3>
+          <ul class="timeline-events">
+            <li><strong>Vikarabad Trip:</strong> When her friends were going on a trip to Vikarabad, I showed up to surprise her, making another unforgettable trip together.</li>
+            <li><strong>Quality Weekend Time:</strong> By October 2022, we were meeting every weekend, celebrating our birthdays together, exchanging gifts, and enjoying continuous quality time.</li>
+          </ul>
+          <span class="page-quote">"Surprise road trips and precious weekend escapes."</span>
         </div>
 
-        <!-- Year 2022 -->
+        <!-- Page 8: 2023 – 2024 -->
         <div class="magazine-page">
-          <span class="year-badge">2022 — CHAPTER 8</span>
-          <h3 class="page-title">Blend of Traditions & Joy</h3>
-          <p class="page-desc">Celebrating the beauty of our unique heritage, blending grace and vibrant traditions into one harmonious celebration of love.</p>
-          <span class="page-quote">"A union of hearts, traditions, and pure love."</span>
+          <span class="year-badge">2023 – 2024</span>
+          <h3 class="page-title">Internship, Father’s Blessing & US Departure</h3>
+          <ul class="timeline-events">
+            <li><strong>2023 (Internship Days):</strong> I started my internship, giving us more private, quality time together. Weekend dates became our regular ritual.</li>
+            <li><strong>Late 2024 (US Visa & Dad's Approval):</strong> She received her US visa to pursue her Master’s (MS) in the United States. Before she left, I spoke to my father again about our relationship, and he fully accepted us.</li>
+          </ul>
+          <span class="page-quote">"Stepping into big futures with parental blessings."</span>
         </div>
 
-        <!-- Year 2023 -->
+        <!-- Page 9: 2025 -->
         <div class="magazine-page">
-          <span class="year-badge">2023 — CHAPTER 9</span>
-          <h3 class="page-title">Laughter & Deep Connection</h3>
-          <p class="page-desc">Understanding each other without speaking a single word. Years of shared history turning into unbreakable trust.</p>
-          <span class="page-quote">"My favorite person to share silence and laughter with."</span>
+          <span class="year-badge">2025</span>
+          <h3 class="page-title">Oceans Apart & Mom’s Acceptance</h3>
+          <ul class="timeline-events">
+            <li><strong>US Long-Distance Phase:</strong> 2025 was our biggest long-distance challenge yet with the massive time zone gap. Despite the difficulty, our bond only grew stronger.</li>
+            <li><strong>Mom’s Blessing:</strong> During 2025, I shared our entire story with my mother, and she happily accepted our relationship as well.</li>
+          </ul>
+          <span class="page-quote">"Bridging continents and oceans with unwavering trust."</span>
         </div>
 
-        <!-- Year 2024 -->
+        <!-- Page 10: 2026 -->
         <div class="magazine-page">
-          <span class="year-badge">2024 — CHAPTER 10</span>
-          <h3 class="page-title">A Decade Celebration</h3>
-          <p class="page-desc">Crossing the 10-year mark with hearts full of gratitude, looking back at a whole decade of cherished memories.</p>
-          <span class="page-quote">"10 years down, a lifetime of joy ahead."</span>
-        </div>
-
-        <!-- Year 2025 -->
-        <div class="magazine-page">
-          <span class="year-badge">2025 — CHAPTER 11</span>
-          <h3 class="page-title">Golden Moments</h3>
-          <p class="page-desc">Growing wiser, loving deeper, and cherishing every quiet morning and sunset together as our story keeps expanding.</p>
-          <span class="page-quote">"Still giving me butterflies after all these years."</span>
-        </div>
-
-        <!-- Year 2026 -->
-        <div class="magazine-page">
-          <span class="year-badge">2026 — PRESENT & BEYOND</span>
-          <h3 class="page-title">11 Years Strong & Forever to Go</h3>
-          <p class="page-desc">Today marks 11 glorious years of us! Here is to infinite more chapters, deeper love, and a lifetime of shared dreams.</p>
-          <span class="page-quote">"Happy 11th Anniversary, My Love! ❤️"</span>
+          <span class="year-badge">2026</span>
+          <h3 class="page-title">Reunion & Her Parents' Approval</h3>
+          <ul class="timeline-events">
+            <li><strong>Return to India:</strong> She came back to India in 2026! We spent an incredible amount of quality time together, meeting every weekend.</li>
+            <li><strong>Her Parents Accept:</strong> During this phase, she spoke to her parents about our relationship, and they lovingly accepted our union. Both families are now fully supportive of our journey.</li>
+          </ul>
+          <span class="page-quote">"Reunited at last, blessed by both families! ❤️"</span>
         </div>
 
       </div>
@@ -557,9 +589,9 @@
 
   <script>
     /* ===================================================
-       1. LIVE COUNTER LOGIC (From Jan 11, 2015 @ 14:30:00)
+       1. LIVE COUNTER LOGIC (From Jan 11, 2016 @ 14:30:00)
        =================================================== */
-    const startDate = new Date('2015-01-11T14:30:00');
+    const startDate = new Date('2016-01-11T14:30:00');
 
     function updateCounter() {
       const now = new Date();
@@ -598,7 +630,6 @@
         alert("Please write your wish first! ❤️");
         return;
       }
-      playTone(523.25, 0.2); // Play melody note
       document.getElementById('wish-section').style.display = 'none';
       document.getElementById('cake-section').style.display = 'block';
     });
@@ -612,7 +643,6 @@
       document.getElementById('cake-heading').textContent = 'Yay! Cake Cut Successfully! 🎉';
       document.getElementById('cake-instruction').textContent = 'Wish saved in our hearts forever!';
 
-      playCelebrationSound();
       triggerConfetti();
       revealCouples();
 
@@ -643,7 +673,6 @@
 
     btnYes.addEventListener('click', () => {
       responseMsg.textContent = "I knew it! Forever & Always! ❤️✨";
-      playCelebrationSound();
       triggerConfetti();
       
       const timelineSec = document.getElementById('timeline-section');
@@ -664,7 +693,7 @@
     }
 
     /* ===================================================
-       4. MAGAZINE 11-YEAR TIMELINE CONTROLS
+       4. MAGAZINE TIMELINE CONTROLS
        =================================================== */
     const pages = document.querySelectorAll('.magazine-page');
     const prevBtn = document.getElementById('prev-btn');
@@ -767,31 +796,7 @@
         p.y = canvas.height / 2;
         p.speedY = (Math.random() - 0.5) * 8;
         p.speedX = (Math.random() - 0.5) * 8;
-        particles.push(p);
       }
-    }
-
-    /* Web Audio Sound Synthesizer */
-    function playTone(freq, duration) {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + duration);
-      } catch(e) {}
-    }
-
-    function playCelebrationSound() {
-      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-        setTimeout(() => playTone(freq, 0.3), idx * 120);
-      });
     }
   </script>
 </body>
