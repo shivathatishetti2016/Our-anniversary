@@ -1,875 +1,798 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy 11th Anniversary ❤️</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11 Years of Us | Happy Anniversary ❤️</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 
   <style>
-    /* --- base layout & styles (kept mostly the same) --- */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-      color: #4a4a4a;
-      text-align: center;
+    :root {
+      --primary: #ff4d6d;
+      --secondary: #c77dff;
+      --accent: #ffb703;
+      --bg-dark: #0f0c1b;
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --text-gold: #f7d070;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1e1535 0%, #080511 100%);
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    .container {
-      max-width: 680px;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 28px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-      margin-top: 20px;
-      margin-bottom: 40px;
-    }
-
-    h1 { color: #d81b60; font-size: 2.2rem; margin-bottom: 8px; }
-    p.subtitle { font-size: 1.05rem; color: #666; margin-bottom: 18px; }
-
-    .counter-box { background: #fff0f3; border: 2px dashed #ff80ab; border-radius: 15px; padding: 20px; margin-bottom: 22px; }
-    .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
-    .time-unit { background: white; padding: 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-    .time-unit span { display: block; font-size: 1.4rem; font-weight: bold; color: #d81b60; }
-    .time-unit label { font-size: 0.8rem; color: #888; text-transform: uppercase; }
-
-    .section { margin: 26px 0; padding: 18px; border-top: 1px solid #eee; }
-
-    input[type="text"] {
-      padding: 10px; width: 82%; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; margin-bottom: 14px;
-    }
-
-    .btn {
-      background: #d81b60; color: white; border: none; padding: 12px 22px; font-size: 1rem; border-radius: 24px;
-      cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.28); transition: transform .18s, background .18s;
-    }
-    .btn:hover { transform: scale(1.03); background: #c2185b; }
-
-    .cake { font-size: 4rem; margin: 18px 0; cursor: pointer; transition: transform 0.25s; }
-    .cake:hover { transform: scale(1.08) rotate(-4deg); }
-
-    /* --- couple (animated assets) --- */
-    .couple-container { display: none; margin-top: 18px; display: flex; justify-content: center; gap: 28px; align-items: center; }
-    .couple-wrapper { display:flex; flex-direction:column; align-items:center; width:170px; }
-    .asset { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;
-             background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
-             box-shadow: 0 10px 28px rgba(0,0,0,0.12); border: 5px solid rgba(255,255,255,0.6);
-             transform: translateY(30px) scale(.92) rotate(-2deg); opacity: 0; transition: transform .65s cubic-bezier(.2,.9,.2,1), opacity .65s;
-           }
-    .asset.revealed { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
-    .asset.right { transform-origin: center right; }
-    .asset.left  { transform-origin: center left; }
-
-    .asset img, .asset lottie-player, .asset .gif-fallback { width:100%; height:100%; object-fit:cover; display:block; }
-
-    .couple-caption { font-size: 0.88rem; color:#666; margin-top:9px; }
-
-    /* --- hearts / overlays --- */
-    .heart {
-      position: fixed; pointer-events: none; z-index: 1200; font-size: 22px; opacity: .95;
-      transform-origin: center; animation: floatUp 2200ms ease-out forwards;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
-    @keyframes floatUp {
-      0% { transform: translateY(0) scale(.9); opacity: 1; }
-      40% { transform: translateY(-60px) scale(1.05); opacity: .95; }
-      100% { transform: translateY(-220px) scale(.7); opacity: 0; }
-    }
-
-    /* --- timeline / proposal / responsive --- */
-    #proposal-section { display: none; }
-    #timeline-section { display: none; }
-    .proposal-buttons { position: relative; height: 64px; margin-top: 18px; display: flex; justify-content: center; gap: 20px; }
-    #btn-no { background: #757575; position: absolute; transition: transform .18s ease, left .12s ease; }
-
-    /* --- Magazine Timeline Styles --- */
-    .magazine-container {
-      perspective: 1000px;
-      margin: 20px 0;
-      height: 500px;
+      overflow-x: hidden;
       position: relative;
     }
 
-    .magazine-page {
+    /* Ambient Particle Canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Glassmorphism Card Style */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 35px;
+      margin-bottom: 40px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      box-shadow: 0 25px 60px rgba(255, 77, 109, 0.25);
+    }
+
+    /* Typography */
+    .script-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.8rem;
+      background: linear-gradient(135deg, #ff758f, #ffb703, #e0aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .sub-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #d8b4fe;
+      margin-bottom: 25px;
+      letter-spacing: 1px;
+    }
+
+    /* Counter Section */
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .timer-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 15px 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .timer-box:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 77, 109, 0.15);
+    }
+
+    .timer-number {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-gold);
+      display: block;
+    }
+
+    .timer-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #cccccc;
+    }
+
+    /* Interactive Wish & Cake Section */
+    .wish-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 15px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: none;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--primary), #c77dff);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 35px rgba(255, 77, 109, 0.6);
+    }
+
+    /* Cake Animation */
+    .cake-container {
       display: none;
+      cursor: pointer;
+      margin: 20px auto;
+      user-select: none;
+    }
+
+    .cake-icon {
+      font-size: 6rem;
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      filter: drop-shadow(0 10px 20px rgba(255,183,3,0.3));
+    }
+
+    .cake-icon:hover {
+      transform: scale(1.15) rotate(5deg);
+    }
+
+    /* Couple Portrait Showcase */
+    .couple-showcase {
+      display: none;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .avatar-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid var(--text-gold);
+      border-radius: 20px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .avatar-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .avatar-frame {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      background: linear-gradient(135deg, #ffb703, #ff4d6d);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    /* Proposal Interactive Section */
+    .proposal-box {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .proposal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 25px;
+      position: relative;
+      min-height: 60px;
+    }
+
+    .btn-no {
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: none;
+      position: relative;
+    }
+
+    /* Magazine 11-Year Timeline */
+    .magazine-section {
+      display: none;
+    }
+
+    .magazine-wrapper {
+      position: relative;
+      width: 100%;
+      min-height: 480px;
+      perspective: 1000px;
+      margin-top: 30px;
+    }
+
+    .magazine-page {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
-      border-radius: 10px;
-      padding: 30px;
-      box-sizing: border-box;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
       opacity: 0;
-      transform: rotateY(90deg) translateZ(0);
-      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      overflow-y: auto;
+      visibility: hidden;
+      transform: rotateY(-15deg) scale(0.95);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 25px;
+      background: linear-gradient(145deg, rgba(30,21,53,0.9), rgba(15,12,27,0.95));
+      border: 1px solid rgba(247, 208, 112, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6);
     }
 
     .magazine-page.active {
-      display: flex;
-      flex-direction: column;
       opacity: 1;
-      transform: rotateY(0deg) translateZ(0);
-      z-index: 10;
+      visibility: visible;
+      transform: rotateY(0deg) scale(1);
     }
 
-    .magazine-page.prev {
-      transform: rotateY(-90deg) translateZ(0);
-    }
-
-    .page-header {
-      text-align: center;
-      margin-bottom: 20px;
-      border-bottom: 3px solid #d81b60;
-      padding-bottom: 15px;
-    }
-
-    .page-year {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #d81b60;
-      margin: 0;
+    .year-badge {
+      background: linear-gradient(90deg, #ff4d6d, #ffb703);
+      color: #000;
+      font-weight: 700;
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
     }
 
     .page-title {
-      font-size: 1.2rem;
-      color: #666;
-      margin: 8px 0 0 0;
-      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--text-gold);
+      margin-bottom: 15px;
     }
 
-    .page-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .page-image-container {
-      margin: 15px 0;
-      text-align: center;
-    }
-
-    .page-image {
-      max-width: 100%;
-      max-height: 180px;
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      object-fit: cover;
-    }
-
-    .page-emoji {
-      font-size: 3rem;
-      margin: 10px 0;
-    }
-
-    .page-story {
-      font-size: 0.95rem;
-      color: #444;
-      line-height: 1.6;
-      margin: 12px 0;
-      text-align: left;
-      background: rgba(255,255,255,0.6);
-      padding: 12px;
-      border-radius: 8px;
+    .page-desc {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #e2e8f0;
+      max-width: 650px;
+      margin-bottom: 20px;
     }
 
     .page-quote {
-      font-size: 0.9rem;
-      color: #d81b60;
-      font-style: italic;
-      font-weight: bold;
-      text-align: center;
-      margin: 15px 0;
-      padding: 12px;
-      border-left: 4px solid #d81b60;
-      background: rgba(216, 27, 96, 0.08);
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.8rem;
+      color: var(--secondary);
     }
 
-    .magazine-controls {
+    /* Magazine Navigation */
+    .mag-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 20px;
-      gap: 15px;
-    }
-
-    .nav-btn {
-      background: #d81b60;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: transform 0.18s, background 0.18s;
-    }
-
-    .nav-btn:hover {
-      transform: scale(1.05);
-      background: #c2185b;
-    }
-
-    .nav-btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: scale(1);
-    }
-
-    .page-counter {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #d81b60;
-      text-align: center;
-      flex: 1;
+      margin-top: 25px;
     }
 
     .page-dots {
       display: flex;
-      justify-content: center;
       gap: 8px;
-      margin-top: 15px;
-      flex-wrap: wrap;
     }
 
     .dot {
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: #ddd;
+      background: rgba(255, 255, 255, 0.2);
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
     }
 
     .dot.active {
-      background: #d81b60;
+      background: var(--primary);
+      width: 25px;
+      border-radius: 10px;
     }
 
-    @media (max-width:520px) {
-      .counter-grid { grid-template-columns: repeat(2,1fr); }
-      .asset { width: 120px; height: 120px; }
-      .couple-wrapper { width: 130px; }
-      .magazine-page {
-        padding: 20px;
-        height: 600px;
-      }
-      .page-year {
-        font-size: 2rem;
-      }
+    @media (max-width: 600px) {
+      .script-title { font-size: 2.8rem; }
+      .sub-title { font-size: 1.1rem; }
+      .magazine-page { padding: 25px 15px; }
+      .page-title { font-size: 1.5rem; }
+      .page-desc { font-size: 0.95rem; }
     }
   </style>
-
-  <!-- confetti lib (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
-  <!-- lottie-player web component (optional; falls back to GIF/IMG if not used) -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
 </head>
 <body>
+
+  <!-- Particle Animation Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
   <div class="container">
-    <h1>Happy 11th Anniversary, My Love! ❤️</h1>
-    <p class="subtitle">Distance means so little when someone means so much.</p>
-
-    <div class="counter-box">
-      <h3>We have been together for:</h3>
-      <div class="counter-grid">
-        <div class="time-unit"><span id="years">0</span><label>Years</label></div>
-        <div class="time-unit"><span id="days">0</span><label>Days</label></div>
-        <div class="time-unit"><span id="hours">0</span><label>Hours</label></div>
-        <div class="time-unit"><span id="minutes">0</span><label>Minutes</label></div>
-        <div class="time-unit" style="grid-column: span 2;"><span id="seconds">0</span><label>Seconds</label></div>
-      </div>
-    </div>
-
-    <div class="section" id="wish-section">
-      <h3>Make a Secret Wish ✨</h3>
-      <p style="font-size:0.9rem;color:#666">Type your wish below before cutting the cake!</p>
-      <input id="wish-input" type="text" placeholder="Type your wish here..." />
-      <br />
-      <button class="btn" id="save-wish-btn">Save Wish & Cut Cake 🎂</button>
-    </div>
-
-    <div class="section" id="cake-section" style="display:none;">
-      <h3 id="cake-heading">Cut the Anniversary Cake! 🍰</h3>
-      <div class="cake" id="cake-emoji">🎂</div>
-      <p id="cake-instruction" style="font-size:0.9rem;color:#d81b60">Click the cake to cut it!</p>
-
-      <!-- couple assets: will be populated with online animated assets (Lottie or GIF) -->
-      <div id="couple-section" class="couple-container" aria-hidden="true">
-        <div class="couple-wrapper">
-          <div id="left-asset" class="asset left" aria-hidden="true"></div>
-          <div class="couple-caption">Bride — Christian style</div>
-        </div>
-        <div class="couple-wrapper">
-          <div id="right-asset" class="asset right" aria-hidden="true"></div>
-          <div class="couple-caption">Groom — Hindu style</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section" id="proposal-section">
-      <h2 style="color:#d81b60">Will you accept my love forever? 💍</h2>
-      <div class="proposal-buttons">
-        <button class="btn" id="btn-yes">Yes! ❤️</button>
-        <button class="btn" id="btn-no">No 🙈</button>
-      </div>
-      <div id="response-msg" style="margin-top:18px;font-size:1.1rem;font-weight:bold;color:#d81b60"></div>
-    </div>
-
-    <div class="section" id="timeline-section">
-      <h3>Our Love Story Timeline 🕰️ — 11 Years of Memories</h3>
+    
+    <!-- HEADER & LIVE COUNTER SECTION -->
+    <header class="glass-card">
+      <h1 class="script-title">Happy 11th Anniversary</h1>
+      <p class="sub-title">11 Years of Magic, Love & Togetherness</p>
       
-      <div class="magazine-container">
-        <!-- Year 1 -->
+      <div class="timer-grid">
+        <div class="timer-box">
+          <span class="timer-number" id="years">0</span>
+          <span class="timer-label">Years</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="days">0</span>
+          <span class="timer-label">Days</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="hours">0</span>
+          <span class="timer-label">Hours</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="minutes">0</span>
+          <span class="timer-label">Minutes</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="seconds">0</span>
+          <span class="timer-label">Seconds</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECRET WISH & CAKE CUTTING SECTION -->
+    <section class="glass-card" id="wish-card">
+      <div id="wish-section">
+        <h2 class="sub-title">Make a Secret Anniversary Wish 🌟</h2>
+        <div class="wish-input-group">
+          <textarea id="wish-input" placeholder="Type your heartfelt wish for us here..."></textarea>
+          <button class="btn" id="save-wish-btn">Blow Candles & Cut Cake 🎂</button>
+        </div>
+      </div>
+
+      <div class="cake-container" id="cake-section">
+        <h2 class="sub-title" id="cake-heading">Tap the Cake to Cut It! 🔪🎂</h2>
+        <div class="cake-icon" id="cake-emoji">🎂</div>
+        <p id="cake-instruction" style="color: #bbb; margin-top: 10px;">Click to celebrate our special day!</p>
+      </div>
+
+      <!-- COUPLE PORTRAITS (Christian Bride & Hindu Groom Style) -->
+      <div class="couple-showcase" id="couple-section">
+        <div class="avatar-card" id="bride-card">
+          <div class="avatar-frame">👰‍♀️</div>
+          <h3 style="color: var(--text-gold);">Christian Bride</h3>
+          <p style="font-size: 0.85rem; color: #aaa; margin-top: 5px;">Grace, Elegance & Eternal Love</p>
+        </div>
+        <div class="avatar-card" id="groom-card">
+          <div class="avatar-frame">🕺</div>
+          <h3 style="color: var(--text-gold);">Hindu Groom</h3>
+          <p style="font-size: 0.85rem; color: #aaa; margin-top: 5px;">Devotion, Joy & Forever Bond</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROPOSAL INTERACTIVE SECTION -->
+    <section class="glass-card proposal-box" id="proposal-section">
+      <h2 class="script-title">Will You Love Me Forever?</h2>
+      <p class="sub-title">Through every smile, adventure, and milestone ahead...</p>
+      
+      <div class="proposal-buttons">
+        <button class="btn" id="btn-yes">Yes, Absolutely! ❤️</button>
+        <button class="btn btn-no" id="btn-no">No 😜</button>
+      </div>
+      <p id="response-msg" style="margin-top: 20px; font-size: 1.3rem; color: var(--text-gold); font-weight: 600;"></p>
+    </section>
+
+    <!-- 11-YEAR MAGAZINE TIMELINE SECTION -->
+    <section class="glass-card magazine-section" id="timeline-section">
+      <h2 class="script-title">Our 11-Year Love Story</h2>
+      <p class="sub-title">Flip through the chapters of our journey (2015 – 2026)</p>
+
+      <div class="magazine-wrapper">
+        
+        <!-- Year 2015 -->
         <div class="magazine-page active">
-          <div class="page-header">
-            <h2 class="page-year">Year 1</h2>
-            <p class="page-title">The Beginning of Forever</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">💕</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/ff9a9e/ffffff?text=Year+1+Memory" alt="Year 1" class="page-image">
-            </div>
-            <div class="page-story">
-              It all started with a single moment that changed everything. You came into my life like a beautiful dream, and I knew right then that you were the one. Our first year together was filled with butterflies, stolen glances, and the magic of falling in love. Every second was precious, and I cherished every moment with you.
-            </div>
-            <div class="page-quote">"Every love story is beautiful, but ours is my favorite." 💖</div>
-          </div>
+          <span class="year-badge">2015 — CHAPTER 1</span>
+          <h3 class="page-title">The First Spark & Proposal</h3>
+          <p class="page-desc">It all began on January 11, 2015 at 2:30 PM. A single conversation turned into hours of endless laughter, sparking a bond that time could never fade.</p>
+          <span class="page-quote">"Where our forever story officially started..."</span>
         </div>
 
-        <!-- Year 2 -->
+        <!-- Year 2016 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 2</h2>
-            <p class="page-title">Growing Closer</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">💑</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/fab1a0/ffffff?text=Year+2+Memory" alt="Year 2" class="page-image">
-            </div>
-            <div class="page-story">
-              In our second year, we learned that love wasn't just about the big moments—it was in the little things. Late night conversations, inside jokes, and the comfort of your presence became my sanctuary. I discovered new reasons to love you every single day. We were building something real and beautiful together.
-            </div>
-            <div class="page-quote">"I love you not only for what you are, but for what I am when I'm with you." 💘</div>
-          </div>
+          <span class="year-badge">2016 — CHAPTER 2</span>
+          <h3 class="page-title">Falling Deeper</h3>
+          <p class="page-desc">Late night calls, secret jokes, and discovering each other's quirks. Our love grew quietly but deeply with every passing sunrise.</p>
+          <span class="page-quote">"Two souls learning to dance to the same rhythm."</span>
         </div>
 
-        <!-- Year 3 -->
+        <!-- Year 2017 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 3</h2>
-            <p class="page-title">Building Our Dreams</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">🌹</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/ffeaa7/ffffff?text=Year+3+Memory" alt="Year 3" class="page-image">
-            </div>
-            <div class="page-story">
-              Year three brought us closer as we started dreaming together. We talked about our future, our goals, and the life we wanted to build side by side. Every plan felt more real with you by my side. We made promises to each other and began turning them into reality, one beautiful day at a time.
-            </div>
-            <div class="page-quote">"We didn't realize we were making memories, we just knew we were having fun." 💝</div>
-          </div>
+          <span class="year-badge">2017 — CHAPTER 3</span>
+          <h3 class="page-title">Grand Adventures</h3>
+          <p class="page-desc">Exploring new places, holding hands under starry skies, and creating core memories that we still look back on with smiles.</p>
+          <span class="page-quote">"Every location became special because you were there."</span>
         </div>
 
-        <!-- Year 4 -->
+        <!-- Year 2018 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 4</h2>
-            <p class="page-title">Through Thick and Thin</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">💪</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/a29bfe/ffffff?text=Year+4+Memory" alt="Year 4" class="page-image">
-            </div>
-            <div class="page-story">
-              When challenges came, we faced them together. Our love proved to be stronger than any obstacle. We learned that true love isn't about perfect moments—it's about standing by each other when things get tough. Through every difficulty, our bond only grew stronger and deeper.
-            </div>
-            <div class="page-quote">"A successful marriage requires falling in love many times, always with the same person." 💗</div>
-          </div>
+          <span class="year-badge">2018 — CHAPTER 4</span>
+          <h3 class="page-title">Overcoming Storms</h3>
+          <p class="page-desc">Life threw challenges our way, but standing side-by-side proved that together, we can conquer any storm with grace.</p>
+          <span class="page-quote">"Stronger through every challenge we faced."</span>
         </div>
 
-        <!-- Year 5 -->
+        <!-- Year 2019 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 5</h2>
-            <p class="page-title">Growing Stronger</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">🌟</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/74b9ff/ffffff?text=Year+5+Memory" alt="Year 5" class="page-image">
-            </div>
-            <div class="page-story">
-              Five years of memories, and our love continued to grow stronger with each passing day. You are my greatest adventure, and every moment with you is a blessing. Distance became just a number, and we proved that love knows no bounds. Every moment apart made reunions even more special and precious to us both.
-            </div>
-            <div class="page-quote">"Growing stronger through every mile apart." 💕</div>
-          </div>
+          <span class="year-badge">2019 — CHAPTER 5</span>
+          <h3 class="page-title">Unforgettable Milestones</h3>
+          <p class="page-desc">A year filled with major personal victories, celebrations, and promises that sealed our commitment even stronger.</p>
+          <span class="page-quote">"Hand in hand through every triumph."</span>
         </div>
 
-        <!-- Year 6 -->
+        <!-- Year 2020 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 6</h2>
-            <p class="page-title">New Adventures</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">🗺️</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/fd79a8/ffffff?text=Year+6+Memory" alt="Year 6" class="page-image">
-            </div>
-            <div class="page-story">
-              Year six brought new adventures and experiences that we shared together. We explored dreams, created new traditions, and made memories that will last a lifetime. Each adventure was better because you were by my side. We laughed, we celebrated, and we grew together in ways we never imagined possible.
-            </div>
-            <div class="page-quote">"The best time to create memories is now!" 🎉</div>
-          </div>
+          <span class="year-badge">2020 — CHAPTER 6</span>
+          <h3 class="page-title">Cozy Isolation & Togetherness</h3>
+          <p class="page-desc">When the world paused, our world became each other. Finding comfort in home-cooked meals, movie marathons, and simple presence.</p>
+          <span class="page-quote">"In a chaotic world, you were my peaceful home."</span>
         </div>
 
-        <!-- Year 7 -->
+        <!-- Year 2021 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 7</h2>
-            <p class="page-title">Deeper Connection</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">🔗</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/fdcb6e/ffffff?text=Year+7+Memory" alt="Year 7" class="page-image">
-            </div>
-            <div class="page-story">
-              Seven years in, and I understand you in ways I never thought possible. We can communicate with just a look, finish each other's sentences, and our hearts beat in sync. This is the kind of love that poets write about. You are my soulmate, my best friend, and the love of my life. I fall in love with you all over again every single day.
-            </div>
-            <div class="page-quote">"You are my today and all of my tomorrows." 💑</div>
-          </div>
+          <span class="year-badge">2021 — CHAPTER 7</span>
+          <h3 class="page-title">Building Our Dreams</h3>
+          <p class="page-desc">Planning our future, dreaming bigger dreams, and taking confident strides toward the life we always wanted to build.</p>
+          <span class="page-quote">"Architects of our own happiness."</span>
         </div>
 
-        <!-- Year 8 -->
+        <!-- Year 2022 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 8</h2>
-            <p class="page-title">Unconditional Love</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">💖</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/e17055/ffffff?text=Year+8+Memory" alt="Year 8" class="page-image">
-            </div>
-            <div class="page-story">
-              By year eight, I realized that love isn't about perfection—it's about acceptance. I love you for who you are, flaws and all. You've taught me what it truly means to love unconditionally, and I'm grateful for it every single day. You make me want to be a better person, and your love inspires me to be the best version of myself.
-            </div>
-            <div class="page-quote">"I choose you. Every day. Always." ❤️</div>
-          </div>
+          <span class="year-badge">2022 — CHAPTER 8</span>
+          <h3 class="page-title">Blend of Traditions & Joy</h3>
+          <p class="page-desc">Celebrating the beauty of our unique heritage, blending grace and vibrant traditions into one harmonious celebration of love.</p>
+          <span class="page-quote">"A union of hearts, traditions, and pure love."</span>
         </div>
 
-        <!-- Year 9 -->
+        <!-- Year 2023 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 9</h2>
-            <p class="page-title">Forever Grateful</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">🙏</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/55efc4/ffffff?text=Year+9+Memory" alt="Year 9" class="page-image">
-            </div>
-            <div class="page-story">
-              Nine years together, and I'm more grateful than ever. You've been my rock, my inspiration, and my reason to smile even on the hardest days. Thank you for being patient, kind, and loving. Thank you for believing in me when I didn't believe in myself. Thank you for being the best partner I could ever ask for.
-            </div>
-            <div class="page-quote">"Thank you for being my person." 🌹</div>
-          </div>
+          <span class="year-badge">2023 — CHAPTER 9</span>
+          <h3 class="page-title">Laughter & Deep Connection</h3>
+          <p class="page-desc">Understanding each other without speaking a single word. Years of shared history turning into unbreakable trust.</p>
+          <span class="page-quote">"My favorite person to share silence and laughter with."</span>
         </div>
 
-        <!-- Year 10 -->
+        <!-- Year 2024 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 10</h2>
-            <p class="page-title">A Decade of Love</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">🎊</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/6c5ce7/ffffff?text=Year+10+Memory" alt="Year 10" class="page-image">
-            </div>
-            <div class="page-story">
-              Ten years! A whole decade of love, laughter, and memories. Looking back at our journey together, I'm amazed at how far we've come. The best part? I know the best is yet to come. Our love story is just getting started, and I can't wait to spend the rest of my life loving you. Here's to us!
-            </div>
-            <div class="page-quote">"Here's to 10 years and a lifetime more." 💕</div>
-          </div>
+          <span class="year-badge">2024 — CHAPTER 10</span>
+          <h3 class="page-title">A Decade Celebration</h3>
+          <p class="page-desc">Crossing the 10-year mark with hearts full of gratitude, looking back at a whole decade of cherished memories.</p>
+          <span class="page-quote">"10 years down, a lifetime of joy ahead."</span>
         </div>
 
-        <!-- Year 11 -->
+        <!-- Year 2025 -->
         <div class="magazine-page">
-          <div class="page-header">
-            <h2 class="page-year">Year 11</h2>
-            <p class="page-title">Forever & Always</p>
-          </div>
-          <div class="page-content">
-            <div class="page-emoji">💍</div>
-            <div class="page-image-container">
-              <img src="https://via.placeholder.com/300x150/fd79a8/ffffff?text=Year+11+Today" alt="Year 11" class="page-image">
-            </div>
-            <div class="page-story">
-              Eleven incredible years, and my love for you grows deeper with each passing moment. You are my greatest adventure, my deepest love, and my forever. I promise to love you every single day for the rest of my life. Thank you for making every moment special. Happy Anniversary, my love! 🎉
-            </div>
-            <div class="page-quote">"I want to grow old and gray with you, and love you more every single day." 👫</div>
-          </div>
+          <span class="year-badge">2025 — CHAPTER 11</span>
+          <h3 class="page-title">Golden Moments</h3>
+          <p class="page-desc">Growing wiser, loving deeper, and cherishing every quiet morning and sunset together as our story keeps expanding.</p>
+          <span class="page-quote">"Still giving me butterflies after all these years."</span>
         </div>
+
+        <!-- Year 2026 -->
+        <div class="magazine-page">
+          <span class="year-badge">2026 — PRESENT & BEYOND</span>
+          <h3 class="page-title">11 Years Strong & Forever to Go</h3>
+          <p class="page-desc">Today marks 11 glorious years of us! Here is to infinite more chapters, deeper love, and a lifetime of shared dreams.</p>
+          <span class="page-quote">"Happy 11th Anniversary, My Love! ❤️"</span>
+        </div>
+
       </div>
 
-      <!-- Magazine Controls -->
-      <div class="magazine-controls">
-        <button class="nav-btn" id="prev-btn">← Previous</button>
-        <span class="page-counter"><span id="current-page">1</span> / 11</span>
-        <button class="nav-btn" id="next-btn">Next →</button>
+      <!-- MAGAZINE CONTROLS -->
+      <div class="mag-controls">
+        <button class="btn" id="prev-btn" disabled style="padding: 10px 20px;">← Previous</button>
+        <div class="page-dots" id="page-dots"></div>
+        <button class="btn" id="next-btn" style="padding: 10px 20px;">Next →</button>
       </div>
+    </section>
 
-      <!-- Dot Navigation -->
-      <div class="page-dots" id="page-dots"></div>
-    </div>
   </div>
 
   <script>
-    /* -------------------------
-       CONFIG: set online asset URLs here
-       - You can use Lottie JSON URLs (recommended) or animated GIF/PNG URLs
-       - If you set a lottie URL it will create a <lottie-player> for that side.
-       - If you set a gif/png URL it will create an <img> inside the circle.
-       - Example placeholders are empty. Replace them with your chosen URLs.
-       ------------------------- */
+    /* ===================================================
+       1. LIVE COUNTER LOGIC (From Jan 11, 2015 @ 14:30:00)
+       =================================================== */
+    const startDate = new Date('2015-01-11T14:30:00');
 
-    // Example placeholders (replace with your chosen online URLs)
-    const brideAssetUrl = ""; // e.g. "https://assetsX.lottiefiles.com/packages/lf20_xxx.json" OR "https://media.giphy.com/media/xxxxx/giphy.gif"
-    const groomAssetUrl = ""; // same format
-
-    // If empty, fallback emojis will be used.
-    const useLottie = (url) => url && url.trim().endsWith('.json');
-
-    /* -------------------------
-       Magazine Timeline State
-       ------------------------- */
-    let currentPage = 0;
-    const totalPages = 11;
-
-    /* -------------------------
-       Lightweight helper utilities
-       ------------------------- */
-    function createLottieElement(url) {
-      const wrapper = document.createElement('div');
-      // create lottie-player element (lottie-player loaded from CDN in head)
-      const el = document.createElement('lottie-player');
-      el.setAttribute('src', url);
-      el.setAttribute('background', 'transparent');
-      el.setAttribute('speed', '1');
-      el.setAttribute('loop', '');
-      el.setAttribute('autoplay', '');
-      el.style.width = '100%';
-      el.style.height = '100%';
-      wrapper.appendChild(el);
-      return wrapper;
-    }
-
-    function createImgElement(url, alt = '') {
-      const img = document.createElement('img');
-      img.src = url;
-      img.alt = alt;
-      img.loading = "lazy";
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.objectFit = 'cover';
-      return img;
-    }
-
-    function createGifFallback(emoji) {
-      const el = document.createElement('div');
-      el.className = 'gif-fallback';
-      el.style.fontSize = '3rem';
-      el.style.display = 'flex';
-      el.style.alignItems = 'center';
-      el.style.justifyContent = 'center';
-      el.textContent = emoji;
-      return el;
-    }
-
-    /* -------------------------
-       Counter (unchanged behavior)
-       ------------------------- */
-    const proposalDate = new Date("2015-01-11T14:30:00");
     function updateCounter() {
       const now = new Date();
-      const diff = now - proposalDate;
-      if (diff < 0) return;
-      const seconds = Math.floor(diff / 1000) % 60;
-      const minutes = Math.floor(diff / (1000 * 60)) % 60;
-      const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-      const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const years = Math.floor(daysTotal / 365);
-      const days = daysTotal % 365;
-      document.getElementById("years").innerText = years;
-      document.getElementById("days").innerText = days;
-      document.getElementById("hours").innerText = hours;
-      document.getElementById("minutes").innerText = minutes;
-      document.getElementById("seconds").innerText = seconds;
+      const diffMs = now - startDate;
+
+      const secondsTotal = Math.floor(diffMs / 1000);
+      const minutesTotal = Math.floor(secondsTotal / 60);
+      const hoursTotal = Math.floor(minutesTotal / 60);
+      const daysTotal = Math.floor(hoursTotal / 24);
+
+      const years = Math.floor(daysTotal / 365.25);
+      const remainingDays = Math.floor(daysTotal % 365.25);
+      const hours = hoursTotal % 24;
+      const minutes = minutesTotal % 60;
+      const seconds = secondsTotal % 60;
+
+      document.getElementById('years').textContent = years;
+      document.getElementById('days').textContent = remainingDays;
+      document.getElementById('hours').textContent = hours;
+      document.getElementById('minutes').textContent = minutes;
+      document.getElementById('seconds').textContent = seconds;
     }
+
     setInterval(updateCounter, 1000);
     updateCounter();
 
-    /* -------------------------
-       Visual effects
-       ------------------------- */
-    // confetti burst helper (uses canvas-confetti from CDN)
-    function confettiBurst() {
-      // multiple bursts for nicer effect
-      confetti({
-        particleCount: 40,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-      confetti({
-        particleCount: 30,
-        angle: 60,
-        spread: 50,
-        origin: { x: 0.2, y: 0.6 }
-      });
-      confetti({
-        particleCount: 30,
-        angle: 120,
-        spread: 50,
-        origin: { x: 0.8, y: 0.6 }
-      });
-    }
+    /* ===================================================
+       2. WISH & CAKE CUTTING LOGIC
+       =================================================== */
+    const saveWishBtn = document.getElementById('save-wish-btn');
+    const wishInput = document.getElementById('wish-input');
+    const cakeEmoji = document.getElementById('cake-emoji');
 
-    // spawn floating hearts (text) for N times
-    function spawnHearts(n = 8) {
-      for (let i = 0; i < n; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.style.left = (20 + Math.random() * 60) + '%';
-        heart.style.bottom = (8 + Math.random() * 12) + 'vh';
-        heart.style.fontSize = (16 + Math.random() * 26) + 'px';
-        heart.textContent = ['💖','💕','💘','💝'][Math.floor(Math.random()*4)];
-        document.body.appendChild(heart);
-        // remove after animation ends
-        setTimeout(() => heart.remove(), 2400 + Math.random()*600);
-      }
-    }
-
-    /* -------------------------
-       Reveal couple assets + animations
-       ------------------------- */
-    function populateAsset(containerId, url, fallbackEmoji) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-      container.innerHTML = ''; // clear
-      if (url && url.trim()) {
-        if (useLottie(url)) {
-          const lottieEl = createLottieElement(url);
-          container.appendChild(lottieEl);
-        } else {
-          const img = createImgElement(url, '');
-          container.appendChild(img);
-        }
-      } else {
-        container.appendChild(createGifFallback(fallbackEmoji));
-      }
-    }
-
-    function revealCoupleImages() {
-      const coupleSection = document.getElementById('couple-section');
-      const leftAsset = document.getElementById('left-asset');
-      const rightAsset = document.getElementById('right-asset');
-      if (!coupleSection || !leftAsset || !rightAsset) return;
-
-      // populate content (create Lottie or img inside the circle)
-      populateAsset('left-asset', brideAssetUrl, '👰');
-      populateAsset('right-asset', groomAssetUrl, '🤵');
-
-      coupleSection.style.display = 'flex';
-      coupleSection.setAttribute('aria-hidden','false');
-
-      // stagger reveal
-      setTimeout(() => leftAsset.classList.add('revealed'), 50);
-      setTimeout(() => rightAsset.classList.add('revealed'), 220);
-
-      // confetti + hearts
-      setTimeout(() => {
-        confettiBurst();
-        spawnHearts(10);
-      }, 380);
-    }
-
-    /* -------------------------
-       Cut cake behavior (updated)
-       ------------------------- */
-    function saveWish() {
-      const wish = document.getElementById('wish-input').value || '';
-      if (wish.trim() === '') {
-        alert('Please write a small wish first! ❤️');
+    saveWishBtn.addEventListener('click', () => {
+      if (!wishInput.value.trim()) {
+        alert("Please write your wish first! ❤️");
         return;
       }
+      playTone(523.25, 0.2); // Play melody note
       document.getElementById('wish-section').style.display = 'none';
       document.getElementById('cake-section').style.display = 'block';
-      // gently nudge cake to draw attention
-      const cake = document.getElementById('cake-emoji');
-      cake.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-6px)' }, { transform: 'translateY(0)' }], { duration: 600, iterations: 1 });
-    }
+    });
 
-    function cutCake() {
-      const cakeHeading = document.getElementById('cake-heading');
-      const cakeEmoji = document.getElementById('cake-emoji');
-      const cakeInstruction = document.getElementById('cake-instruction');
+    let cakeCut = false;
+    cakeEmoji.addEventListener('click', () => {
+      if (cakeCut) return;
+      cakeCut = true;
 
-      cakeHeading.textContent = '🎉 Cake Cut Successfully! 🎉';
-      cakeEmoji.style.transform = 'scale(.6) rotate(-6deg)';
-      cakeEmoji.style.opacity = '0';
-      cakeInstruction.textContent = 'Your wish has been locked in our hearts.';
+      cakeEmoji.textContent = '🎂🍰';
+      document.getElementById('cake-heading').textContent = 'Yay! Cake Cut Successfully! 🎉';
+      document.getElementById('cake-instruction').textContent = 'Wish saved in our hearts forever!';
 
-      // reveal couple images + later the proposal
-      setTimeout(revealCoupleImages, 420);
+      playCelebrationSound();
+      triggerConfetti();
+      revealCouples();
+
       setTimeout(() => {
         document.getElementById('proposal-section').style.display = 'block';
-      }, 1400);
+        document.getElementById('proposal-section').scrollIntoView({ behavior: 'smooth' });
+      }, 1200);
+    });
+
+    function revealCouples() {
+      const coupleSec = document.getElementById('couple-section');
+      const brideCard = document.getElementById('bride-card');
+      const groomCard = document.getElementById('groom-card');
+
+      coupleSec.style.display = 'flex';
+      setTimeout(() => {
+        brideCard.classList.add('revealed');
+        groomCard.classList.add('revealed');
+      }, 100);
     }
 
-    /* -------------------------
-       Proposal interactions
-       ------------------------- */
+    /* ===================================================
+       3. PROPOSAL INTERACTIVE LOGIC
+       =================================================== */
+    const btnYes = document.getElementById('btn-yes');
+    const btnNo = document.getElementById('btn-no');
+    const responseMsg = document.getElementById('response-msg');
+
+    btnYes.addEventListener('click', () => {
+      responseMsg.textContent = "I knew it! Forever & Always! ❤️✨";
+      playCelebrationSound();
+      triggerConfetti();
+      
+      const timelineSec = document.getElementById('timeline-section');
+      timelineSec.style.display = 'block';
+      setTimeout(() => {
+        timelineSec.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    });
+
+    // Make "No" button run away
+    btnNo.addEventListener('mouseover', moveNoButton);
+    btnNo.addEventListener('touchstart', moveNoButton);
+
     function moveNoButton() {
-      const btnNo = document.getElementById('btn-no');
-      if (!btnNo) return;
-      // try to move within a safe area
-      const area = Math.min(window.innerWidth * 0.38, 210);
-      const x = (Math.random() * area) - (area / 2);
-      const y = (Math.random() * 70) - 35;
+      const x = Math.random() * 260 - 130;
+      const y = Math.random() * 120 - 60;
       btnNo.style.transform = `translate(${x}px, ${y}px)`;
     }
 
-    function sayYes() {
-      const responseEl = document.getElementById('response-msg');
-      responseEl.innerHTML = 'Yay! Thank you for making me the happiest person alive! I love you so much! 🥰❤️';
-      const btnNo = document.getElementById('btn-no');
-      const btnYes = document.getElementById('btn-yes');
-      if (btnNo) btnNo.style.display = 'none';
-      if (btnYes) btnYes.style.display = 'none';
+    /* ===================================================
+       4. MAGAZINE 11-YEAR TIMELINE CONTROLS
+       =================================================== */
+    const pages = document.querySelectorAll('.magazine-page');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const pageDotsContainer = document.getElementById('page-dots');
+    let currentPage = 0;
 
-      // celebration
-      confettiBurst();
-      spawnHearts(18);
-      // slight page pulse
-      document.querySelector('.container').animate([{ transform: 'scale(1)' }, { transform: 'scale(1.02)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'ease-out' });
-
-      // reveal timeline section
-      setTimeout(() => {
-        document.getElementById('timeline-section').style.display = 'block';
-        initializeMagazine();
-        // scroll to timeline
-        setTimeout(() => {
-          document.getElementById('timeline-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 200);
-      }, 600);
-    }
-
-    /* -------------------------
-       Magazine Timeline Functions
-       ------------------------- */
-    function initializeMagazine() {
-      currentPage = 0;
-      renderPage();
-      createDots();
-    }
-
-    function createDots() {
-      const dotsContainer = document.getElementById('page-dots');
-      dotsContainer.innerHTML = '';
-      for (let i = 0; i < totalPages; i++) {
+    function setupMagazine() {
+      pageDotsContainer.innerHTML = '';
+      pages.forEach((_, idx) => {
         const dot = document.createElement('div');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => goToPage(i));
-        dotsContainer.appendChild(dot);
+        dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', () => goToPage(idx));
+        pageDotsContainer.appendChild(dot);
+      });
+    }
+
+    function goToPage(index) {
+      if (index < 0 || index >= pages.length) return;
+
+      pages[currentPage].classList.remove('active');
+      currentPage = index;
+      pages[currentPage].classList.add('active');
+
+      prevBtn.disabled = currentPage === 0;
+      nextBtn.disabled = currentPage === pages.length - 1;
+
+      // Update Dots
+      document.querySelectorAll('.dot').forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === currentPage);
+      });
+    }
+
+    prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
+    nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+
+    setupMagazine();
+
+    /* ===================================================
+       5. PARTICLE BACKGROUND & CONFETTI SYSTEM
+       =================================================== */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 100;
+        this.size = Math.random() * 15 + 8;
+        this.speedY = Math.random() * 1.5 + 0.5;
+        this.speedX = Math.sin(Math.random() * Math.PI) * 0.8;
+        this.opacity = Math.random() * 0.6 + 0.2;
+        this.color = ['#ff4d6d', '#c77dff', '#ffb703', '#ffffff'][Math.floor(Math.random() * 4)];
+      }
+      update() {
+        this.y -= this.speedY;
+        this.x += this.speedX;
+        if (this.y < -20) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.fillStyle = this.color;
+        ctx.font = `${this.size}px serif`;
+        ctx.fillText('♥', this.x, this.y);
+        ctx.restore();
       }
     }
 
-    function renderPage() {
-      const pages = document.querySelectorAll('.magazine-page');
-      pages.forEach((page, index) => {
-        page.classList.remove('active', 'prev');
-        if (index === currentPage) {
-          page.classList.add('active');
-        } else if (index < currentPage) {
-          page.classList.add('prev');
-        }
-      });
-
-      // Update counter
-      document.getElementById('current-page').textContent = currentPage + 1;
-
-      // Update dots
-      document.querySelectorAll('.dot').forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentPage);
-      });
-
-      // Update button states
-      document.getElementById('prev-btn').disabled = currentPage === 0;
-      document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
+    for (let i = 0; i < 35; i++) {
+      particles.push(new Particle());
     }
 
-    function nextPage() {
-      if (currentPage < totalPages - 1) {
-        currentPage++;
-        renderPage();
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* Confetti Burst */
+    function triggerConfetti() {
+      for (let i = 0; i < 60; i++) {
+        const p = new Particle();
+        p.x = canvas.width / 2;
+        p.y = canvas.height / 2;
+        p.speedY = (Math.random() - 0.5) * 8;
+        p.speedX = (Math.random() - 0.5) * 8;
+        particles.push(p);
       }
     }
 
-    function prevPage() {
-      if (currentPage > 0) {
-        currentPage--;
-        renderPage();
-      }
+    /* Web Audio Sound Synthesizer */
+    function playTone(freq, duration) {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch(e) {}
     }
 
-    function goToPage(pageIndex) {
-      currentPage = pageIndex;
-      renderPage();
-    }
-
-    /* -------------------------
-       Wiring events after DOM ready
-       ------------------------- */
-    document.addEventListener('DOMContentLoaded', () => {
-      // wire buttons
-      document.getElementById('save-wish-btn').addEventListener('click', saveWish);
-      document.getElementById('cake-emoji').addEventListener('click', cutCake);
-      document.getElementById('btn-no').addEventListener('mouseover', moveNoButton);
-      document.getElementById('btn-no').addEventListener('click', moveNoButton);
-      document.getElementById('btn-yes').addEventListener('click', sayYes);
-
-      // Magazine navigation
-      document.getElementById('next-btn').addEventListener('click', nextPage);
-      document.getElementById('prev-btn').addEventListener('click', prevPage);
-
-      // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (document.getElementById('timeline-section').style.display !== 'none') {
-          if (e.key === 'ArrowRight') nextPage();
-          if (e.key === 'ArrowLeft') prevPage();
-        }
+    function playCelebrationSound() {
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 0.3), idx * 120);
       });
-
-      // If you provided online assets and lottie-player script hasn't loaded yet,
-      // assets will still work because we only create elements when revealing.
-    });
-
+    }
   </script>
 </body>
 </html>
