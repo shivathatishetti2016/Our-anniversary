@@ -86,18 +86,185 @@
 
     /* --- timeline / proposal / responsive --- */
     #proposal-section { display: none; }
+    #timeline-section { display: none; }
     .proposal-buttons { position: relative; height: 64px; margin-top: 18px; display: flex; justify-content: center; gap: 20px; }
     #btn-no { background: #757575; position: absolute; transition: transform .18s ease, left .12s ease; }
-    .timeline { position: relative; text-align:left; border-left:3px solid #ff80ab; margin:20px 0 20px 10px; padding-left:20px; }
-    .timeline-item { margin-bottom: 18px; position: relative; }
-    .timeline-item::before { content:''; position:absolute; left:-26.5px; top:0; width:12px; height:12px; border-radius:50%; background:#d81b60; border:2px solid white; }
-    .timeline-date { font-size:0.85rem; color:#d81b60; font-weight:bold; }
-    .timeline-text { font-size:0.95rem; color:#444; }
+
+    /* --- Magazine Timeline Styles --- */
+    .magazine-container {
+      perspective: 1000px;
+      margin: 20px 0;
+      height: 500px;
+      position: relative;
+    }
+
+    .magazine-page {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+      border-radius: 10px;
+      padding: 30px;
+      box-sizing: border-box;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: rotateY(90deg) translateZ(0);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      overflow-y: auto;
+    }
+
+    .magazine-page.active {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: rotateY(0deg) translateZ(0);
+      z-index: 10;
+    }
+
+    .magazine-page.prev {
+      transform: rotateY(-90deg) translateZ(0);
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #d81b60;
+      padding-bottom: 15px;
+    }
+
+    .page-year {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #d81b60;
+      margin: 0;
+    }
+
+    .page-title {
+      font-size: 1.2rem;
+      color: #666;
+      margin: 8px 0 0 0;
+      font-style: italic;
+    }
+
+    .page-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .page-image-container {
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .page-image {
+      max-width: 100%;
+      max-height: 180px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      object-fit: cover;
+    }
+
+    .page-emoji {
+      font-size: 3rem;
+      margin: 10px 0;
+    }
+
+    .page-story {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.6;
+      margin: 12px 0;
+      text-align: left;
+      background: rgba(255,255,255,0.6);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .page-quote {
+      font-size: 0.9rem;
+      color: #d81b60;
+      font-style: italic;
+      font-weight: bold;
+      text-align: center;
+      margin: 15px 0;
+      padding: 12px;
+      border-left: 4px solid #d81b60;
+      background: rgba(216, 27, 96, 0.08);
+    }
+
+    .magazine-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      gap: 15px;
+    }
+
+    .nav-btn {
+      background: #d81b60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: transform 0.18s, background 0.18s;
+    }
+
+    .nav-btn:hover {
+      transform: scale(1.05);
+      background: #c2185b;
+    }
+
+    .nav-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: scale(1);
+    }
+
+    .page-counter {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #d81b60;
+      text-align: center;
+      flex: 1;
+    }
+
+    .page-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .dot.active {
+      background: #d81b60;
+    }
 
     @media (max-width:520px) {
       .counter-grid { grid-template-columns: repeat(2,1fr); }
       .asset { width: 120px; height: 120px; }
       .couple-wrapper { width: 130px; }
+      .magazine-page {
+        padding: 20px;
+        height: 600px;
+      }
+      .page-year {
+        font-size: 2rem;
+      }
     }
   </style>
 
@@ -158,13 +325,218 @@
       <div id="response-msg" style="margin-top:18px;font-size:1.1rem;font-weight:bold;color:#d81b60"></div>
     </div>
 
-    <div class="section">
-      <h3>Our Love Story Timeline 🕰️</h3>
-      <div class="timeline">
-        <div class="timeline-item"><div class="timeline-date">Year 1</div><div class="timeline-text">The magical beginning of our journey together.</div></div>
-        <div class="timeline-item"><div class="timeline-date">Year 5</div><div class="timeline-text">Growing stronger through every mile apart.</div></div>
-        <div class="timeline-item"><div class="timeline-date">Year 11 (Today)</div><div class="timeline-text">Celebrating 11 incredible years of pure love!</div></div>
+    <div class="section" id="timeline-section">
+      <h3>Our Love Story Timeline 🕰️ — 11 Years of Memories</h3>
+      
+      <div class="magazine-container">
+        <!-- Year 1 -->
+        <div class="magazine-page active">
+          <div class="page-header">
+            <h2 class="page-year">Year 1</h2>
+            <p class="page-title">The Beginning of Forever</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">💕</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/ff9a9e/ffffff?text=Year+1+Memory" alt="Year 1" class="page-image">
+            </div>
+            <div class="page-story">
+              It all started with a single moment that changed everything. You came into my life like a beautiful dream, and I knew right then that you were the one. Our first year together was filled with butterflies, stolen glances, and the magic of falling in love. Every second was precious, and I cherished every moment with you.
+            </div>
+            <div class="page-quote">"Every love story is beautiful, but ours is my favorite." 💖</div>
+          </div>
+        </div>
+
+        <!-- Year 2 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 2</h2>
+            <p class="page-title">Growing Closer</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">💑</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/fab1a0/ffffff?text=Year+2+Memory" alt="Year 2" class="page-image">
+            </div>
+            <div class="page-story">
+              In our second year, we learned that love wasn't just about the big moments—it was in the little things. Late night conversations, inside jokes, and the comfort of your presence became my sanctuary. I discovered new reasons to love you every single day. We were building something real and beautiful together.
+            </div>
+            <div class="page-quote">"I love you not only for what you are, but for what I am when I'm with you." 💘</div>
+          </div>
+        </div>
+
+        <!-- Year 3 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 3</h2>
+            <p class="page-title">Building Our Dreams</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">🌹</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/ffeaa7/ffffff?text=Year+3+Memory" alt="Year 3" class="page-image">
+            </div>
+            <div class="page-story">
+              Year three brought us closer as we started dreaming together. We talked about our future, our goals, and the life we wanted to build side by side. Every plan felt more real with you by my side. We made promises to each other and began turning them into reality, one beautiful day at a time.
+            </div>
+            <div class="page-quote">"We didn't realize we were making memories, we just knew we were having fun." 💝</div>
+          </div>
+        </div>
+
+        <!-- Year 4 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 4</h2>
+            <p class="page-title">Through Thick and Thin</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">💪</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/a29bfe/ffffff?text=Year+4+Memory" alt="Year 4" class="page-image">
+            </div>
+            <div class="page-story">
+              When challenges came, we faced them together. Our love proved to be stronger than any obstacle. We learned that true love isn't about perfect moments—it's about standing by each other when things get tough. Through every difficulty, our bond only grew stronger and deeper.
+            </div>
+            <div class="page-quote">"A successful marriage requires falling in love many times, always with the same person." 💗</div>
+          </div>
+        </div>
+
+        <!-- Year 5 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 5</h2>
+            <p class="page-title">Growing Stronger</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">🌟</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/74b9ff/ffffff?text=Year+5+Memory" alt="Year 5" class="page-image">
+            </div>
+            <div class="page-story">
+              Five years of memories, and our love continued to grow stronger with each passing day. You are my greatest adventure, and every moment with you is a blessing. Distance became just a number, and we proved that love knows no bounds. Every moment apart made reunions even more special and precious to us both.
+            </div>
+            <div class="page-quote">"Growing stronger through every mile apart." 💕</div>
+          </div>
+        </div>
+
+        <!-- Year 6 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 6</h2>
+            <p class="page-title">New Adventures</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">🗺️</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/fd79a8/ffffff?text=Year+6+Memory" alt="Year 6" class="page-image">
+            </div>
+            <div class="page-story">
+              Year six brought new adventures and experiences that we shared together. We explored dreams, created new traditions, and made memories that will last a lifetime. Each adventure was better because you were by my side. We laughed, we celebrated, and we grew together in ways we never imagined possible.
+            </div>
+            <div class="page-quote">"The best time to create memories is now!" 🎉</div>
+          </div>
+        </div>
+
+        <!-- Year 7 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 7</h2>
+            <p class="page-title">Deeper Connection</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">🔗</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/fdcb6e/ffffff?text=Year+7+Memory" alt="Year 7" class="page-image">
+            </div>
+            <div class="page-story">
+              Seven years in, and I understand you in ways I never thought possible. We can communicate with just a look, finish each other's sentences, and our hearts beat in sync. This is the kind of love that poets write about. You are my soulmate, my best friend, and the love of my life. I fall in love with you all over again every single day.
+            </div>
+            <div class="page-quote">"You are my today and all of my tomorrows." 💑</div>
+          </div>
+        </div>
+
+        <!-- Year 8 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 8</h2>
+            <p class="page-title">Unconditional Love</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">💖</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/e17055/ffffff?text=Year+8+Memory" alt="Year 8" class="page-image">
+            </div>
+            <div class="page-story">
+              By year eight, I realized that love isn't about perfection—it's about acceptance. I love you for who you are, flaws and all. You've taught me what it truly means to love unconditionally, and I'm grateful for it every single day. You make me want to be a better person, and your love inspires me to be the best version of myself.
+            </div>
+            <div class="page-quote">"I choose you. Every day. Always." ❤️</div>
+          </div>
+        </div>
+
+        <!-- Year 9 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 9</h2>
+            <p class="page-title">Forever Grateful</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">🙏</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/55efc4/ffffff?text=Year+9+Memory" alt="Year 9" class="page-image">
+            </div>
+            <div class="page-story">
+              Nine years together, and I'm more grateful than ever. You've been my rock, my inspiration, and my reason to smile even on the hardest days. Thank you for being patient, kind, and loving. Thank you for believing in me when I didn't believe in myself. Thank you for being the best partner I could ever ask for.
+            </div>
+            <div class="page-quote">"Thank you for being my person." 🌹</div>
+          </div>
+        </div>
+
+        <!-- Year 10 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 10</h2>
+            <p class="page-title">A Decade of Love</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">🎊</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/6c5ce7/ffffff?text=Year+10+Memory" alt="Year 10" class="page-image">
+            </div>
+            <div class="page-story">
+              Ten years! A whole decade of love, laughter, and memories. Looking back at our journey together, I'm amazed at how far we've come. The best part? I know the best is yet to come. Our love story is just getting started, and I can't wait to spend the rest of my life loving you. Here's to us!
+            </div>
+            <div class="page-quote">"Here's to 10 years and a lifetime more." 💕</div>
+          </div>
+        </div>
+
+        <!-- Year 11 -->
+        <div class="magazine-page">
+          <div class="page-header">
+            <h2 class="page-year">Year 11</h2>
+            <p class="page-title">Forever & Always</p>
+          </div>
+          <div class="page-content">
+            <div class="page-emoji">💍</div>
+            <div class="page-image-container">
+              <img src="https://via.placeholder.com/300x150/fd79a8/ffffff?text=Year+11+Today" alt="Year 11" class="page-image">
+            </div>
+            <div class="page-story">
+              Eleven incredible years, and my love for you grows deeper with each passing moment. You are my greatest adventure, my deepest love, and my forever. I promise to love you every single day for the rest of my life. Thank you for making every moment special. Happy Anniversary, my love! 🎉
+            </div>
+            <div class="page-quote">"I want to grow old and gray with you, and love you more every single day." 👫</div>
+          </div>
+        </div>
       </div>
+
+      <!-- Magazine Controls -->
+      <div class="magazine-controls">
+        <button class="nav-btn" id="prev-btn">← Previous</button>
+        <span class="page-counter"><span id="current-page">1</span> / 11</span>
+        <button class="nav-btn" id="next-btn">Next →</button>
+      </div>
+
+      <!-- Dot Navigation -->
+      <div class="page-dots" id="page-dots"></div>
     </div>
   </div>
 
@@ -183,6 +555,12 @@
 
     // If empty, fallback emojis will be used.
     const useLottie = (url) => url && url.trim().endsWith('.json');
+
+    /* -------------------------
+       Magazine Timeline State
+       ------------------------- */
+    let currentPage = 0;
+    const totalPages = 11;
 
     /* -------------------------
        Lightweight helper utilities
@@ -390,6 +768,79 @@
       spawnHearts(18);
       // slight page pulse
       document.querySelector('.container').animate([{ transform: 'scale(1)' }, { transform: 'scale(1.02)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'ease-out' });
+
+      // reveal timeline section
+      setTimeout(() => {
+        document.getElementById('timeline-section').style.display = 'block';
+        initializeMagazine();
+        // scroll to timeline
+        setTimeout(() => {
+          document.getElementById('timeline-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
+      }, 600);
+    }
+
+    /* -------------------------
+       Magazine Timeline Functions
+       ------------------------- */
+    function initializeMagazine() {
+      currentPage = 0;
+      renderPage();
+      createDots();
+    }
+
+    function createDots() {
+      const dotsContainer = document.getElementById('page-dots');
+      dotsContainer.innerHTML = '';
+      for (let i = 0; i < totalPages; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goToPage(i));
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function renderPage() {
+      const pages = document.querySelectorAll('.magazine-page');
+      pages.forEach((page, index) => {
+        page.classList.remove('active', 'prev');
+        if (index === currentPage) {
+          page.classList.add('active');
+        } else if (index < currentPage) {
+          page.classList.add('prev');
+        }
+      });
+
+      // Update counter
+      document.getElementById('current-page').textContent = currentPage + 1;
+
+      // Update dots
+      document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentPage);
+      });
+
+      // Update button states
+      document.getElementById('prev-btn').disabled = currentPage === 0;
+      document.getElementById('next-btn').disabled = currentPage === totalPages - 1;
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages - 1) {
+        currentPage++;
+        renderPage();
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        renderPage();
+      }
+    }
+
+    function goToPage(pageIndex) {
+      currentPage = pageIndex;
+      renderPage();
     }
 
     /* -------------------------
@@ -402,6 +853,18 @@
       document.getElementById('btn-no').addEventListener('mouseover', moveNoButton);
       document.getElementById('btn-no').addEventListener('click', moveNoButton);
       document.getElementById('btn-yes').addEventListener('click', sayYes);
+
+      // Magazine navigation
+      document.getElementById('next-btn').addEventListener('click', nextPage);
+      document.getElementById('prev-btn').addEventListener('click', prevPage);
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (document.getElementById('timeline-section').style.display !== 'none') {
+          if (e.key === 'ArrowRight') nextPage();
+          if (e.key === 'ArrowLeft') prevPage();
+        }
+      });
 
       // If you provided online assets and lottie-player script hasn't loaded yet,
       // assets will still work because we only create elements when revealing.
