@@ -1,307 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 11th Anniversary ❤️</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            color: #4a4a4a;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy 11th Anniversary ❤️</title>
 
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            margin-bottom: 40px;
-        }
+  <style>
+    /* --- base layout & styles (kept mostly the same) --- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: #4a4a4a;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
 
-        h1 {
-            color: #d81b60;
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
+    .container {
+      max-width: 680px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 28px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
 
-        p.subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 25px;
-        }
+    h1 { color: #d81b60; font-size: 2.2rem; margin-bottom: 8px; }
+    p.subtitle { font-size: 1.05rem; color: #666; margin-bottom: 18px; }
 
-        /* Counter Styles */
-        .counter-box {
-            background: #fff0f3;
-            border: 2px dashed #ff80ab;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+    .counter-box { background: #fff0f3; border: 2px dashed #ff80ab; border-radius: 15px; padding: 20px; margin-bottom: 22px; }
+    .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+    .time-unit { background: white; padding: 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .time-unit span { display: block; font-size: 1.4rem; font-weight: bold; color: #d81b60; }
+    .time-unit label { font-size: 0.8rem; color: #888; text-transform: uppercase; }
 
-        .counter-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
+    .section { margin: 26px 0; padding: 18px; border-top: 1px solid #eee; }
 
-        .time-unit {
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+    input[type="text"] {
+      padding: 10px; width: 82%; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; margin-bottom: 14px;
+    }
 
-        .time-unit span {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #d81b60;
-        }
+    .btn {
+      background: #d81b60; color: white; border: none; padding: 12px 22px; font-size: 1rem; border-radius: 24px;
+      cursor: pointer; box-shadow: 0 4px 15px rgba(216, 27, 96, 0.28); transition: transform .18s, background .18s;
+    }
+    .btn:hover { transform: scale(1.03); background: #c2185b; }
 
-        .time-unit label {
-            font-size: 0.8rem;
-            color: #888;
-            text-transform: uppercase;
-        }
+    .cake { font-size: 4rem; margin: 18px 0; cursor: pointer; transition: transform 0.25s; }
+    .cake:hover { transform: scale(1.08) rotate(-4deg); }
 
-        /* Wish & Cake Section */
-        .section {
-            margin: 30px 0;
-            padding: 20px;
-            border-top: 1px solid #eee;
-        }
+    /* --- couple (animated assets) --- */
+    .couple-container { display: none; margin-top: 18px; display: flex; justify-content: center; gap: 28px; align-items: center; }
+    .couple-wrapper { display:flex; flex-direction:column; align-items:center; width:170px; }
+    .asset { width: 150px; height: 150px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;
+             background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+             box-shadow: 0 10px 28px rgba(0,0,0,0.12); border: 5px solid rgba(255,255,255,0.6);
+             transform: translateY(30px) scale(.92) rotate(-2deg); opacity: 0; transition: transform .65s cubic-bezier(.2,.9,.2,1), opacity .65s;
+           }
+    .asset.revealed { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+    .asset.right { transform-origin: center right; }
+    .asset.left  { transform-origin: center left; }
 
-        input[type="text"] {
-            padding: 10px;
-            width: 80%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
+    .asset img, .asset lottie-player, .asset .gif-fallback { width:100%; height:100%; object-fit:cover; display:block; }
 
-        .btn {
-            background: #d81b60;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.3);
-            transition: 0.2s;
-        }
+    .couple-caption { font-size: 0.88rem; color:#666; margin-top:9px; }
 
-        .btn:hover {
-            background: #c2185b;
-            transform: scale(1.05);
-        }
+    /* --- hearts / overlays --- */
+    .heart {
+      position: fixed; pointer-events: none; z-index: 1200; font-size: 22px; opacity: .95;
+      transform-origin: center; animation: floatUp 2200ms ease-out forwards;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(.9); opacity: 1; }
+      40% { transform: translateY(-60px) scale(1.05); opacity: .95; }
+      100% { transform: translateY(-220px) scale(.7); opacity: 0; }
+    }
 
-        /* Cake Styling */
-        .cake {
-            font-size: 4rem;
-            margin: 20px 0;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
+    /* --- timeline / proposal / responsive --- */
+    #proposal-section { display: none; }
+    .proposal-buttons { position: relative; height: 64px; margin-top: 18px; display: flex; justify-content: center; gap: 20px; }
+    #btn-no { background: #757575; position: absolute; transition: transform .18s ease, left .12s ease; }
+    .timeline { position: relative; text-align:left; border-left:3px solid #ff80ab; margin:20px 0 20px 10px; padding-left:20px; }
+    .timeline-item { margin-bottom: 18px; position: relative; }
+    .timeline-item::before { content:''; position:absolute; left:-26.5px; top:0; width:12px; height:12px; border-radius:50%; background:#d81b60; border:2px solid white; }
+    .timeline-date { font-size:0.85rem; color:#d81b60; font-weight:bold; }
+    .timeline-text { font-size:0.95rem; color:#444; }
 
-        .cake:hover {
-            transform: scale(1.1);
-        }
+    @media (max-width:520px) {
+      .counter-grid { grid-template-columns: repeat(2,1fr); }
+      .asset { width: 120px; height: 120px; }
+      .couple-wrapper { width: 130px; }
+    }
+  </style>
 
-        /* Proposal Section */
-        #proposal-section {
-            display: none;
-        }
+  <!-- confetti lib (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
-        .proposal-buttons {
-            position: relative;
-            height: 60px;
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        #btn-no {
-            background: #757575;
-            position: absolute;
-            transition: 0.1s ease;
-        }
-
-        /* Timeline Section */
-        .timeline {
-            position: relative;
-            text-align: left;
-            border-left: 3px solid #ff80ab;
-            margin: 20px 0 20px 10px;
-            padding-left: 20px;
-        }
-
-        .timeline-item {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -26.5px;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #d81b60;
-            border: 2px solid white;
-        }
-
-        .timeline-date {
-            font-size: 0.85rem;
-            color: #d81b60;
-            font-weight: bold;
-        }
-
-        .timeline-text {
-            font-size: 0.95rem;
-            color: #444;
-        }
-    </style>
+  <!-- lottie-player web component (optional; falls back to GIF/IMG if not used) -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
 </head>
 <body>
+  <div class="container">
+    <h1>Happy 11th Anniversary, My Love! ❤️</h1>
+    <p class="subtitle">Distance means so little when someone means so much.</p>
 
-    <div class="container">
-        <h1>Happy 11th Anniversary, My Love! ❤️</h1>
-        <p class="subtitle">Distance means so little when someone means so much.</p>
-
-        <!-- Live Counter Section -->
-        <div class="counter-box">
-            <h3>We have been together for:</h3>
-            <div class="counter-grid">
-                <div class="time-unit"><span id="years">0</span><label>Years</label></div>
-                <div class="time-unit"><span id="days">0</span><label>Days</label></div>
-                <div class="time-unit"><span id="hours">0</span><label>Hours</label></div>
-                <div class="time-unit"><span id="minutes">0</span><label>Minutes</label></div>
-                <div class="time-unit" style="grid-column: span 2;"><span id="seconds">0</span><label>Seconds</label></div>
-            </div>
-        </div>
-
-        <!-- Step 1: Make a Wish -->
-        <div class="section" id="wish-section">
-            <h3>Make a Secret Wish ✨</h3>
-            <p style="font-size: 0.9rem; color: #666;">Type your wish below before cutting the cake!</p>
-            <input type="text" id="wish-input" placeholder="Type your wish here...">
-            <br>
-            <button class="btn" onclick="saveWish()">Save Wish & Cut Cake 🎂</button>
-        </div>
-
-        <!-- Step 2: Cut the Cake (Hidden initially) -->
-        <div class="section" id="cake-section" style="display:none;">
-            <h3>Cut the Anniversary Cake! 🍰</h3>
-            <div class="cake" onclick="cutCake()">🎂</div>
-            <p id="cake-instruction" style="font-size: 0.9rem; color: #d81b60;">Click the cake to cut it!</p>
-        </div>
-
-        <!-- Step 3: Proposal Section (Hidden initially) -->
-        <div class="section" id="proposal-section">
-            <h2 style="color: #d81b60;">Will you accept my love forever? 💍</h2>
-            <div class="proposal-buttons">
-                <button class="btn" id="btn-yes" onclick="sayYes()">Yes! ❤️</button>
-                <button class="btn" id="btn-no" onmouseover="moveNoButton()" onclick="moveNoButton()">No 🙈</button>
-            </div>
-            <div id="response-msg" style="margin-top: 20px; font-size: 1.2rem; font-weight: bold; color: #d81b60;"></div>
-        </div>
-
-        <!-- Step 4: Love Story Timeline -->
-        <div class="section">
-            <h3>Our Love Story Timeline 🕰️</h3>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">Year 1</div>
-                    <div class="timeline-text">The magical beginning of our journey together.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Year 5</div>
-                    <div class="timeline-text">Growing stronger through every mile apart.</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Year 11 (Today)</div>
-                    <div class="timeline-text">Celebrating 11 incredible years of pure love!</div>
-                </div>
-            </div>
-        </div>
+    <div class="counter-box">
+      <h3>We have been together for:</h3>
+      <div class="counter-grid">
+        <div class="time-unit"><span id="years">0</span><label>Years</label></div>
+        <div class="time-unit"><span id="days">0</span><label>Days</label></div>
+        <div class="time-unit"><span id="hours">0</span><label>Hours</label></div>
+        <div class="time-unit"><span id="minutes">0</span><label>Minutes</label></div>
+        <div class="time-unit" style="grid-column: span 2;"><span id="seconds">0</span><label>Seconds</label></div>
+      </div>
     </div>
 
-    <script>
-        // REPLACE THE DATE BELOW WITH YOUR EXACT PROPOSAL DATE AND TIME (Format: YYYY-MM-DDTHH:MM:SS)
-        const proposalDate = new Date("2016-01-11T14:30:00");
+    <div class="section" id="wish-section">
+      <h3>Make a Secret Wish ✨</h3>
+      <p style="font-size:0.9rem;color:#666">Type your wish below before cutting the cake!</p>
+      <input id="wish-input" type="text" placeholder="Type your wish here..." />
+      <br />
+      <button class="btn" id="save-wish-btn">Save Wish & Cut Cake 🎂</button>
+    </div>
 
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - proposalDate;
+    <div class="section" id="cake-section" style="display:none;">
+      <h3 id="cake-heading">Cut the Anniversary Cake! 🍰</h3>
+      <div class="cake" id="cake-emoji">🎂</div>
+      <p id="cake-instruction" style="font-size:0.9rem;color:#d81b60">Click the cake to cut it!</p>
 
-            if (diff < 0) return;
+      <!-- couple assets: will be populated with online animated assets (Lottie or GIF) -->
+      <div id="couple-section" class="couple-container" aria-hidden="true">
+        <div class="couple-wrapper">
+          <div id="left-asset" class="asset left" aria-hidden="true"></div>
+          <div class="couple-caption">Bride — Christian style</div>
+        </div>
+        <div class="couple-wrapper">
+          <div id="right-asset" class="asset right" aria-hidden="true"></div>
+          <div class="couple-caption">Groom — Hindu style</div>
+        </div>
+      </div>
+    </div>
 
-            const seconds = Math.floor(diff / 1000) % 60;
-            const minutes = Math.floor(diff / (1000 * 60)) % 60;
-            const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
-            const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
-            
-            const years = Math.floor(daysTotal / 365);
-            const days = daysTotal % 365;
+    <div class="section" id="proposal-section">
+      <h2 style="color:#d81b60">Will you accept my love forever? 💍</h2>
+      <div class="proposal-buttons">
+        <button class="btn" id="btn-yes">Yes! ❤️</button>
+        <button class="btn" id="btn-no">No 🙈</button>
+      </div>
+      <div id="response-msg" style="margin-top:18px;font-size:1.1rem;font-weight:bold;color:#d81b60"></div>
+    </div>
 
-            document.getElementById("years").innerText = years;
-            document.getElementById("days").innerText = days;
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("minutes").innerText = minutes;
-            document.getElementById("seconds").innerText = seconds;
+    <div class="section">
+      <h3>Our Love Story Timeline 🕰️</h3>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-date">Year 1</div><div class="timeline-text">The magical beginning of our journey together.</div></div>
+        <div class="timeline-item"><div class="timeline-date">Year 5</div><div class="timeline-text">Growing stronger through every mile apart.</div></div>
+        <div class="timeline-item"><div class="timeline-date">Year 11 (Today)</div><div class="timeline-text">Celebrating 11 incredible years of pure love!</div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* -------------------------
+       CONFIG: set online asset URLs here
+       - You can use Lottie JSON URLs (recommended) or animated GIF/PNG URLs
+       - If you set a lottie URL it will create a <lottie-player> for that side.
+       - If you set a gif/png URL it will create an <img> inside the circle.
+       - Example placeholders are empty. Replace them with your chosen URLs.
+       ------------------------- */
+
+    // Example placeholders (replace with your chosen online URLs)
+    const brideAssetUrl = ""; // e.g. "https://assetsX.lottiefiles.com/packages/lf20_xxx.json" OR "https://media.giphy.com/media/xxxxx/giphy.gif"
+    const groomAssetUrl = ""; // same format
+
+    // If empty, fallback emojis will be used.
+    const useLottie = (url) => url && url.trim().endsWith('.json');
+
+    /* -------------------------
+       Lightweight helper utilities
+       ------------------------- */
+    function createLottieElement(url) {
+      const wrapper = document.createElement('div');
+      // create lottie-player element (lottie-player loaded from CDN in head)
+      const el = document.createElement('lottie-player');
+      el.setAttribute('src', url);
+      el.setAttribute('background', 'transparent');
+      el.setAttribute('speed', '1');
+      el.setAttribute('loop', '');
+      el.setAttribute('autoplay', '');
+      el.style.width = '100%';
+      el.style.height = '100%';
+      wrapper.appendChild(el);
+      return wrapper;
+    }
+
+    function createImgElement(url, alt = '') {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = alt;
+      img.loading = "lazy";
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      return img;
+    }
+
+    function createGifFallback(emoji) {
+      const el = document.createElement('div');
+      el.className = 'gif-fallback';
+      el.style.fontSize = '3rem';
+      el.style.display = 'flex';
+      el.style.alignItems = 'center';
+      el.style.justifyContent = 'center';
+      el.textContent = emoji;
+      return el;
+    }
+
+    /* -------------------------
+       Counter (unchanged behavior)
+       ------------------------- */
+    const proposalDate = new Date("2015-01-11T14:30:00");
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - proposalDate;
+      if (diff < 0) return;
+      const seconds = Math.floor(diff / 1000) % 60;
+      const minutes = Math.floor(diff / (1000 * 60)) % 60;
+      const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const daysTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const years = Math.floor(daysTotal / 365);
+      const days = daysTotal % 365;
+      document.getElementById("years").innerText = years;
+      document.getElementById("days").innerText = days;
+      document.getElementById("hours").innerText = hours;
+      document.getElementById("minutes").innerText = minutes;
+      document.getElementById("seconds").innerText = seconds;
+    }
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    /* -------------------------
+       Visual effects
+       ------------------------- */
+    // confetti burst helper (uses canvas-confetti from CDN)
+    function confettiBurst() {
+      // multiple bursts for nicer effect
+      confetti({
+        particleCount: 40,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      confetti({
+        particleCount: 30,
+        angle: 60,
+        spread: 50,
+        origin: { x: 0.2, y: 0.6 }
+      });
+      confetti({
+        particleCount: 30,
+        angle: 120,
+        spread: 50,
+        origin: { x: 0.8, y: 0.6 }
+      });
+    }
+
+    // spawn floating hearts (text) for N times
+    function spawnHearts(n = 8) {
+      for (let i = 0; i < n; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = (20 + Math.random() * 60) + '%';
+        heart.style.bottom = (8 + Math.random() * 12) + 'vh';
+        heart.style.fontSize = (16 + Math.random() * 26) + 'px';
+        heart.textContent = ['💖','💕','💘','💝'][Math.floor(Math.random()*4)];
+        document.body.appendChild(heart);
+        // remove after animation ends
+        setTimeout(() => heart.remove(), 2400 + Math.random()*600);
+      }
+    }
+
+    /* -------------------------
+       Reveal couple assets + animations
+       ------------------------- */
+    function populateAsset(containerId, url, fallbackEmoji) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = ''; // clear
+      if (url && url.trim()) {
+        if (useLottie(url)) {
+          const lottieEl = createLottieElement(url);
+          container.appendChild(lottieEl);
+        } else {
+          const img = createImgElement(url, '');
+          container.appendChild(img);
         }
+      } else {
+        container.appendChild(createGifFallback(fallbackEmoji));
+      }
+    }
 
-        setInterval(updateCounter, 1000);
-        updateCounter();
+    function revealCoupleImages() {
+      const coupleSection = document.getElementById('couple-section');
+      const leftAsset = document.getElementById('left-asset');
+      const rightAsset = document.getElementById('right-asset');
+      if (!coupleSection || !leftAsset || !rightAsset) return;
 
-        function saveWish() {
-            const wish = document.getElementById("wish-input").value;
-            if (wish.trim() === "") {
-                alert("Please write a small wish first! ❤️");
-                return;
-            }
-            document.getElementById("wish-section").style.display = "none";
-            document.getElementById("cake-section").style.display = "block";
-        }
+      // populate content (create Lottie or img inside the circle)
+      populateAsset('left-asset', brideAssetUrl, '👰');
+      populateAsset('right-asset', groomAssetUrl, '🤵');
 
-        function cutCake() {
-            document.getElementById("cake-section").innerHTML = "<h3>🎉 Cake Cut Successfully! 🎉</h3><div class='cake'>🥳🍰</div><p style='color:#d81b60;'>Your wish has been locked in our hearts!</p>";
-            setTimeout(() => {
-                document.getElementById("proposal-section").style.display = "block";
-            }, 1000);
-        }
+      coupleSection.style.display = 'flex';
+      coupleSection.setAttribute('aria-hidden','false');
 
-        function moveNoButton() {
-            const btnNo = document.getElementById("btn-no");
-            const x = Math.random() * 200 - 100;
-            const y = Math.random() * 100 - 50;
-            btnNo.style.transform = `translate(${x}px, ${y}px)`;
-        }
+      // stagger reveal
+      setTimeout(() => leftAsset.classList.add('revealed'), 50);
+      setTimeout(() => rightAsset.classList.add('revealed'), 220);
 
-        function sayYes() {
-            document.getElementById("response-msg").innerHTML = "Yay! Thank you for making me the happiest person alive! I love you so much! 🥰❤️";
-            document.getElementById("btn-no").style.display = "none";
-            document.getElementById("btn-yes").style.display = "none";
-        }
-    </script>
+      // confetti + hearts
+      setTimeout(() => {
+        confettiBurst();
+        spawnHearts(10);
+      }, 380);
+    }
+
+    /* -------------------------
+       Cut cake behavior (updated)
+       ------------------------- */
+    function saveWish() {
+      const wish = document.getElementById('wish-input').value || '';
+      if (wish.trim() === '') {
+        alert('Please write a small wish first! ❤️');
+        return;
+      }
+      document.getElementById('wish-section').style.display = 'none';
+      document.getElementById('cake-section').style.display = 'block';
+      // gently nudge cake to draw attention
+      const cake = document.getElementById('cake-emoji');
+      cake.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-6px)' }, { transform: 'translateY(0)' }], { duration: 600, iterations: 1 });
+    }
+
+    function cutCake() {
+      const cakeHeading = document.getElementById('cake-heading');
+      const cakeEmoji = document.getElementById('cake-emoji');
+      const cakeInstruction = document.getElementById('cake-instruction');
+
+      cakeHeading.textContent = '🎉 Cake Cut Successfully! 🎉';
+      cakeEmoji.style.transform = 'scale(.6) rotate(-6deg)';
+      cakeEmoji.style.opacity = '0';
+      cakeInstruction.textContent = 'Your wish has been locked in our hearts.';
+
+      // reveal couple images + later the proposal
+      setTimeout(revealCoupleImages, 420);
+      setTimeout(() => {
+        document.getElementById('proposal-section').style.display = 'block';
+      }, 1400);
+    }
+
+    /* -------------------------
+       Proposal interactions
+       ------------------------- */
+    function moveNoButton() {
+      const btnNo = document.getElementById('btn-no');
+      if (!btnNo) return;
+      // try to move within a safe area
+      const area = Math.min(window.innerWidth * 0.38, 210);
+      const x = (Math.random() * area) - (area / 2);
+      const y = (Math.random() * 70) - 35;
+      btnNo.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function sayYes() {
+      const responseEl = document.getElementById('response-msg');
+      responseEl.innerHTML = 'Yay! Thank you for making me the happiest person alive! I love you so much! 🥰❤️';
+      const btnNo = document.getElementById('btn-no');
+      const btnYes = document.getElementById('btn-yes');
+      if (btnNo) btnNo.style.display = 'none';
+      if (btnYes) btnYes.style.display = 'none';
+
+      // celebration
+      confettiBurst();
+      spawnHearts(18);
+      // slight page pulse
+      document.querySelector('.container').animate([{ transform: 'scale(1)' }, { transform: 'scale(1.02)' }, { transform: 'scale(1)' }], { duration: 520, easing: 'ease-out' });
+    }
+
+    /* -------------------------
+       Wiring events after DOM ready
+       ------------------------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      // wire buttons
+      document.getElementById('save-wish-btn').addEventListener('click', saveWish);
+      document.getElementById('cake-emoji').addEventListener('click', cutCake);
+      document.getElementById('btn-no').addEventListener('mouseover', moveNoButton);
+      document.getElementById('btn-no').addEventListener('click', moveNoButton);
+      document.getElementById('btn-yes').addEventListener('click', sayYes);
+
+      // If you provided online assets and lottie-player script hasn't loaded yet,
+      // assets will still work because we only create elements when revealing.
+    });
+
+  </script>
 </body>
 </html>
