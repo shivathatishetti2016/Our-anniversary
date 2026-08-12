@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Love Story | Happy Anniversary ❤️</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <!-- Particle Animation Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="login-overlay" id="login-overlay">
+    <div class="glass-card login-card">
+      <p class="login-kicker">Protected Surprise</p>
+      <h1 class="script-title login-title">Enter the Password</h1>
+      <p class="sub-title">Only the right password opens the celebration.</p>
+
+      <form class="login-form" id="login-form">
+        <label class="login-label" for="password-input">Password</label>
+        <input id="password-input" type="password" autocomplete="current-password" placeholder="Enter password" />
+        <button class="btn login-btn" type="submit">Unlock Surprise ✨</button>
+      </form>
+
+      <div class="login-feedback" id="login-feedback" aria-live="polite">
+        <div class="login-emoji-state" id="login-emoji-state">🔒</div>
+        <p id="login-message">Please enter the password to continue.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- HEADER & LIVE COUNTER SECTION -->
+    <header class="glass-card">
+      <h1 class="script-title">Happy Anniversary</h1>
+      <p class="sub-title">Years of Magic, Resilient Growth & Togetherness</p>
+
+      <div class="timer-grid">
+        <div class="timer-box">
+          <span class="timer-number" id="years">0</span>
+          <span class="timer-label">Years</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="days">0</span>
+          <span class="timer-label">Days</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="hours">0</span>
+          <span class="timer-label">Hours</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="minutes">0</span>
+          <span class="timer-label">Minutes</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="seconds">0</span>
+          <span class="timer-label">Seconds</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECRET WISH & CAKE CUTTING SECTION -->
+    <section class="glass-card" id="wish-card">
+      <div id="wish-section">
+        <h2 class="sub-title">Make a Secret Anniversary Wish 🌟</h2>
+        <div class="wish-input-group">
+          <textarea id="wish-input" placeholder="Type your heartfelt wish for us here..."></textarea>
+          <button class="btn" id="save-wish-btn">Blow Candles & Cut Cake 🎂</button>
+        </div>
+      </div>
+
+      <div class="cake-container" id="cake-section">
+        <h2 class="sub-title" id="cake-heading">Tap the Cake to Cut It! 🔪🎂</h2>
+        <div class="cake-icon" id="cake-emoji">🎂</div>
+        <p class="cake-instruction" id="cake-instruction">Click to celebrate our special day!</p>
+      </div>
+
+      <!-- COUPLE PORTRAITS -->
+      <div class="couple-showcase" id="couple-section">
+        <div class="avatar-card" id="bride-card">
+          <div class="avatar-frame">👰‍♀️</div>
+          <h3 class="avatar-title">Christian Bride</h3>
+          <p class="avatar-description">Grace, Elegance & Eternal Love</p>
+        </div>
+        <div class="avatar-card" id="groom-card">
+          <div class="avatar-frame">🕺</div>
+          <h3 class="avatar-title">Hindu Groom</h3>
+          <p class="avatar-description">Devotion, Joy & Forever Bond</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROPOSAL INTERACTIVE SECTION -->
+    <section class="glass-card proposal-box" id="proposal-section">
+      <h2 class="script-title">Will You Love Me Forever?</h2>
+      <p class="sub-title">Through every smile, distance, and milestone ahead...</p>
+
+      <div class="proposal-buttons">
+        <button class="btn" id="btn-yes">Yes, Absolutely! ❤️</button>
+        <button class="btn btn-no" id="btn-no">No 😜</button>
+      </div>
+      <p class="response-message" id="response-msg"></p>
+    </section>
+
+    <!-- CUSTOMIZED MAGAZINE TIMELINE SECTION -->
+    <section class="glass-card magazine-section" id="timeline-section">
+      <h2 class="script-title">Our Love Story Timeline</h2>
+      <p class="sub-title">Flip through the real chapters of our journey (2016 – Present)</p>
+
+      <div class="magazine-wrapper">
+        <!-- Page 1: 2016 -->
+        <div class="magazine-page active">
+          <span class="year-badge">2016</span>
+          <h3 class="page-title">The Beginning of Our Journey</h3>
+          <ul class="timeline-events">
+            <li><strong>January 11, 2016:</strong> Our beautiful love story officially began in Madhya Pradesh.</li>
+            <li>We spent quality time together in the school classroom, where our love first blossomed.</li>
+          </ul>
+          <span class="page-quote">"Where our story officially started in Madhya Pradesh..."</span>
+        </div>
+
+        <!-- Page 2: 2017 -->
+        <div class="magazine-page">
+          <span class="year-badge">2017</span>
+          <h3 class="page-title">10th Class, The Public Proposal & Family Support</h3>
+          <ul class="timeline-events">
+            <li><strong>Classroom Memories:</strong> We were placed in different sections for 10th class, but we looked forward to the evenings during classroom sweeping duties just to meet and talk.</li>
+            <li><strong>Birthday Surprise:</strong> Even after completing my exams, I went back to school just to celebrate her birthday with her while she was still giving her exams.</li>
+            <li><strong>The Grand Proposal:</strong> Before finishing 10th class, right around the final exams, I proposed to her in front of the entire classroom.</li>
+            <li><strong>First Family Conversation:</strong> During final exams in 2017, I opened up to my father about our relationship. He was understanding and told me that once we both got settled in our futures, our families would happily accept our bond.</li>
+            <li><strong>Summer 2017:</strong> During the summer break, Facebook Messenger was our only source of contact, and we spent hours messaging each other.</li>
+          </ul>
+          <span class="page-quote">"A fearless leap of love and our very first promises."</span>
+        </div>
+
+        <!-- Page 3: 2017 – 2018 -->
+        <div class="magazine-page">
+          <span class="year-badge">2017 – 2018</span>
+          <h3 class="page-title">Intermediate / First Long-Distance Phase & Secret Hostel Call</h3>
+          <ul class="timeline-events">
+            <li><strong>First LDR Phase:</strong> I joined Intermediate 1st year, marking our first long-distance chapter. We eagerly waited for holidays just so we could call and text each other.</li>
+            <li><strong>The Night Call Mystery:</strong> In 2018, we pulled off a secret operation—sneaking a mobile phone into her hostel. We stayed up all night excited, talking about our memories and sharing special moments.</li>
+            <li><strong>Hostel Teasing & Secret Signals:</strong> In the days after, her friends teased her constantly, waiting for my calls. To contact her, whenever my parents or friends' parents visited, I would give her a missed call, and she would call me back so we could talk.</li>
+          </ul>
+          <span class="page-quote">"Miles apart, but closer at heart with every passing night."</span>
+        </div>
+
+        <!-- Page 4: 2019 -->
+        <div class="magazine-page">
+          <span class="year-badge">2019</span>
+          <h3 class="page-title">JEE Mains, B.Tech, and First Outings</h3>
+          <ul class="timeline-events">
+            <li><strong>Early 2019 (JEE Mains Day):</strong> She surprised me by coming to my exam center on the day of my JEE Mains exam. Seeing each other brought so much excitement!</li>
+            <li><strong>First B.Tech Reunion (Railway Station):</strong> When I started B.Tech in 2019, we met at the railway station. I was so nervous and shy that I couldn’t even hold her hand for the first time—a memory we fondly laugh about now!</li>
+            <li><strong>First Outing (Oxygen Park, 2019):</strong> We went on our very first official outing to Oxygen Park, creating one of our cutest initial memories together.</li>
+          </ul>
+          <span class="page-quote">"Shy hand-holds and unforgettable first dates."</span>
+        </div>
+
+        <!-- Page 5: 2020 -->
+        <div class="magazine-page">
+          <span class="year-badge">2020</span>
+          <h3 class="page-title">Bhongir Fort, Corona Lockdown & Virtual Love</h3>
+          <ul class="timeline-events">
+            <li><strong>Bhongir Fort Trip:</strong> We went to Bhongir, a crucial landmark in our journey that brought us significantly closer to each other.</li>
+            <li><strong>Pre-Lockdown Meal:</strong> Before heading home, we ate lunch together at Bawarchi / Mehfil, assuming we would meet again in a few weeks or months.</li>
+            <li><strong>Corona Lockdown LDR:</strong> Lockdown separated us unexpectedly for much longer than planned. We kept our connection alive through video calls, Instagram, Zoom meetings, and sending funny/crazy snaps on Snapchat.</li>
+          </ul>
+          <span class="page-quote">"Overcoming distance through virtual smiles and endless calls."</span>
+        </div>
+
+        <!-- Page 6: 2021 -->
+        <div class="magazine-page">
+          <span class="year-badge">2021</span>
+          <h3 class="page-title">A Special Gift Across the Distance</h3>
+          <ul class="timeline-events">
+            <li><strong>January 11, 2021 (Anniversary Surprise):</strong> While she was working in Hyderabad and I was at home, I sent her a surprise gift for our anniversary: a golden rose and a special locket that projects "I Love You" in 100 different languages.</li>
+          </ul>
+          <span class="page-quote">"Expressing love in a hundred different languages."</span>
+        </div>
+
+        <!-- Page 7: 2022 -->
+        <div class="magazine-page">
+          <span class="year-badge">2022</span>
+          <h3 class="page-title">Surprises & Vikarabad Trip</h3>
+          <ul class="timeline-events">
+            <li><strong>Vikarabad Trip:</strong> When her friends were going on a trip to Vikarabad, I showed up to surprise her, making another unforgettable trip together.</li>
+            <li><strong>Quality Weekend Time:</strong> By October 2022, we were meeting every weekend, celebrating our birthdays together, exchanging gifts, and enjoying continuous quality time.</li>
+          </ul>
+          <span class="page-quote">"Surprise road trips and precious weekend escapes."</span>
+        </div>
+
+        <!-- Page 8: 2023 – 2024 -->
+        <div class="magazine-page">
+          <span class="year-badge">2023 – 2024</span>
+          <h3 class="page-title">Internship, Father’s Blessing & US Departure</h3>
+          <ul class="timeline-events">
+            <li><strong>2023 (Internship Days):</strong> I started my internship, giving us more private, quality time together. Weekend dates became our regular ritual.</li>
+            <li><strong>Late 2024 (US Visa & Dad's Approval):</strong> She received her US visa to pursue her Master’s (MS) in the United States. Before she left, I spoke to my father again about our relationship, and he fully accepted us.</li>
+          </ul>
+          <span class="page-quote">"Stepping into big futures with parental blessings."</span>
+        </div>
+
+        <!-- Page 9: 2025 -->
+        <div class="magazine-page">
+          <span class="year-badge">2025</span>
+          <h3 class="page-title">Oceans Apart & Mom’s Acceptance</h3>
+          <ul class="timeline-events">
+            <li><strong>US Long-Distance Phase:</strong> 2025 was our biggest long-distance challenge yet with the massive time zone gap. Despite the difficulty, our bond only grew stronger.</li>
+            <li><strong>Mom’s Blessing:</strong> During 2025, I shared our entire story with my mother, and she happily accepted our relationship as well.</li>
+          </ul>
+          <span class="page-quote">"Bridging continents and oceans with unwavering trust."</span>
+        </div>
+
+        <!-- Page 10: 2026 -->
+        <div class="magazine-page">
+          <span class="year-badge">2026</span>
+          <h3 class="page-title">Reunion & Her Parents' Approval</h3>
+          <ul class="timeline-events">
+            <li><strong>Return to India:</strong> She came back to India in 2026! We spent an incredible amount of quality time together, meeting every weekend.</li>
+            <li><strong>Her Parents Accept:</strong> During this phase, she spoke to her parents about our relationship, and they lovingly accepted our union. Both families are now fully supportive of our journey.</li>
+          </ul>
+          <span class="page-quote">"Reunited at last, blessed by both families! ❤️"</span>
+        </div>
+      </div>
+
+      <!-- MAGAZINE CONTROLS -->
+      <div class="mag-controls">
+        <button class="btn btn-small" id="prev-btn" disabled>← Previous</button>
+        <div class="page-dots" id="page-dots"></div>
+        <button class="btn btn-small" id="next-btn">Next →</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- Use app.js in browser. Keep app.ts as the editable TypeScript source. -->
+  <script src="scripts/app.js" defer></script>
+</body>
+</html>
