@@ -43,9 +43,11 @@ surprise/
 | # | Feature | Location (JS/TS section) | DOM ids / classes |
 |---|---------|--------------------------|-------------------|
 | 0 | **Login Gate** — password overlay, error/success emoji feedback, fades out on success. Password: `Jyoshi@123`. | `0. LOGIN GATE` | `#login-overlay`, `#login-form`, `#password-input`, `#login-feedback`, `#login-message`, `#login-emoji-state` |
-| 1 | **Live Counter** — years / days / hours / minutes / seconds since `2016-01-11T14:30:00`. Updates every 1s. | `1. LIVE COUNTER LOGIC` | `#years`, `#days`, `#hours`, `#minutes`, `#seconds` |
-| 2 | **Wish + Cake Cutting** — user writes a wish, clicks button → reveals cake → tap cake to "cut" → triggers confetti + reveals couple portraits → shows proposal section. | `2. WISH & CAKE CUTTING LOGIC` | `#wish-section`, `#wish-input`, `#save-wish-btn`, `#cake-section`, `#cake-emoji`, `#cake-heading`, `#cake-instruction`, `#couple-section`, `#bride-card`, `#groom-card` |
-| 3 | **Proposal** — "Yes" reveals timeline + confetti; "No" button runs away on hover/touch. | `3. PROPOSAL INTERACTIVE LOGIC` | `#btn-yes`, `#btn-no`, `#response-msg`, `#proposal-section`, `#timeline-section` |
+| 0b | **Welcome Page** — congratulatory greeting overlay right after login. | `0. WELCOME / HAPPY ANNIVERSARY PAGE` | `#welcome-overlay`, `#welcome-anniversary-title`, `#welcome-go-btn`, `.celebration-emoji-container`, `.emoji-bounce` |
+| 0c | **Wish Popup** — celebratory "I hope all your wishes come true" overlay right after submitting a wish. | `0. WELCOME / HAPPY ANNIVERSARY PAGE & WISH POPUP LOGIC` | `#wish-popup-overlay`, `#wish-popup-go-btn` |
+| 1 | **Live Counter** — anniversary timer; hidden until Proposal is accepted. | `1. LIVE COUNTER LOGIC` | `#timer-header`, `#years`, `#days`, `#hours`, `#minutes`, `#seconds` |
+| 2 | **Wish + Cake Cutting** — user writes a wish → submits → wish popup → cake cutting interaction → reveals portraits → proposal. | `2. WISH & CAKE CUTTING LOGIC` | `#wish-section`, `#wish-input`, `#save-wish-btn`, `#wish-warning`, `#cake-section`, `#cake-emoji`, `#cake-heading`, `#cake-instruction`, `#couple-section`, `#bride-card`, `#groom-card` |
+| 3 | **Proposal** — "Yes" reveals both the Live Counter and the Timeline. | `3. PROPOSAL INTERACTIVE LOGIC` | `#btn-yes`, `#btn-no`, `#response-msg`, `#proposal-section`, `#timeline-section` |
 | 4 | **Magazine Timeline** — 10 pages (2016 → 2026), prev/next buttons, clickable page-dots, 3D flip transition. | `4. MAGAZINE TIMELINE CONTROLS` | `.magazine-page`, `#prev-btn`, `#next-btn`, `#page-dots`, `.dot`, `.year-badge` |
 | 5 | **Particle Background + Confetti** — canvas-based floating heart particles, confetti bursts on cake-cut and "Yes". | `5. PARTICLE BACKGROUND & CONFETTI SYSTEM` | `#bg-canvas`, class `Particle`, `triggerConfetti()` |
 
@@ -82,6 +84,9 @@ Real chronological events already written into `index.html`:
 
 | Date | Change |
 |------|--------|
+| 2026-08-12 | Implemented the refined 5-step interactive game-like flow: Login → Welcome Overlay → Wish Screen → Wish Popup Overlay → Cake Cutting → Proposal → Revealed Timer & Timeline. |
+| 2026-08-12 | Implemented R1: Added inline warning if wish is empty before cake cutting. Removed browser alert. |
+| 2026-08-12 | Implemented R2: Created cute "Welcome / Happy Anniversary" page overlay shown immediately after correct password entry, calculating the correct ordinal anniversary year dynamically. |
 | 2026-08-12 | Fixed CSS lint warning: added `-webkit-backdrop-filter` on `.login-overlay`. |
 | 2026-08-12 | Fixed TS "possibly null" errors on `ctx` inside `Particle.draw()` and `animateParticles()` by asserting `canvas.getContext('2d') as CanvasRenderingContext2D`. |
 | 2026-08-12 | Regenerated `app.js` to sync with `app.ts` (login gate was missing from compiled JS). |

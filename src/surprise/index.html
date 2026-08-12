@@ -35,9 +35,36 @@
     </div>
   </div>
 
+  <div class="welcome-overlay" id="welcome-overlay" style="display: none;">
+    <div class="glass-card welcome-card">
+      <div class="celebration-emoji-container">
+        <span class="emoji-bounce">💖</span>
+        <span class="emoji-bounce" style="animation-delay: 0.2s;">✨</span>
+        <span class="emoji-bounce" style="animation-delay: 0.4s;">🔑</span>
+      </div>
+      <p class="login-kicker">Congratulations!</p>
+      <p class="sub-title">You successfully logged in to my heart 💖<br>Welcome to my heart!</p>
+      <h1 class="script-title welcome-title" id="welcome-anniversary-title">Happy 11th Anniversary</h1>
+      <button class="btn welcome-btn" id="welcome-go-btn">Go Ahead →</button>
+    </div>
+  </div>
+
+  <div class="welcome-overlay" id="wish-popup-overlay" style="display: none;">
+    <div class="glass-card welcome-card">
+      <div class="celebration-emoji-container">
+        <span class="emoji-bounce">✨</span>
+        <span class="emoji-bounce" style="animation-delay: 0.2s;">🌟</span>
+        <span class="emoji-bounce" style="animation-delay: 0.4s;">💖</span>
+      </div>
+      <h1 class="script-title">Make a Wish</h1>
+      <p class="wish-line">I hope all your wishes come true ✨</p>
+      <button class="btn welcome-btn" id="wish-popup-go-btn">Go Ahead →</button>
+    </div>
+  </div>
+
   <div class="container">
     <!-- HEADER & LIVE COUNTER SECTION -->
-    <header class="glass-card">
+    <header class="glass-card" id="timer-header" style="display: none;">
       <h1 class="script-title">Happy Anniversary</h1>
       <p class="sub-title">Years of Magic, Resilient Growth & Togetherness</p>
 
@@ -71,6 +98,7 @@
         <h2 class="sub-title">Make a Secret Anniversary Wish 🌟</h2>
         <div class="wish-input-group">
           <textarea id="wish-input" placeholder="Type your heartfelt wish for us here..."></textarea>
+          <p class="wish-warning" id="wish-warning" style="display: none; color: var(--primary); font-weight: 600; margin-top: -5px; margin-bottom: 5px; font-size: 0.95rem;"></p>
           <button class="btn" id="save-wish-btn">Blow Candles & Cut Cake 🎂</button>
         </div>
       </div>
@@ -85,13 +113,9 @@
       <div class="couple-showcase" id="couple-section">
         <div class="avatar-card" id="bride-card">
           <div class="avatar-frame">👰‍♀️</div>
-          <h3 class="avatar-title">Christian Bride</h3>
-          <p class="avatar-description">Grace, Elegance & Eternal Love</p>
         </div>
         <div class="avatar-card" id="groom-card">
           <div class="avatar-frame">🕺</div>
-          <h3 class="avatar-title">Hindu Groom</h3>
-          <p class="avatar-description">Devotion, Joy & Forever Bond</p>
         </div>
       </div>
     </section>
@@ -237,9 +261,36 @@
         <button class="btn btn-small" id="next-btn">Next →</button>
       </div>
     </section>
+
+    <!-- BOTTOM LIVE COUNTER (Deduplicated for visibility at the end of timeline) -->
+    <div class="glass-card" id="timer-bottom" style="display: none; margin-top: 40px;">
+      <h2 class="sub-title">Our Time Together Continues... ❤️</h2>
+      <div class="timer-grid">
+        <div class="timer-box">
+          <span class="timer-number" id="years-bottom">0</span>
+          <span class="timer-label">Years</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="days-bottom">0</span>
+          <span class="timer-label">Days</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="hours-bottom">0</span>
+          <span class="timer-label">Hours</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="minutes-bottom">0</span>
+          <span class="timer-label">Minutes</span>
+        </div>
+        <div class="timer-box">
+          <span class="timer-number" id="seconds-bottom">0</span>
+          <span class="timer-label">Seconds</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Use app.js in browser. Keep app.ts as the editable TypeScript source. -->
+  <!-- Use Vanilla JS as requested for cross-browser compatibility -->
   <script src="scripts/app.js" defer></script>
 </body>
 </html>

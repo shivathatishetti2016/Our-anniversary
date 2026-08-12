@@ -45,25 +45,6 @@ The user does **not** need to specify files, selectors, or code locations. The a
 
 <!-- Newest at the top. -->
 
-### R1: Don't allow cake cutting without a wish
-- **What:** The "Blow Candles & Cut Cake" button should only work after the user actually writes something in the wish box. If the box is empty and they click the button, show a friendly warning like *"Please make a wish before cutting the cake ❤️"* — do not proceed to the cake step yet.
-- **Why:** Making a wish is the whole point; skipping it feels wrong.
-- **Looks like / feels like:** The warning should appear inline near the wish box (not a browser `alert()` popup), match the pink/gold romantic theme, and disappear once they start typing.
-
----
-
-### R2: Show a "Welcome / Happy Anniversary" page right after login
-- **What:** After entering the correct password, don't jump straight to the counter. First show a cute celebration page with:
-  - A message: "Congratulations! You successfully logged in to my heart 💖".
-  - A big "Happy 11th Anniversary" heading — **auto-calculate the year number** from the anniversary date so it becomes 12th next year, and so on.
-  - A line like: "I hope all your wishes come true ✨".
-  - Cute animations / imagery (floating hearts, sparkles, bobbing cake, etc. — whatever feels celebratory).
-  - A **"Go Ahead →"** button. When clicked, hide this welcome page and reveal the rest of the app (counter, wish, cake, proposal, timeline).
-- **Why:** Feels warmer and more special than dropping straight into the timer.
-- **Looks like / feels like:** Same romantic pink/gold/purple theme as the rest of the app. Must look great on mobile too.
-
----
-
 ### R3: _(placeholder — add your next requirement here)_
 - **What:**
 <!-- delete this whole R3 block if you don't have a third item yet -->
@@ -73,3 +54,15 @@ The user does **not** need to specify files, selectors, or code locations. The a
 ## Done / Archived
 
 <!-- Completed items will be moved here (with date) once shipped. -->
+
+### R1: Don't allow cake cutting without a wish (Shipped: 2026-08-12)
+- **What:** The "Blow Candles & Cut Cake" button should only work after the user actually writes something in the wish box. If the box is empty and they click the button, show a friendly warning like *"Please make a wish before cutting the cake ❤️"* — do not proceed to the cake step yet.
+- **Looks like / feels like:** The warning appears inline near the wish box, matches the pink/gold romantic theme, and disappears once they start typing.
+
+### R2: Show a "Welcome / Happy Anniversary" page right after login (Shipped: 2026-08-12)
+- **What:** After entering the correct password, don't jump straight to the counter. First show a cute celebration page with:
+  - A message: "Congratulations! You successfully logged in to my heart 💖".
+  - A big "Happy 11th Anniversary" heading — auto-calculated from the anniversary date.
+  - A line like: "I hope all your wishes come true ✨".
+  - Cute animations / imagery (floating hearts, sparkles, bobbing cake, etc.).
+  - A **"Go Ahead →"** button. When clicked, hide this welcome page and reveal the rest of the app.

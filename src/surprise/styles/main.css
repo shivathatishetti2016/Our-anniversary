@@ -132,6 +132,58 @@ body {
   animation: pop 0.5s ease, bob 1.8s ease-in-out infinite;
 }
 
+.welcome-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at bottom, rgba(199, 125, 255, 0.22), rgba(8, 5, 17, 0.96));
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.welcome-overlay.hidden {
+  opacity: 0;
+  transform: scale(1.03);
+  pointer-events: none;
+}
+
+.welcome-card {
+  max-width: 550px;
+  width: 100%;
+  animation: pop 0.6s ease;
+}
+
+.celebration-emoji-container {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+.emoji-bounce {
+  display: inline-block;
+  animation: bob 1.5s ease-in-out infinite;
+}
+
+.wish-line {
+  font-size: 1.15rem;
+  color: #e2e8f0;
+  margin-bottom: 25px;
+  font-weight: 500;
+}
+
+.welcome-btn {
+  font-size: 1.1rem;
+  padding: 14px 40px;
+}
+
+.wish-warning {
+  transition: opacity 0.3s ease;
+}
+
 /* Ambient Particle Canvas */
 #bg-canvas {
   position: fixed;
