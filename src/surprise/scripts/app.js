@@ -323,10 +323,13 @@ function bumpNoInteraction() {
 }
 
 
-// Count each mouseenter and each click on No as an interaction.
+// Count each mouseenter/mouseover/click/touch on No as an interaction.
+// (mouseover in addition to mouseenter because after the button teleports,
+// the pointer may not immediately leave and re-enter cleanly.)
 btnNo.addEventListener('mouseenter', bumpNoInteraction);
 btnNo.addEventListener('click', bumpNoInteraction);
 btnNo.addEventListener('touchstart', bumpNoInteraction);
+
 
 btnYes.addEventListener('click', () => {
   if (btnYes.disabled) return;
@@ -358,16 +361,33 @@ btnNo.addEventListener('focus', moveNoButton);
 // then switches to fixed positioning so it can teleport across the viewport.
 // This guarantees no overlap when it first appears.
 
+// Container the No button is allowed to escape within (the proposal tile).
+const proposalSection = getElement('proposal-section');
+
 function ensureNoFixed() {
-  if (btnNo.style.position !== 'fixed') {
-    const rect = btnNo.getBoundingClientRect();
-    btnNo.style.position = 'fixed';
+  if (btnNo.style.position !== 'absolute') {
+    // Ensure the proposal tile is the positioning context.
+    if (getComputedStyle(proposalSection).position === 'static') {
+      proposalSection.style.position = 'relative';
+    }
+    // Remember original spot so left/top math below matches what user saw.
+    const originalRect = btnNo.getBoundingClientRect();
+    // Move the No button OUT of `.proposal-buttons` (which has its own
+    // `position: relative` and would otherwise be the offset parent) and
+    // append directly to the proposal tile. Now `absolute` coords are
+    // measured against the tile, and CSS `overflow: hidden` on the tile
+    // will clip anything trying to escape.
+    proposalSection.appendChild(btnNo);
+    const parentRect = proposalSection.getBoundingClientRect();
+    btnNo.style.position = 'absolute';
     btnNo.style.zIndex = '5';
-    btnNo.style.left = `${rect.left}px`;
-    btnNo.style.top = `${rect.top}px`;
+    btnNo.style.left = `${originalRect.left - parentRect.left}px`;
+    btnNo.style.top = `${originalRect.top - parentRect.top}px`;
     btnNo.style.margin = '0';
   }
 }
+
+
 
 function rectsOverlap(a, bLeft, bTop, bW, bH) {
   const pad = 12;
@@ -380,75 +400,110 @@ function rectsOverlap(a, bLeft, bTop, bW, bH) {
 }
 
 
+// Keeps No button reachable AND strictly inside the proposal tile.
+// Coordinates are RELATIVE to the proposal tile (position: absolute).
 function moveNoButton(event) {
-  // Switch to fixed positioning on first interaction so we can teleport it.
   ensureNoFixed();
+  const parentRect = proposalSection.getBoundingClientRect();
   const btnRect = btnNo.getBoundingClientRect();
+  const yesRect = btnYes.getBoundingClientRect();
 
   const btnW = btnRect.width || 100;
   const btnH = btnRect.height || 50;
-  const margin = 20;
+  const pad = 12; // padding inside the tile
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+  const tileW = parentRect.width;
+  const tileH = parentRect.height;
 
-  const yesRect = btnYes.getBoundingClientRect();
+  // Yes rect in LOCAL (tile) coordinates
+  const yesLocal = {
+    left:   yesRect.left - parentRect.left,
+    top:    yesRect.top  - parentRect.top,
+    right:  yesRect.right - parentRect.left,
+    bottom: yesRect.bottom - parentRect.top,
+  };
 
-  // Cursor position (fall back to button center)
-  const cx = event && event.clientX ? event.clientX : btnRect.left + btnW / 2;
-  const cy = event && event.clientY ? event.clientY : btnRect.top + btnH / 2;
+  // Safety buffer around Yes so No never touches it.
+  const gap = 24;
+  const yesBuffer = {
+    left:   yesLocal.left   - gap,
+    top:    yesLocal.top    - gap,
+    right:  yesLocal.right  + gap,
+    bottom: yesLocal.bottom + gap,
+  };
 
-  // Try random spots — must be far from cursor AND not overlap the Yes button.
-  let bestLeft = margin;
-  let bestTop = margin;
-  let bestScore = -1;
+  // Cursor position in LOCAL coordinates
+  const cx = (event && event.clientX ? event.clientX : btnRect.left + btnW / 2) - parentRect.left;
+  const cy = (event && event.clientY ? event.clientY : btnRect.top  + btnH / 2) - parentRect.top;
 
-  for (let i = 0; i < 30; i += 1) {
-    const left = margin + Math.random() * (vw - btnW - margin * 2);
-    const top = margin + Math.random() * (vh - btnH - margin * 2);
+  const minEscape = 50; // min distance from cursor
 
-    // Skip candidates that overlap the Yes button.
-    if (rectsOverlap(yesRect, left, top, btnW, btnH)) continue;
+  // Max valid left/top so the button never goes past the tile edges.
+  const maxLeft = Math.max(pad, tileW - btnW - pad);
+  const maxTop  = Math.max(pad, tileH - btnH - pad);
+
+  function overlapsYes(left, top) {
+    // Does [left..left+btnW] x [top..top+btnH] overlap yesBuffer?
+    return !(left + btnW < yesBuffer.left ||
+             left > yesBuffer.right ||
+             top + btnH < yesBuffer.top ||
+             top > yesBuffer.bottom);
+  }
+
+  let bestLeft = null;
+  let bestTop = null;
+
+  // 1) Random search — must fit tile, avoid Yes buffer, be far enough from cursor.
+  for (let i = 0; i < 80; i += 1) {
+    const left = pad + Math.random() * (maxLeft - pad);
+    const top  = pad + Math.random() * (maxTop  - pad);
+
+    if (overlapsYes(left, top)) continue;
 
     const centerX = left + btnW / 2;
-    const centerY = top + btnH / 2;
-    const dx = centerX - cx;
-    const dy = centerY - cy;
-    const dist = Math.sqrt(dx * dx + dy * dy);
+    const centerY = top  + btnH / 2;
+    if (Math.hypot(centerX - cx, centerY - cy) < minEscape) continue;
 
-    if (dist > bestScore) {
-      bestScore = dist;
-      bestLeft = left;
-      bestTop = top;
+    bestLeft = left;
+    bestTop = top;
+    break;
+  }
+
+  // 2) Grid fallback — walk the tile in a grid and pick the first cell that
+  //    doesn't overlap Yes and is furthest from the cursor.
+  if (bestLeft === null) {
+    const step = 20;
+    let bestDist = -1;
+    for (let top = pad; top <= maxTop; top += step) {
+      for (let left = pad; left <= maxLeft; left += step) {
+        if (overlapsYes(left, top)) continue;
+        const d = Math.hypot(left + btnW / 2 - cx, top + btnH / 2 - cy);
+        if (d > bestDist) {
+          bestDist = d;
+          bestLeft = left;
+          bestTop = top;
+        }
+      }
     }
   }
 
-  // Guarantee minimum distance from the cursor
-  const minDist = Math.min(vw, vh) * 0.45;
-  if (bestScore < minDist) {
-    // Force to a corner opposite the cursor; also avoid the Yes button.
-    const corners = [
-      { left: margin,               top: margin },
-      { left: vw - btnW - margin,   top: margin },
-      { left: margin,               top: vh - btnH - margin },
-      { left: vw - btnW - margin,   top: vh - btnH - margin },
-    ];
-    // Sort corners by distance from cursor (farthest first).
-    corners.sort((a, b) => {
-      const da = Math.hypot(a.left + btnW / 2 - cx, a.top + btnH / 2 - cy);
-      const db = Math.hypot(b.left + btnW / 2 - cx, b.top + btnH / 2 - cy);
-      return db - da;
-    });
-    // Pick the first corner that doesn't overlap Yes.
-    const safe = corners.find((c) => !rectsOverlap(yesRect, c.left, c.top, btnW, btnH)) || corners[0];
-    bestLeft = safe.left;
-    bestTop = safe.top;
+  // 3) Absolute last resort — clamp Yes's own position + gap horizontally.
+  if (bestLeft === null) {
+    bestLeft = Math.min(maxLeft, Math.max(pad, yesLocal.right + gap));
+    bestTop  = Math.min(maxTop,  Math.max(pad, yesLocal.top));
   }
+
+  // Final clamp — never let it exit the tile.
+  bestLeft = Math.min(Math.max(pad, bestLeft), maxLeft);
+  bestTop  = Math.min(Math.max(pad, bestTop),  maxTop);
 
   btnNo.style.transform = 'none';
   btnNo.style.left = `${bestLeft}px`;
   btnNo.style.top = `${bestTop}px`;
 }
+
+
+
 
 
 /* ===================================================

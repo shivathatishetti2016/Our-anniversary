@@ -610,7 +610,12 @@ textarea:focus {
 .proposal-box {
   display: none;
   margin-top: 20px;
+  /* Provide room for the No button to run around inside without ever
+     escaping the tile. Also clip anything that tries to poke out. */
+  min-height: 340px;
+  overflow: hidden;
 }
+
 
 .proposal-buttons {
   display: flex;
