@@ -2,8 +2,19 @@
    Anniversary Surprise App
    =================================================== */
 
-const startDate = new Date('2016-01-11T14:30:00');
+// R5/R8: Proposed date/time — Jan 11th 2016, 11:45 IST (fixed absolute instant).
+// Using an explicit IST offset means the "time together" is computed against the
+// same UTC instant everywhere; each viewer's system time zone is applied by the
+// browser automatically when comparing with `new Date()` (which is UTC-anchored).
+const startDate = new Date('2016-01-11T11:45:00+05:30');
+
 const LOGIN_PASSWORD = 'Jyoshi@2016';
+
+// R9: How long a successful login is remembered (in minutes). Change this
+// single variable to tune the session skip window. Persisted in localStorage
+// so the session survives reloads / new-tab visits within the window.
+const LOGIN_SESSION_MINUTES = 5;
+const LOGIN_SESSION_KEY = 'anniversary_login_at';
 
 const getElement = (id) => {
   const element = document.getElementById(id);
@@ -59,9 +70,40 @@ const passwordInput = getElement('password-input');
 const loginFeedback = getElement('login-feedback');
 const loginMessage = getElement('login-message');
 const loginEmojiState = getElement('login-emoji-state');
+const loginAttemptsEl = getElement('login-attempts');
+const loginHintBtn = getElement('login-hint-btn');
+const loginHintEl = getElement('login-hint');
+
+let wrongAttempts = 0;
+
+// R9: Persist the last successful login timestamp so we can skip the login
+// gate on reloads/re-visits within the configured window.
+function isLoginSessionActive() {
+  try {
+    const raw = localStorage.getItem(LOGIN_SESSION_KEY);
+    if (!raw) return false;
+    const at = parseInt(raw, 10);
+    if (!Number.isFinite(at)) return false;
+    const ageMs = Date.now() - at;
+    return ageMs >= 0 && ageMs < LOGIN_SESSION_MINUTES * 60 * 1000;
+  } catch (e) {
+    return false;
+  }
+}
+
+function markLoginSuccess() {
+  try {
+    localStorage.setItem(LOGIN_SESSION_KEY, String(Date.now()));
+  } catch (e) {
+    // ignore storage errors (private mode, etc.)
+  }
+}
 
 function setLoginState(isSuccess) {
   if (isSuccess) {
+    // R9: Remember the successful login for the configured window.
+    markLoginSuccess();
+
     loginFeedback.classList.remove('error');
     loginFeedback.classList.add('success');
     loginMessage.textContent = 'Welcome! You unlocked the surprise 💖';
@@ -77,10 +119,23 @@ function setLoginState(isSuccess) {
     return;
   }
 
+
   loginFeedback.classList.remove('success');
   loginFeedback.classList.add('error');
   loginMessage.textContent = 'Password is incorrect';
   loginEmojiState.textContent = '😢💔';
+
+  // R4: Clear password field and track attempts
+  passwordInput.value = '';
+
+  wrongAttempts += 1;
+  loginAttemptsEl.style.display = 'block';
+  loginAttemptsEl.textContent = `Wrong attempts: ${wrongAttempts}`;
+
+  // Show hint button after 3 wrong attempts
+  if (wrongAttempts >= 3) {
+    loginHintBtn.style.display = 'inline-block';
+  }
 }
 
 loginForm.addEventListener('submit', (event) => {
@@ -92,9 +147,25 @@ loginForm.addEventListener('submit', (event) => {
     setLoginState(true);
   } else {
     setLoginState(false);
-    passwordInput.select();
+    passwordInput.focus();
   }
 });
+
+// R4: Reveal hint on click
+loginHintBtn.addEventListener('click', () => {
+  loginHintEl.style.display = 'block';
+  loginHintBtn.style.display = 'none';
+});
+
+// R9: If a valid session exists (within LOGIN_SESSION_MINUTES of the last
+// successful login), skip the login gate entirely and go straight to the
+// Welcome overlay.
+if (isLoginSessionActive()) {
+  loginOverlay.style.display = 'none';
+  const welcomeOverlay = getElement('welcome-overlay');
+  welcomeOverlay.style.display = 'flex';
+}
+
 
 /* ===================================================
    0. WELCOME / HAPPY ANNIVERSARY PAGE & WISH POPUP LOGIC
@@ -103,10 +174,11 @@ function setupWelcomePage() {
   const welcomeOverlay = getElement('welcome-overlay');
   const welcomeAnniversaryTitle = getElement('welcome-anniversary-title');
   const welcomeGoBtn = getElement('welcome-go-btn');
+  const welcomeQtpiLine = getElement('welcome-qtpi-line');
 
   const now = new Date();
   let years = now.getFullYear() - startDate.getFullYear();
-  const hasCelebratedThisYear = (now.getMonth() > startDate.getMonth()) || 
+  const hasCelebratedThisYear = (now.getMonth() > startDate.getMonth()) ||
                                 (now.getMonth() === startDate.getMonth() && now.getDate() >= startDate.getDate());
   if (!hasCelebratedThisYear) {
     years--;
@@ -129,6 +201,8 @@ function setupWelcomePage() {
   }
 
   welcomeAnniversaryTitle.textContent = `Happy ${getOrdinal(displayYears)} Anniversary`;
+  // R3: Add "Happy Nth Anniversary my qtπ" with heart-hands emoji
+  welcomeQtpiLine.textContent = `Happy ${getOrdinal(displayYears)} Anniversary my qtπ 🫶💖`;
 
   welcomeGoBtn.addEventListener('click', () => {
     welcomeOverlay.classList.add('hidden');
@@ -192,7 +266,8 @@ cakeEmoji.addEventListener('click', () => {
   if (cakeCut) return;
 
   cakeCut = true;
-  cakeEmoji.textContent = '🎂🍰';
+  // R6: New animated multi-tier cake — apply cut animation class
+  cakeEmoji.classList.add('cut');
   getElement('cake-heading').textContent = 'Yay! Cake Cut Successfully! 🎉';
   getElement('cake-instruction').textContent = 'Wish saved in our hearts forever!';
 
@@ -204,8 +279,12 @@ cakeEmoji.addEventListener('click', () => {
     const proposalSection = getElement('proposal-section');
     proposalSection.style.display = 'block';
     proposalSection.scrollIntoView({ behavior: 'smooth' });
+    // No button starts inline (side-by-side with Yes) and only runs away on hover.
+
   }, 1200);
+
 });
+
 
 function revealCouples() {
   const coupleSection = getElement('couple-section');
@@ -227,7 +306,31 @@ const btnYes = getElement('btn-yes');
 const btnNo = getElement('btn-no');
 const responseMsg = getElement('response-msg');
 
+// R10: Yes button is visible but locked. It only becomes active after the
+// user has interacted with the No button at least this many times
+// (hover-enter or click each count as one interaction).
+const NO_UNLOCK_THRESHOLD = 3;
+let noInteractionCount = 0;
+
+btnYes.disabled = true;
+
+function bumpNoInteraction() {
+  if (!btnYes.disabled) return; // already unlocked
+  noInteractionCount += 1;
+  if (noInteractionCount >= NO_UNLOCK_THRESHOLD) {
+    btnYes.disabled = false;
+  }
+}
+
+
+// Count each mouseenter and each click on No as an interaction.
+btnNo.addEventListener('mouseenter', bumpNoInteraction);
+btnNo.addEventListener('click', bumpNoInteraction);
+btnNo.addEventListener('touchstart', bumpNoInteraction);
+
 btnYes.addEventListener('click', () => {
+  if (btnYes.disabled) return;
+
   responseMsg.textContent = 'I knew it! Forever & Always! ❤️✨';
   triggerConfetti();
 
@@ -235,7 +338,7 @@ btnYes.addEventListener('click', () => {
   const timerHeader = getElement('timer-header');
   const timerBottom = getElement('timer-bottom');
   const timelineSection = getElement('timeline-section');
-  
+
   timerHeader.style.display = 'block';
   timerBottom.style.display = 'block';
   timelineSection.style.display = 'block';
@@ -245,16 +348,108 @@ btnYes.addEventListener('click', () => {
   }, 500);
 });
 
-// Make "No" button run away.
+// R7: Make "No" button truly run away — teleport far across viewport.
 btnNo.addEventListener('mouseover', moveNoButton);
+btnNo.addEventListener('mousemove', moveNoButton);
 btnNo.addEventListener('touchstart', moveNoButton);
+btnNo.addEventListener('focus', moveNoButton);
 
-function moveNoButton() {
-  const x = Math.random() * 260 - 130;
-  const y = Math.random() * 120 - 60;
+// R7: No button stays inline (side-by-side with Yes) until the user hovers it,
+// then switches to fixed positioning so it can teleport across the viewport.
+// This guarantees no overlap when it first appears.
 
-  btnNo.style.transform = `translate(${x}px, ${y}px)`;
+function ensureNoFixed() {
+  if (btnNo.style.position !== 'fixed') {
+    const rect = btnNo.getBoundingClientRect();
+    btnNo.style.position = 'fixed';
+    btnNo.style.zIndex = '5';
+    btnNo.style.left = `${rect.left}px`;
+    btnNo.style.top = `${rect.top}px`;
+    btnNo.style.margin = '0';
+  }
 }
+
+function rectsOverlap(a, bLeft, bTop, bW, bH) {
+  const pad = 12;
+  return !(
+    bLeft + bW + pad < a.left ||
+    bLeft > a.right + pad ||
+    bTop + bH + pad < a.top ||
+    bTop > a.bottom + pad
+  );
+}
+
+
+function moveNoButton(event) {
+  // Switch to fixed positioning on first interaction so we can teleport it.
+  ensureNoFixed();
+  const btnRect = btnNo.getBoundingClientRect();
+
+  const btnW = btnRect.width || 100;
+  const btnH = btnRect.height || 50;
+  const margin = 20;
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const yesRect = btnYes.getBoundingClientRect();
+
+  // Cursor position (fall back to button center)
+  const cx = event && event.clientX ? event.clientX : btnRect.left + btnW / 2;
+  const cy = event && event.clientY ? event.clientY : btnRect.top + btnH / 2;
+
+  // Try random spots — must be far from cursor AND not overlap the Yes button.
+  let bestLeft = margin;
+  let bestTop = margin;
+  let bestScore = -1;
+
+  for (let i = 0; i < 30; i += 1) {
+    const left = margin + Math.random() * (vw - btnW - margin * 2);
+    const top = margin + Math.random() * (vh - btnH - margin * 2);
+
+    // Skip candidates that overlap the Yes button.
+    if (rectsOverlap(yesRect, left, top, btnW, btnH)) continue;
+
+    const centerX = left + btnW / 2;
+    const centerY = top + btnH / 2;
+    const dx = centerX - cx;
+    const dy = centerY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist > bestScore) {
+      bestScore = dist;
+      bestLeft = left;
+      bestTop = top;
+    }
+  }
+
+  // Guarantee minimum distance from the cursor
+  const minDist = Math.min(vw, vh) * 0.45;
+  if (bestScore < minDist) {
+    // Force to a corner opposite the cursor; also avoid the Yes button.
+    const corners = [
+      { left: margin,               top: margin },
+      { left: vw - btnW - margin,   top: margin },
+      { left: margin,               top: vh - btnH - margin },
+      { left: vw - btnW - margin,   top: vh - btnH - margin },
+    ];
+    // Sort corners by distance from cursor (farthest first).
+    corners.sort((a, b) => {
+      const da = Math.hypot(a.left + btnW / 2 - cx, a.top + btnH / 2 - cy);
+      const db = Math.hypot(b.left + btnW / 2 - cx, b.top + btnH / 2 - cy);
+      return db - da;
+    });
+    // Pick the first corner that doesn't overlap Yes.
+    const safe = corners.find((c) => !rectsOverlap(yesRect, c.left, c.top, btnW, btnH)) || corners[0];
+    bestLeft = safe.left;
+    bestTop = safe.top;
+  }
+
+  btnNo.style.transform = 'none';
+  btnNo.style.left = `${bestLeft}px`;
+  btnNo.style.top = `${bestTop}px`;
+}
+
 
 /* ===================================================
    4. MAGAZINE TIMELINE CONTROLS

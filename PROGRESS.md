@@ -90,6 +90,16 @@ Real chronological events already written into `index.html`:
 | 2026-08-12 | Fixed CSS lint warning: added `-webkit-backdrop-filter` on `.login-overlay`. |
 | 2026-08-12 | Fixed TS "possibly null" errors on `ctx` inside `Particle.draw()` and `animateParticles()` by asserting `canvas.getContext('2d') as CanvasRenderingContext2D`. |
 | 2026-08-12 | Regenerated `app.js` to sync with `app.ts` (login gate was missing from compiled JS). |
+| 2026-08-13 | Implemented R3: Added "Happy Nth Anniversary my qtπ 🫶💖" line to the welcome overlay with heart-hands emoji, dynamically calculated ordinal year. |
+| 2026-08-13 | Implemented R4: Clear password input on wrong entry, track and display wrong attempt count, reveal a hint button after 3 wrong attempts that shows "You + me + year 💌". |
+| 2026-08-13 | Implemented R5: Updated `startDate` proposed date/time to `2016-01-11T11:45:00` so the live counter counts from Jan 11 2016 11:45. |
+| 2026-08-13 | Implemented R6: Replaced the single 🎂 emoji with a multi-tier animated cake (3 tiers, candle with flickering flame, sparkles, floating animation, drip decoration). Added a knife-emoji cursor while hovering the cake. Cake cut animation now slices the tiers on click. |
+| 2026-08-13 | Implemented R7: "No" button now teleports far across the viewport (fixed position, samples random points, guarantees minimum ~45% viewport distance from cursor, falls back to opposite corner) so it cannot land on the cursor. |
+| 2026-08-13 | Note: `app.ts` was not present in the repo; changes applied directly to `app.js`. If `app.ts` is added later, port these changes over. |
+| 2026-08-13 | Follow-up: `startDate` now uses explicit IST offset `2016-01-11T11:45:00+05:30` — a fixed UTC instant; each viewer's browser applies their local time zone automatically so the "Time Together" counter is correct worldwide. |
+| 2026-08-13 | Follow-up (cake cut): The right half of each cake tier no longer disappears. Each tier now has a `::before` slice piece that slides/rotates aside on cut, so the "cut slice" stays visible next to the cake. |
+
+
 
 ---
 
@@ -100,7 +110,8 @@ Real chronological events already written into `index.html`:
 3. **`getElement(id)` throws if missing.** Any new DOM id in JS must exist in `index.html`, or wrap in try/catch.
 4. **All sections are pre-rendered in HTML**, then `display:none / block / flex` toggled via JS. Follow the same pattern for new sections.
 5. **Password is hardcoded** in `app.ts` (`LOGIN_PASSWORD`). Not secure — client-side only. Do not treat as real auth.
-6. **Anniversary date** is hardcoded: `new Date('2016-01-11T14:30:00')`.
+6. **Anniversary date** is hardcoded: `new Date('2016-01-11T11:45:00')` (proposed date/time).
+
 7. **Keep the tone** — romantic, celebratory, warm. Colors: pink / gold / purple gradient.
 
 ---

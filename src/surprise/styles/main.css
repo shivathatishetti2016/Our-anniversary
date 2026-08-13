@@ -184,6 +184,221 @@ body {
   transition: opacity 0.3s ease;
 }
 
+.qtpi-line {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  color: var(--text-gold);
+  margin: -6px 0 20px 0;
+  text-shadow: 0 2px 12px rgba(255, 183, 3, 0.4);
+  animation: bob 2.2s ease-in-out infinite;
+}
+
+/* ===== Animated Multi-tier Cake ===== */
+.cake-stage {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 20px auto 10px;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><text x='2' y='30' font-size='30'>🔪</text></svg>") 4 28, crosshair;
+  user-select: none;
+  perspective: 800px;
+}
+
+.cake-3d {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  transform-style: preserve-3d;
+  animation: cakeFloat 3.6s ease-in-out infinite;
+}
+
+.cake-tier {
+  position: relative;
+  margin: 0 auto;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* .tier-fill = the main cake body (left/remaining chunk after cut) */
+/* .tier-slice = the separate slice that moves aside after cutting  */
+.tier-fill,
+.tier-slice {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px 12px 6px 6px;
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.15), 0 8px 18px rgba(0, 0, 0, 0.35);
+  transition: clip-path 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: left center;
+}
+
+.tier-bottom {
+  width: 200px;
+  height: 60px;
+}
+.tier-mid {
+  width: 150px;
+  height: 50px;
+  margin-top: -6px;
+}
+.tier-top {
+  width: 100px;
+  height: 42px;
+  margin-top: -6px;
+}
+
+.tier-bottom .tier-fill,
+.tier-bottom .tier-slice {
+  background: linear-gradient(180deg, #ffb8d1 0%, #ff6f9c 60%, #d63f74 100%);
+}
+.tier-mid .tier-fill,
+.tier-mid .tier-slice {
+  background: linear-gradient(180deg, #fff1c1 0%, #ffd166 60%, #d99a2b 100%);
+}
+.tier-top .tier-fill,
+.tier-top .tier-slice {
+  background: linear-gradient(180deg, #e9c9ff 0%, #c77dff 60%, #8e44d8 100%);
+}
+
+.cake-plate {
+  width: 240px;
+  height: 14px;
+  background: radial-gradient(ellipse at center, #f7d070 0%, #a67c1a 100%);
+  border-radius: 50%;
+  margin: -4px auto 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.cake-drip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(180deg, #ffd166 0%, transparent 100%);
+  clip-path: polygon(0 0, 8% 100%, 16% 0, 24% 90%, 32% 0, 40% 100%, 48% 0, 56% 90%, 64% 0, 72% 100%, 80% 0, 88% 90%, 100% 0);
+}
+
+.cake-decor {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+}
+
+.candle {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 26px;
+  background: linear-gradient(180deg, #fff 0%, #ffe4ec 50%, #ff9ec1 100%);
+  border-radius: 2px;
+}
+
+.flame {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 18px;
+  background: radial-gradient(circle at 50% 70%, #fff2a1 0%, #ffb703 40%, #ff4d6d 90%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  filter: drop-shadow(0 0 8px rgba(255, 183, 3, 0.9));
+  animation: flicker 0.35s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+}
+
+.cake-sparkle {
+  position: absolute;
+  font-size: 1.4rem;
+  animation: sparkle 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sparkle-1 { top: 10%; left: 12%; animation-delay: 0s; }
+.sparkle-2 { top: 20%; right: 10%; animation-delay: 0.6s; font-size: 1.8rem; }
+.sparkle-3 { bottom: 20%; right: 18%; animation-delay: 1.2s; }
+
+/* Cake cut state */
+.cake-stage.cut .cake-3d {
+  animation: cakeCut 0.6s ease-out forwards;
+}
+
+.cake-stage.cut .flame {
+  animation: flameOut 0.4s ease-out forwards;
+}
+
+/* Cut: split each tier into a REMAINING piece (larger left+right chunk with
+   a triangular wedge removed) and a SLICE (the wedge itself), which then
+   slides + rotates aside onto the plate so both pieces stay visible. */
+
+/* Wedge cut out of the main body: apex at bottom-center, top edges 42%..58%. */
+.cake-stage.cut .tier-fill {
+  clip-path: polygon(
+    0    0,
+    42%  0,
+    50%  100%,
+    58%  0,
+    100% 0,
+    100% 100%,
+    0    100%
+  );
+}
+
+/* The slice piece: the wedge triangle */
+.cake-stage.cut .tier-slice {
+  clip-path: polygon(42% 0, 58% 0, 50% 100%);
+}
+
+/* Each tier's slice slides out to the right by a different amount and tilts. */
+.cake-stage.cut .tier-bottom .tier-slice {
+  transform: translate(130px, 20px) rotate(18deg);
+}
+.cake-stage.cut .tier-mid .tier-slice {
+  transform: translate(100px, 14px) rotate(14deg);
+}
+.cake-stage.cut .tier-top .tier-slice {
+  transform: translate(75px, 8px) rotate(10deg);
+}
+
+/* Idle (uncut) state: hide the slice so we don't see duplicates. */
+.tier-slice {
+  clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+@keyframes cakeFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-8px); }
+}
+
+@keyframes flicker {
+  0%   { transform: translateX(-50%) scale(1) rotate(-2deg); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1.15) rotate(2deg); opacity: 0.85; }
+}
+
+@keyframes flameOut {
+  0%   { transform: translateX(-50%) scale(1); opacity: 1; }
+  100% { transform: translateX(-50%) scale(0); opacity: 0; }
+}
+
+@keyframes cakeCut {
+  0%   { transform: translateX(-50%) rotate(0); }
+  40%  { transform: translateX(-52%) rotate(-3deg); }
+  100% { transform: translateX(-50%) rotate(0); }
+}
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(0.6) rotate(0); opacity: 0.4; }
+  50%      { transform: scale(1.2) rotate(20deg); opacity: 1; }
+}
+
 /* Ambient Particle Canvas */
 #bg-canvas {
   position: fixed;
@@ -333,20 +548,8 @@ textarea:focus {
 /* Cake Animation */
 .cake-container {
   display: none;
-  cursor: pointer;
   margin: 20px auto;
   user-select: none;
-}
-
-.cake-icon {
-  font-size: 6rem;
-  display: inline-block;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  filter: drop-shadow(0 10px 20px rgba(255, 183, 3, 0.3));
-}
-
-.cake-icon:hover {
-  transform: scale(1.15) rotate(5deg);
 }
 
 .cake-instruction {

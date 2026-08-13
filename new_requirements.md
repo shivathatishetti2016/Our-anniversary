@@ -45,13 +45,27 @@ The user does **not** need to specify files, selectors, or code locations. The a
 
 <!-- Newest at the top. -->
 
-### R3: _(placeholder — add your next requirement here)_
-- **What:**
-<!-- delete this whole R3 block if you don't have a third item yet -->
+_(No active requirements — add new ones here.)_
 
 ---
 
 ## Done / Archived
+
+### R7: "No" button runs far away (Shipped: 2026-08-13)
+- **What:** The "No" proposal button now teleports to a spot at least ~45% of the viewport away from the cursor (or the opposite corner) so it can never land under the pointer.
+
+### R6: New animated multi-tier cake with knife cursor (Shipped: 2026-08-13)
+- **What:** Replaced the single 🎂 emoji with a CSS-animated 3-tier cake (candle + flickering flame + sparkles + floating motion). Cursor becomes a knife emoji while over the cake, and the cake visibly "cuts" on click.
+
+### R5: Proposed date/time updated (Shipped: 2026-08-13)
+- **What:** Live counter now counts from Jan 11 2016 11:45 (`startDate = new Date('2016-01-11T11:45:00')`).
+
+### R4: Clear password + wrong-attempt counter + hint (Shipped: 2026-08-13)
+- **What:** Wrong password now clears the input, shows a running wrong-attempts count, and after 3 wrong attempts reveals a "💡 Show Hint" button that displays "You + me + year 💌".
+
+### R3: "Happy Nth Anniversary my qtπ" line (Shipped: 2026-08-13)
+- **What:** The post-login welcome overlay now shows a sweet second line "Happy Nth Anniversary my qtπ 🫶💖" (heart-hands emoji), with N auto-calculated.
+
 
 <!-- Completed items will be moved here (with date) once shipped. -->
 

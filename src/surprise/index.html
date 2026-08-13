@@ -31,6 +31,9 @@
       <div class="login-feedback" id="login-feedback" aria-live="polite">
         <div class="login-emoji-state" id="login-emoji-state">🔒</div>
         <p id="login-message">Please enter the password to continue.</p>
+        <p class="login-attempts" id="login-attempts" style="display: none; margin-top: 8px; color: #ffb4b4; font-size: 0.95rem;"></p>
+        <button type="button" class="btn btn-small login-hint-btn" id="login-hint-btn" style="display: none; margin-top: 10px;">💡 Show Hint</button>
+        <p class="login-hint" id="login-hint" style="display: none; margin-top: 10px; color: var(--text-gold); font-style: italic;">Hint: You + me + year 💌</p>
       </div>
     </div>
   </div>
@@ -45,6 +48,7 @@
       <p class="login-kicker">Congratulations!</p>
       <p class="sub-title">You successfully logged in to my heart 💖<br>Welcome to my heart!</p>
       <h1 class="script-title welcome-title" id="welcome-anniversary-title">Happy 11th Anniversary</h1>
+      <p class="qtpi-line" id="welcome-qtpi-line">Happy 11th Anniversary my qtπ 🤲💖</p>
       <button class="btn welcome-btn" id="welcome-go-btn">Go Ahead →</button>
     </div>
   </div>
@@ -105,7 +109,31 @@
 
       <div class="cake-container" id="cake-section">
         <h2 class="sub-title" id="cake-heading">Tap the Cake to Cut It! 🔪🎂</h2>
-        <div class="cake-icon" id="cake-emoji">🎂</div>
+        <div class="cake-stage" id="cake-emoji">
+          <div class="cake-3d">
+            <div class="cake-tier tier-top">
+              <div class="tier-fill"></div>
+              <div class="tier-slice"></div>
+              <div class="candle">
+                <div class="flame"></div>
+              </div>
+            </div>
+            <div class="cake-tier tier-mid">
+              <div class="tier-fill"></div>
+              <div class="tier-slice"></div>
+              <div class="cake-drip"></div>
+            </div>
+            <div class="cake-tier tier-bottom">
+              <div class="tier-fill"></div>
+              <div class="tier-slice"></div>
+              <div class="cake-decor">🌹 ❤️ 🌹</div>
+            </div>
+            <div class="cake-plate"></div>
+          </div>
+          <div class="cake-sparkle sparkle-1">✨</div>
+          <div class="cake-sparkle sparkle-2">💖</div>
+          <div class="cake-sparkle sparkle-3">✨</div>
+        </div>
         <p class="cake-instruction" id="cake-instruction">Click to celebrate our special day!</p>
       </div>
 
