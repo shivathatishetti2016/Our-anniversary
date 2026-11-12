@@ -81,7 +81,13 @@
             />
           </div>
         </div>
-        <button type="button" class="btn try-again-btn" id="bubu-try-again-btn">TRY AGAIN</button>
+        <div class="try-again-prompt" id="try-again-prompt" style="display: none;" aria-hidden="true">
+          <span class="think-dot think-dot-1"></span>
+          <span class="think-dot think-dot-2"></span>
+          <span class="think-dot think-dot-3"></span>
+          <p class="try-again-note">dudu is telling you to try again 🥺💌</p>
+          <button type="button" class="btn try-again-btn" id="bubu-try-again-btn">Try Again</button>
+        </div>
       </div>
 
       <div class="login-feedback" id="login-feedback" aria-live="polite">
@@ -118,10 +124,10 @@
         <span class="emoji-bounce" style="animation-delay: 0.45s;">🎉</span>
         <span class="emoji-bounce" style="animation-delay: 0.6s;">🎀</span>
       </div>
-      <p class="wish-popup-kicker">A Little Moment Just For Us</p>
-      <h1 class="script-title wish-popup-title">Make a Wish, My Love ✨</h1>
-      <p class="wish-popup-line">I hope every single one of your beautiful wishes comes true 💖</p>
-      <p class="wish-popup-sub">May this moment bring you more happiness, more love, and more of us — always.</p>
+      <p class="wish-popup-kicker">Your Wish Is Safe In Our Hearts</p>
+      <h1 class="script-title wish-popup-title">I Hope Every Single One Of Your Beautiful Wishes Comes True 💖</h1>
+      <p class="wish-popup-line">May this moment bring you more happiness, more love, and more of us — always.</p>
+      <p class="wish-popup-sub">Now let the celebration continue, my love ✨</p>
       <button class="btn welcome-btn" id="wish-popup-go-btn">Go Ahead →</button>
     </div>
   </div>
@@ -185,6 +191,16 @@
           <span class="timer-number" id="seconds">0</span>
           <span class="timer-label">Seconds</span>
         </div>
+      </div>
+
+      <div class="timer-detail-line" id="timer-detail-line">
+        <span class="timer-detail-pill"><strong id="detail-years">0</strong> <span id="detail-years-label">years</span></span>
+        <span class="timer-detail-pill"><strong id="detail-months">0</strong> <span id="detail-months-label">months</span></span>
+        <span class="timer-detail-pill"><strong id="detail-weeks">0</strong> <span id="detail-weeks-label">weeks</span></span>
+        <span class="timer-detail-pill"><strong id="detail-days">0</strong> <span id="detail-days-label">days</span></span>
+        <span class="timer-detail-pill"><strong id="detail-hours">0</strong> <span id="detail-hours-label">hours</span></span>
+        <span class="timer-detail-pill"><strong id="detail-minutes">0</strong> <span id="detail-minutes-label">minutes</span></span>
+        <span class="timer-detail-pill"><strong id="detail-seconds">0</strong> <span id="detail-seconds-label">seconds</span></span>
       </div>
     </header>
 
@@ -448,6 +464,16 @@
           <span class="timer-number" id="seconds-bottom">0</span>
           <span class="timer-label">Seconds</span>
         </div>
+      </div>
+
+      <div class="timer-detail-line timer-detail-line-bottom" id="timer-detail-line-bottom">
+        <span class="timer-detail-pill"><strong id="detail-years-bottom">0</strong> <span id="detail-years-bottom-label">years</span></span>
+        <span class="timer-detail-pill"><strong id="detail-months-bottom">0</strong> <span id="detail-months-bottom-label">months</span></span>
+        <span class="timer-detail-pill"><strong id="detail-weeks-bottom">0</strong> <span id="detail-weeks-bottom-label">weeks</span></span>
+        <span class="timer-detail-pill"><strong id="detail-days-bottom">0</strong> <span id="detail-days-bottom-label">days</span></span>
+        <span class="timer-detail-pill"><strong id="detail-hours-bottom">0</strong> <span id="detail-hours-bottom-label">hours</span></span>
+        <span class="timer-detail-pill"><strong id="detail-minutes-bottom">0</strong> <span id="detail-minutes-bottom-label">minutes</span></span>
+        <span class="timer-detail-pill"><strong id="detail-seconds-bottom">0</strong> <span id="detail-seconds-bottom-label">seconds</span></span>
       </div>
     </div>
   </div>

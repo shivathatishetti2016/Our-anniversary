@@ -30,6 +30,7 @@ const getElement = (id) => {
    1. LIVE COUNTER LOGIC
    =================================================== */
 function updateCounter() {
+  const pluralize = (value, singular, plural) => (value === 1 ? singular : plural);
   const now = new Date();
   const diffMs = now.getTime() - startDate.getTime();
 
@@ -56,6 +57,79 @@ function updateCounter() {
   getElement('hours-bottom').textContent = String(hours);
   getElement('minutes-bottom').textContent = String(minutes);
   getElement('seconds-bottom').textContent = String(seconds);
+
+  // Detailed line below the top timer: years, months, weeks, days, hours,
+  // minutes, seconds. We compute years/months in a calendar-aware way, then
+  // split the remaining duration into weeks/days/time.
+  const cursor = new Date(startDate.getTime());
+  let detailedYears = 0;
+  let detailedMonths = 0;
+
+  while (true) {
+    const next = new Date(cursor);
+    next.setFullYear(next.getFullYear() + 1);
+    if (next <= now) {
+      detailedYears += 1;
+      cursor.setFullYear(cursor.getFullYear() + 1);
+    } else {
+      break;
+    }
+  }
+
+  while (true) {
+    const next = new Date(cursor);
+    next.setMonth(next.getMonth() + 1);
+    if (next <= now) {
+      detailedMonths += 1;
+      cursor.setMonth(cursor.getMonth() + 1);
+    } else {
+      break;
+    }
+  }
+
+  const remainingAfterMonthsMs = now.getTime() - cursor.getTime();
+  const remainingAfterMonthsSeconds = Math.floor(remainingAfterMonthsMs / 1000);
+  const remainingAfterMonthsMinutes = Math.floor(remainingAfterMonthsSeconds / 60);
+  const remainingAfterMonthsHours = Math.floor(remainingAfterMonthsMinutes / 60);
+  const remainingAfterMonthsDays = Math.floor(remainingAfterMonthsHours / 24);
+
+  const detailedWeeks = Math.floor(remainingAfterMonthsDays / 7);
+  const detailedDays = remainingAfterMonthsDays % 7;
+  const detailedHours = remainingAfterMonthsHours % 24;
+  const detailedMinutes = remainingAfterMonthsMinutes % 60;
+  const detailedSeconds = remainingAfterMonthsSeconds % 60;
+
+  getElement('detail-years').textContent = String(detailedYears);
+  getElement('detail-months').textContent = String(detailedMonths);
+  getElement('detail-weeks').textContent = String(detailedWeeks);
+  getElement('detail-days').textContent = String(detailedDays);
+  getElement('detail-hours').textContent = String(detailedHours);
+  getElement('detail-minutes').textContent = String(detailedMinutes);
+  getElement('detail-seconds').textContent = String(detailedSeconds);
+
+  getElement('detail-years-bottom').textContent = String(detailedYears);
+  getElement('detail-months-bottom').textContent = String(detailedMonths);
+  getElement('detail-weeks-bottom').textContent = String(detailedWeeks);
+  getElement('detail-days-bottom').textContent = String(detailedDays);
+  getElement('detail-hours-bottom').textContent = String(detailedHours);
+  getElement('detail-minutes-bottom').textContent = String(detailedMinutes);
+  getElement('detail-seconds-bottom').textContent = String(detailedSeconds);
+
+  getElement('detail-years-label').textContent = pluralize(detailedYears, 'year', 'years');
+  getElement('detail-months-label').textContent = pluralize(detailedMonths, 'month', 'months');
+  getElement('detail-weeks-label').textContent = pluralize(detailedWeeks, 'week', 'weeks');
+  getElement('detail-days-label').textContent = pluralize(detailedDays, 'day', 'days');
+  getElement('detail-hours-label').textContent = pluralize(detailedHours, 'hour', 'hours');
+  getElement('detail-minutes-label').textContent = pluralize(detailedMinutes, 'minute', 'minutes');
+  getElement('detail-seconds-label').textContent = pluralize(detailedSeconds, 'second', 'seconds');
+
+  getElement('detail-years-bottom-label').textContent = pluralize(detailedYears, 'year', 'years');
+  getElement('detail-months-bottom-label').textContent = pluralize(detailedMonths, 'month', 'months');
+  getElement('detail-weeks-bottom-label').textContent = pluralize(detailedWeeks, 'week', 'weeks');
+  getElement('detail-days-bottom-label').textContent = pluralize(detailedDays, 'day', 'days');
+  getElement('detail-hours-bottom-label').textContent = pluralize(detailedHours, 'hour', 'hours');
+  getElement('detail-minutes-bottom-label').textContent = pluralize(detailedMinutes, 'minute', 'minutes');
+  getElement('detail-seconds-bottom-label').textContent = pluralize(detailedSeconds, 'second', 'seconds');
 }
 
 setInterval(updateCounter, 1000);
@@ -135,8 +209,10 @@ const loginHintEl = getElement('login-hint');
 // R2: Bubu wrong-password scene elements
 const bubuScene = getElement('bubu-scene');
 const bubuTryAgainBtn = getElement('bubu-try-again-btn');
+const tryAgainPrompt = getElement('try-again-prompt');
 
 let wrongAttempts = 0;
+let tryAgainRevealTimer = null;
 
 // R2: Show the Bubu-peeks-from-house animation on wrong password, hiding
 // the form/feedback until the user clicks "Try Again".
@@ -163,10 +239,34 @@ function showBubuScene() {
   loginForm.style.display = 'none';
   loginFeedback.style.display = 'none';
   bubuScene.style.display = 'block';
+  tryAgainPrompt.style.display = 'none';
+  tryAgainPrompt.classList.remove('visible');
+
+  if (tryAgainRevealTimer) {
+    clearTimeout(tryAgainRevealTimer);
+    tryAgainRevealTimer = null;
+  }
+
   restartBubuAnimations();
+
+  // Let Bubu come out first, then reveal the cute speech-bubble CTA.
+  tryAgainRevealTimer = setTimeout(() => {
+    tryAgainPrompt.style.display = 'block';
+    // Force reflow so the fade/slide-in plays every time.
+    // eslint-disable-next-line no-unused-expressions
+    tryAgainPrompt.offsetWidth;
+    tryAgainPrompt.classList.add('visible');
+  }, 1500);
 }
 
 function hideBubuScene() {
+  if (tryAgainRevealTimer) {
+    clearTimeout(tryAgainRevealTimer);
+    tryAgainRevealTimer = null;
+  }
+
+  tryAgainPrompt.classList.remove('visible');
+  tryAgainPrompt.style.display = 'none';
   bubuScene.style.display = 'none';
   loginForm.style.display = 'flex';
   loginFeedback.style.display = 'block';
@@ -332,13 +432,15 @@ function setupWelcomePage() {
     getElement('timer-header').style.display = 'block';
     getElement('cake-section').style.display = 'block';
     getElement('cake-emoji').classList.remove('gift-revealed', 'assembling', 'cut');
+    cakeCut = false;
+    cakeReadyToCut = false;
 
     const giftBoxWrapEl = getElement('gift-box-wrap');
     const cakeHeadingEl = getElement('cake-heading');
     const cakeInstructionEl = getElement('cake-instruction');
     giftBoxWrapEl.classList.remove('opened');
     giftBoxWrapEl.classList.add('locked-gift');
-    cakeHeadingEl.textContent = 'Open the Gift to Reveal Something special 🎁🎂';
+    cakeHeadingEl.textContent = 'Open the Gift to Reveal Your Cake 🎁🎂';
     cakeInstructionEl.textContent = 'Pop all the balloons first, then open the gift to see the magic ✨';
 
     wishPopupOverlay.classList.add('hidden');
@@ -382,9 +484,11 @@ wishInput.addEventListener('input', () => {
 
 let cakeCut = false;
 let giftOpened = false;
+let cakeReadyToCut = false;
 
 cakeEmoji.addEventListener('click', () => {
   if (!giftOpened) return;
+  if (!cakeReadyToCut) return;
   if (cakeCut) return;
 
   cakeCut = true;
@@ -431,6 +535,7 @@ giftBoxWrap.addEventListener('click', () => {
   cakeEmoji.classList.add('assembling');
   setTimeout(() => {
     cakeEmoji.classList.remove('assembling');
+    cakeReadyToCut = true;
   }, 3800);
 });
 
