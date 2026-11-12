@@ -18,6 +18,33 @@
 
   <div class="login-overlay" id="login-overlay">
     <div class="glass-card login-card">
+      <!-- R3: Cute couple bears in party hats inside a heart-shaped frame
+           with a gift ribbon bow and cartoon-building background -->
+      <div class="couple-heart-frame" aria-hidden="true">
+        <!-- Scalloped lacy border around the heart -->
+        <div class="heart-scallop"></div>
+        <div class="heart-shape">
+          <!-- Cartoon buildings scene BEHIND the couple image -->
+          <div class="city-scene">
+            <span class="city-emoji cloud-1">☁️</span>
+            <span class="city-emoji cloud-2">☁️</span>
+            <span class="city-emoji building b1">🏢</span>
+            <span class="city-emoji building b2">🏘️</span>
+            <span class="city-emoji building b3">🏬</span>
+          </div>
+
+          <!-- Real Bubu + Dudu heart-frame image (from src/surprise/images/). -->
+          <img
+            class="couple-img"
+            src="images/bubu_dudu_heart_image.webp"
+            alt="Bubu and Dudu couple"
+            onerror="this.classList.add('img-missing'); this.alt='Image missing: images/bubu_dudu_heart_image.webp'"
+          />
+        </div>
+        <!-- Red ribbon bow on top-right corner -->
+        <span class="gift-bow">🎀</span>
+      </div>
+
       <p class="login-kicker">Protected Surprise</p>
       <h1 class="script-title login-title">Enter the Password</h1>
       <p class="sub-title">Only the right password opens the celebration.</p>
@@ -27,6 +54,35 @@
         <input id="password-input" type="password" autocomplete="current-password" placeholder="Enter password" />
         <button class="btn login-btn" type="submit">Unlock Surprise ✨</button>
       </form>
+
+      <!-- R2: Wrong-password Dudu scene — hidden by default, shown on wrong entry -->
+      <div class="bubu-scene" id="bubu-scene" style="display: none;" aria-hidden="true">
+        <h2 class="wrong-passcode-title">WRONG PASSCODE</h2>
+        <div class="dudu-door-stage">
+          <!-- The door frame (wood). The door leaf swings open to the right
+               and FULL Bubu steps out on the left so he's entirely visible. -->
+          <div class="dudu-door-frame">
+            <div class="dudu-door-leaf-v">
+              <div class="dudu-door-panel"></div>
+              <div class="dudu-door-panel"></div>
+              <div class="dudu-door-knob"></div>
+            </div>
+          </div>
+
+          <!-- Real angry Dudu image (from src/surprise/images/). The CSS
+               `.dudu-peek-side` wrapper slides it out of the door and
+               shakes "no" even if the image itself is static. -->
+          <div class="dudu-peek-side">
+            <img
+              class="angry-img"
+              src="images/angry_dudu.jpg"
+              alt="Angry Dudu shaking head"
+              onerror="this.classList.add('img-missing'); this.alt='Image missing: images/angry_dudu.jpg'"
+            />
+          </div>
+        </div>
+        <button type="button" class="btn try-again-btn" id="bubu-try-again-btn">TRY AGAIN</button>
+      </div>
 
       <div class="login-feedback" id="login-feedback" aria-live="polite">
         <div class="login-emoji-state" id="login-emoji-state">🔒</div>
@@ -67,6 +123,32 @@
   </div>
 
   <div class="container">
+    <!-- Fixed celebration banner shown across the main app experience.
+         It stays pinned near the top while the user scrolls. -->
+    <div class="anniversary-bunting" id="anniversary-bunting" aria-hidden="true">
+      <div class="bunting-rope bunting-rope-left"></div>
+      <div class="bunting-rope bunting-rope-right"></div>
+      <div class="bunting-letters">
+        <span class="flag flag-h">H</span>
+        <span class="flag flag-a">A</span>
+        <span class="flag flag-p1">P</span>
+        <span class="flag flag-p2">P</span>
+        <span class="flag flag-y">Y</span>
+        <span class="flag flag-gap">&nbsp;</span>
+        <span class="flag flag-a2">A</span>
+        <span class="flag flag-n">N</span>
+        <span class="flag flag-n2">N</span>
+        <span class="flag flag-i">I</span>
+        <span class="flag flag-v">V</span>
+        <span class="flag flag-e">E</span>
+        <span class="flag flag-r">R</span>
+        <span class="flag flag-s">S</span>
+        <span class="flag flag-a3">A</span>
+        <span class="flag flag-r2">R</span>
+        <span class="flag flag-y2">Y</span>
+      </div>
+    </div>
+
     <!-- HEADER & LIVE COUNTER SECTION -->
     <header class="glass-card" id="timer-header" style="display: none;">
       <h1 class="script-title">Happy Anniversary</h1>
@@ -99,7 +181,11 @@
     <!-- SECRET WISH & CAKE CUTTING SECTION -->
     <section class="glass-card" id="wish-card">
       <div id="wish-section">
-        <h2 class="sub-title">Make a Secret Anniversary Wish 🌟</h2>
+        <div class="wish-decor wish-decor-left" aria-hidden="true">✨💖</div>
+        <div class="wish-decor wish-decor-right" aria-hidden="true">💫🌸</div>
+        <p class="wish-kicker">A Magical Moment Just For Us</p>
+        <h2 class="sub-title wish-title">Make a Secret Anniversary Wish 🌟</h2>
+        <p class="wish-intro">Close your eyes for a second, think about us, and write the sweetest little wish from your heart. This moment should feel like a celebration of our love. 💌</p>
         <div class="wish-input-group">
           <textarea id="wish-input" placeholder="Type your heartfelt wish for us here..."></textarea>
           <p class="wish-warning" id="wish-warning" style="display: none; color: var(--primary); font-weight: 600; margin-top: -5px; margin-bottom: 5px; font-size: 0.95rem;"></p>
@@ -137,13 +223,15 @@
         <p class="cake-instruction" id="cake-instruction">Click to celebrate our special day!</p>
       </div>
 
-      <!-- COUPLE PORTRAITS -->
+      <!-- COUPLE IMAGE REVEAL AFTER CAKE CUT -->
       <div class="couple-showcase" id="couple-section">
-        <div class="avatar-card" id="bride-card">
-          <div class="avatar-frame">👰‍♀️</div>
-        </div>
-        <div class="avatar-card" id="groom-card">
-          <div class="avatar-frame">🕺</div>
+        <div class="couple-image-card" id="couple-image-card">
+          <img
+            class="couple-cut-image"
+            src="images/bubu_dudu_bride_groom_image.jpeg"
+            alt="Bubu Dudu bride and groom"
+            onerror="this.classList.add('img-missing'); this.alt='Image missing: images/bubu_dudu_bride_groom_image.jpeg'"
+          />
         </div>
       </div>
     </section>
@@ -172,9 +260,12 @@
           <h3 class="page-title">The Beginning of Our Journey</h3>
           <ul class="timeline-events">
             <li><strong>January 11, 2016:</strong> Our beautiful love story officially began in Madhya Pradesh.</li>
-            <li>We spent quality time together in the school classroom, where our love first blossomed.</li>
+            <li>We spent beautiful quality time together in the school classroom, where our love first started growing so softly and naturally.</li>
+            <li><strong>Temple Mountain Walk:</strong> I still remember that trip where we walked together around the temple mountain. That simple walk with you felt more special than any big outing.</li>
+            <li><strong>Weekend Calls:</strong> Our weekend calls slowly became a part of my happiness. Even hearing your voice for a little while used to make my whole day feel complete.</li>
+            <li><strong>One Sweet Little Moment:</strong> One day, I kissed you on the cheek, and that tiny moment became one of the cutest and most unforgettable memories of our early love.</li>
           </ul>
-          <span class="page-quote">"Where our story officially started in Madhya Pradesh..."</span>
+          <span class="page-quote">"A new chapter quietly began, and my whole world slowly started becoming you."</span>
         </div>
 
         <!-- Page 2: 2017 -->
@@ -184,7 +275,7 @@
           <ul class="timeline-events">
             <li><strong>Classroom Memories:</strong> We were placed in different sections for 10th class, but we looked forward to the evenings during classroom sweeping duties just to meet and talk.</li>
             <li><strong>Birthday Surprise:</strong> Even after completing my exams, I went back to school just to celebrate her birthday with her while she was still giving her exams.</li>
-            <li><strong>The Grand Proposal:</strong> Before finishing 10th class, right around the final exams, I proposed to her in front of the entire classroom.</li>
+            <li><strong>The Proposal I Can Never Forget:</strong> After interval, while everyone was going toward the biology lab, I stopped you, gave you a chocolate, and proposed to you. That moment is still one of the sweetest scenes in my life.</li>
             <li><strong>First Family Conversation:</strong> During final exams in 2017, I opened up to my father about our relationship. He was understanding and told me that once we both got settled in our futures, our families would happily accept our bond.</li>
             <li><strong>Summer 2017:</strong> During the summer break, Facebook Messenger was our only source of contact, and we spent hours messaging each other.</li>
           </ul>
@@ -233,52 +324,72 @@
           <h3 class="page-title">A Special Gift Across the Distance</h3>
           <ul class="timeline-events">
             <li><strong>January 11, 2021 (Anniversary Surprise):</strong> While she was working in Hyderabad and I was at home, I sent her a surprise gift for our anniversary: a golden rose and a special locket that projects "I Love You" in 100 different languages.</li>
+            <li><strong>Sweet Video Calls:</strong> In 2021, we also had so many sweet video calls. Those calls gave us some of the most soft, beautiful, and comforting memories of that phase.</li>
+            <li><strong>The Start of Something More Beautiful:</strong> When I think about that year now, it feels like those video-call memories were the beginning of many new special things between us — deeper talks, sweeter understanding, and a more beautiful closeness.</li>
           </ul>
-          <span class="page-quote">"Expressing love in a hundred different languages."</span>
+          <span class="page-quote">"Even through a screen, your love still reached me so deeply."</span>
         </div>
 
         <!-- Page 7: 2022 -->
         <div class="magazine-page">
           <span class="year-badge">2022</span>
-          <h3 class="page-title">Surprises & Vikarabad Trip</h3>
+          <h3 class="page-title">Bachupally Days & Surprise Memories</h3>
           <ul class="timeline-events">
-            <li><strong>Vikarabad Trip:</strong> When her friends were going on a trip to Vikarabad, I showed up to surprise her, making another unforgettable trip together.</li>
-            <li><strong>Quality Weekend Time:</strong> By October 2022, we were meeting every weekend, celebrating our birthdays together, exchanging gifts, and enjoying continuous quality time.</li>
+            <li><strong>Vikarabad Surprise:</strong> I still smile when I remember how I came to surprise you on the Vikarabad trip. Seeing your reaction itself became one of my favorite memories.</li>
+            <li><strong>October 2022, Bachupally:</strong> We spent a small but very beautiful quality time together in Bachupally. It was not about a big event — it was just us, our talks, and the peace I always feel when I am with you.</li>
+            <li><strong>Weekend Happiness:</strong> Around that time, every small meeting, birthday plan, and little gift exchange made me feel like our love was growing more naturally and more beautifully.</li>
           </ul>
-          <span class="page-quote">"Surprise road trips and precious weekend escapes."</span>
+          <span class="page-quote">"Some memories are small in time, but huge in the heart."</span>
         </div>
 
-        <!-- Page 8: 2023 – 2024 -->
+        <!-- Page 8: 2023 -->
         <div class="magazine-page">
-          <span class="year-badge">2023 – 2024</span>
-          <h3 class="page-title">Internship, Father’s Blessing & US Departure</h3>
+          <span class="year-badge">2023</span>
+          <h3 class="page-title">Our ECIL Weekends & Rainy Memories</h3>
           <ul class="timeline-events">
-            <li><strong>2023 (Internship Days):</strong> I started my internship, giving us more private, quality time together. Weekend dates became our regular ritual.</li>
-            <li><strong>Late 2024 (US Visa & Dad's Approval):</strong> She received her US visa to pursue her Master’s (MS) in the United States. Before she left, I spoke to my father again about our relationship, and he fully accepted us.</li>
+            <li><strong>Every Weekend Felt Like a Festival:</strong> In 2023, meeting you almost every weekend became the best part of my life. I used to wait for those moments all week just to spend time with you.</li>
+            <li><strong>ECIL Quality Time:</strong> We spent a lot of beautiful quality time in ECIL. We visited many places together, roamed around, talked endlessly, and turned ordinary weekends into beautiful memories.</li>
+            <li><strong>Birla Mandir Rain Memory:</strong> One day when we went to Birla Mandir, we both got completely drenched in the rain. Even that became such a sweet memory because being with you made that moment feel magical instead of inconvenient.</li>
           </ul>
-          <span class="page-quote">"Stepping into big futures with parental blessings."</span>
+          <span class="page-quote">"With you, even rain felt like a beautiful blessing of love."</span>
         </div>
 
-        <!-- Page 9: 2025 -->
+        <!-- Page 9: 2024 -->
+        <div class="magazine-page">
+          <span class="year-badge">2024</span>
+          <h3 class="page-title">A Year of Hope, Stress & Sweet Comfort</h3>
+          <ul class="timeline-events">
+            <li><strong>Holding On To Us:</strong> In 2024, even while life was becoming serious and future plans were growing, what I remember most is how we still kept finding time for each other and holding on to our story with love.</li>
+            <li><strong>Your US Journey:</strong> This was also the phase when your path toward the US became real, and I kept feeling both proud of you and emotional because our story was stepping into a new chapter.</li>
+            <li><strong>December 2024:</strong> When my visa got rejected twice, it was a painful time for me. But one memory that still feels so special is our time at Waffle Cafe, where we met a person who instantly created a song based on our story. Even in that stressful phase, you turned my sadness into a sweet memory.</li>
+          </ul>
+          <span class="page-quote">"Even in my hardest moments, you somehow turned pain into a memory worth keeping."</span>
+        </div>
+
+        <!-- Page 10: 2025 -->
         <div class="magazine-page">
           <span class="year-badge">2025</span>
-          <h3 class="page-title">Oceans Apart & Mom’s Acceptance</h3>
+          <h3 class="page-title">Distance, Surprises & Your Letters</h3>
           <ul class="timeline-events">
-            <li><strong>US Long-Distance Phase:</strong> 2025 was our biggest long-distance challenge yet with the massive time zone gap. Despite the difficulty, our bond only grew stronger.</li>
-            <li><strong>Mom’s Blessing:</strong> During 2025, I shared our entire story with my mother, and she happily accepted our relationship as well.</li>
+            <li><strong>Long-Distance Again:</strong> 2025 reminded me how hard distance can be, especially with the huge time difference. But even across oceans, I never felt far from your love.</li>
+            <li><strong>Your Surprise Gifts:</strong> One of the most emotional memories of 2025 was when I received surprise gifts from you — a tripod and those beautiful letters. I still remember how I cried while reading them, because every word carried your love so deeply.</li>
+            <li><strong>Your Love Reached Me Anyway:</strong> Even when I could not hug you, your surprises, your words, and your care made me feel that you were right beside me.</li>
           </ul>
-          <span class="page-quote">"Bridging continents and oceans with unwavering trust."</span>
+          <span class="page-quote">"Your letters reached my heart before your hands could reach mine."</span>
         </div>
 
-        <!-- Page 10: 2026 -->
+        <!-- Page 11: 2026 -->
         <div class="magazine-page">
           <span class="year-badge">2026</span>
-          <h3 class="page-title">Reunion & Her Parents' Approval</h3>
+          <h3 class="page-title">Two Months of Beautiful Memories & Another Goodbye</h3>
           <ul class="timeline-events">
-            <li><strong>Return to India:</strong> She came back to India in 2026! We spent an incredible amount of quality time together, meeting every weekend.</li>
-            <li><strong>Her Parents Accept:</strong> During this phase, she spoke to her parents about our relationship, and they lovingly accepted our union. Both families are now fully supportive of our journey.</li>
+            <li><strong>You Came Back To India:</strong> In 2026, when you came back to India, we created so many more memories together. Those two months felt so full of happiness, peace, outings, and the kind of love I had missed for so long.</li>
+            <li><strong>Time With Family:</strong> In those two months, we went to your house, spent time with your family, and enjoyed beautiful outings together. On my birthday, when we went to my home, the happiness of that day still stays alive in my heart.</li>
+            <li><strong>A Beautiful Confession At Home:</strong> Two weeks before you went back to the US, you told your mother about our story. When she accepted us, I felt a kind of joy that words really cannot explain.</li>
+            <li><strong>Airport Goodbye:</strong> At the airport send-off, I cried a lot. Your parents saw me crying, and I felt shy, but that moment also showed how deeply I love you and how hard it is for me to let you go.</li>
+            <li><strong>Long-Distance Again:</strong> After all those precious memories together, you went back to the US, and once again we entered another long-distance phase — but this time with even more memories holding us together.</li>
           </ul>
-          <span class="page-quote">"Reunited at last, blessed by both families! ❤️"</span>
+          <span class="page-quote">"We lived a whole little lifetime in those two months, and then carried it back into distance."</span>
         </div>
       </div>
 

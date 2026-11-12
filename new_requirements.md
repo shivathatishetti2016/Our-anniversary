@@ -45,11 +45,20 @@ The user does **not** need to specify files, selectors, or code locations. The a
 
 <!-- Newest at the top. -->
 
-_(No active requirements — add new ones here.)_
+_(none)_
 
 ---
 
 ## Done / Archived
+
+### R1: Cake assembly animation (Shipped: 2026-11-12)
+- **What:** The cake no longer appears instantly on the "Tap the Cake" tile. Plate drops in first, then the bottom tier, mid tier, top tier, candle, and finally the flame lights up — layer by layer. After the sequence finishes, the ambient float + flame flicker resume.
+
+### R2: Wrong-password Bubu scene (Shipped: 2026-11-12)
+- **What:** Entering a wrong password now hides the form and plays a CSS mini-animation: a cute little house (roof, chimney, windows, grass, flowers) sits center-stage, the door swings open, and Bubu the bear's head peeks out partway (not fully) and shakes "no". A **Try Again 💌** button restores the password form.
+
+### R3: Login page couple-bears heart frame (Shipped: 2026-11-12)
+- **What:** Added a decorative heart-shaped frame above the login title containing two bear "Bubus" wearing party hats sitting side-by-side with a 💞 between them. The frame has cartoon buildings as the background scene and a 🎀 gift ribbon bow on the top-right corner.
 
 ### R7: "No" button runs far away (Shipped: 2026-08-13)
 - **What:** The "No" proposal button now teleports to a spot at least ~45% of the viewport away from the cursor (or the opposite corner) so it can never land under the pointer.

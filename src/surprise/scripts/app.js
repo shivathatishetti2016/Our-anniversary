@@ -74,7 +74,49 @@ const loginAttemptsEl = getElement('login-attempts');
 const loginHintBtn = getElement('login-hint-btn');
 const loginHintEl = getElement('login-hint');
 
+// R2: Bubu wrong-password scene elements
+const bubuScene = getElement('bubu-scene');
+const bubuTryAgainBtn = getElement('bubu-try-again-btn');
+
 let wrongAttempts = 0;
+
+// R2: Show the Bubu-peeks-from-house animation on wrong password, hiding
+// the form/feedback until the user clicks "Try Again".
+//
+// We keep the same DOM node across attempts (no cloning). To restart the
+// CSS animations each time, we wipe `animation` inline, force a reflow,
+// then clear the inline style so the stylesheet's animations run again.
+function restartBubuAnimations() {
+  const targets = bubuScene.querySelectorAll(
+    '.dudu-door-leaf-v, .dudu-peek-side, .dudu-peek-side .angry-img'
+  );
+  targets.forEach((el) => {
+    el.style.animation = 'none';
+  });
+  // Force reflow — reading offsetWidth flushes pending style changes.
+  // eslint-disable-next-line no-unused-expressions
+  bubuScene.offsetWidth;
+  targets.forEach((el) => {
+    el.style.animation = '';
+  });
+}
+
+function showBubuScene() {
+  loginForm.style.display = 'none';
+  loginFeedback.style.display = 'none';
+  bubuScene.style.display = 'block';
+  restartBubuAnimations();
+}
+
+function hideBubuScene() {
+  bubuScene.style.display = 'none';
+  loginForm.style.display = 'flex';
+  loginFeedback.style.display = 'block';
+  passwordInput.focus();
+}
+
+// Bind the Try Again button once — the node is reused across attempts.
+bubuTryAgainBtn.addEventListener('click', hideBubuScene);
 
 // R9: Persist the last successful login timestamp so we can skip the login
 // gate on reloads/re-visits within the configured window.
@@ -136,6 +178,9 @@ function setLoginState(isSuccess) {
   if (wrongAttempts >= 3) {
     loginHintBtn.style.display = 'inline-block';
   }
+
+  // R2: Play the Bubu-peeks-from-house animation on wrong entry.
+  showBubuScene();
 }
 
 loginForm.addEventListener('submit', (event) => {
@@ -229,6 +274,20 @@ function setupWelcomePage() {
       // Hide wish and show only cake section
       getElement('wish-section').style.display = 'none';
       getElement('cake-section').style.display = 'block';
+
+      // R1: Play the layer-by-layer cake assembly animation.
+      // Plate → bottom tier → mid tier → top tier → candle → flame light-up.
+      const cakeStage = getElement('cake-emoji');
+      cakeStage.classList.remove('assembling');
+      // Force reflow so the animation restarts if this fires again.
+      // eslint-disable-next-line no-unused-expressions
+      cakeStage.offsetWidth;
+      cakeStage.classList.add('assembling');
+      // Total duration ≈ 3.5s (last flame delay 3.0s + 0.5s). Remove the
+      // class afterwards so the default ambient float + flicker take over.
+      setTimeout(() => {
+        cakeStage.classList.remove('assembling');
+      }, 3800);
     }, 450);
   });
 }
@@ -288,14 +347,12 @@ cakeEmoji.addEventListener('click', () => {
 
 function revealCouples() {
   const coupleSection = getElement('couple-section');
-  const brideCard = getElement('bride-card');
-  const groomCard = getElement('groom-card');
+  const coupleImageCard = getElement('couple-image-card');
 
   coupleSection.style.display = 'flex';
 
   setTimeout(() => {
-    brideCard.classList.add('revealed');
-    groomCard.classList.add('revealed');
+    coupleImageCard.classList.add('revealed');
   }, 100);
 }
 

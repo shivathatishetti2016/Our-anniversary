@@ -418,6 +418,148 @@ body {
   z-index: 1;
 }
 
+/* ===================================================
+   Fixed Happy Anniversary bunting banner
+   =================================================== */
+.anniversary-bunting {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 760px);
+  height: 110px;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.bunting-rope {
+  position: absolute;
+  top: 8px;
+  height: 56px;
+  border-top: 3px solid rgba(247, 208, 112, 0.95);
+  border-radius: 50%;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35));
+}
+
+.bunting-rope-left {
+  left: 12px;
+  width: calc(50% - 24px);
+  border-right: none;
+  transform: rotate(-5deg);
+}
+
+.bunting-rope-right {
+  right: 12px;
+  width: calc(50% - 24px);
+  border-left: none;
+  transform: rotate(5deg);
+}
+
+.bunting-letters {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.flag {
+  position: relative;
+  width: 28px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.25);
+  background: linear-gradient(180deg, #ff6f91 0%, #c77dff 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.22);
+}
+
+.flag::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  background: rgba(247, 208, 112, 0.9);
+  transform: translateX(-50%);
+}
+
+.flag-gap {
+  width: 10px;
+  background: transparent;
+  box-shadow: none;
+  clip-path: none;
+}
+
+.flag-gap::before {
+  display: none;
+}
+
+/* Gentle curved hanging effect: each flag sits at a slightly different Y/angle */
+.flag-h   { transform: translateY(0px)  rotate(-8deg); }
+.flag-a   { transform: translateY(6px)  rotate(-6deg); }
+.flag-p1  { transform: translateY(10px) rotate(-4deg); }
+.flag-p2  { transform: translateY(13px) rotate(-2deg); }
+.flag-y   { transform: translateY(15px) rotate(0deg); }
+.flag-a2  { transform: translateY(15px) rotate(0deg); }
+.flag-n   { transform: translateY(13px) rotate(2deg); }
+.flag-n2  { transform: translateY(10px) rotate(4deg); }
+.flag-i   { transform: translateY(7px)  rotate(5deg); }
+.flag-v   { transform: translateY(5px)  rotate(4deg); }
+.flag-e   { transform: translateY(8px)  rotate(3deg); }
+.flag-r   { transform: translateY(11px) rotate(2deg); }
+.flag-s   { transform: translateY(13px) rotate(1deg); }
+.flag-a3  { transform: translateY(14px) rotate(-1deg); }
+.flag-r2  { transform: translateY(10px) rotate(-3deg); }
+.flag-y2  { transform: translateY(4px)  rotate(-6deg); }
+
+.flag:nth-child(odd):not(.flag-gap) {
+  background: linear-gradient(180deg, #ff4d6d 0%, #ffb703 100%);
+}
+
+.flag:nth-child(3n):not(.flag-gap) {
+  background: linear-gradient(180deg, #c77dff 0%, #8e44d8 100%);
+}
+
+@media (max-width: 600px) {
+  .anniversary-bunting {
+    width: min(96vw, 360px);
+    height: 96px;
+    top: 4px;
+  }
+
+  .bunting-rope {
+    height: 46px;
+  }
+
+  .bunting-letters {
+    gap: 2px;
+  }
+
+  .flag {
+    width: 18px;
+    height: 28px;
+    font-size: 0.62rem;
+  }
+
+  .flag-gap {
+    width: 6px;
+  }
+}
+
 /* Glassmorphism Card Style */
 .glass-card {
   background: var(--card-bg);
@@ -489,33 +631,148 @@ body {
   letter-spacing: 1.5px;
   color: #cccccc;
 }
+.wish-kicker {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.wish-title {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  text-shadow: 0 0 18px rgba(255, 183, 3, 0.25);
+}
+
+.wish-intro {
+  max-width: 720px;
+  margin: 0 auto 18px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #fdf0ff;
+}
+
+#wish-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255, 183, 3, 0.16), transparent 28%),
+    radial-gradient(circle at 80% 0%, rgba(199, 125, 255, 0.16), transparent 30%),
+    linear-gradient(145deg, rgba(30, 21, 53, 0.95), rgba(20, 13, 36, 0.92));
+  border: 1px solid rgba(247, 208, 112, 0.28);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+#wish-section {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+#wish-card::before,
+#wish-card::after {
+  content: '✦';
+  position: absolute;
+  font-size: 1.2rem;
+  color: rgba(247, 208, 112, 0.8);
+  animation: sparkle 2.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+#wish-card::before {
+  top: 20px;
+  left: 22px;
+}
+
+#wish-card::after {
+  bottom: 24px;
+  right: 24px;
+  animation-delay: 0.9s;
+}
+
+.wish-decor {
+  position: absolute;
+  font-size: 1.4rem;
+  opacity: 0.92;
+  pointer-events: none;
+  animation: bob 2.8s ease-in-out infinite;
+}
+
+.wish-decor-left {
+  top: 24px;
+  right: 28px;
+}
+
+.wish-decor-right {
+  bottom: 34px;
+  left: 28px;
+  animation-delay: 0.8s;
+}
+
 
 /* Interactive Wish & Cake Section */
 .wish-input-group {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  max-width: 500px;
+  gap: 12px;
+  width: min(100%, 650px);
+  max-width: 650px;
   margin: 0 auto;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
 }
 
 textarea {
+  display: block;
   width: 100%;
-  height: 100px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 15px;
-  color: #fff;
-  font-family: inherit;
+  height: 135px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 18px 20px;
   font-size: 1rem;
+  line-height: 1.6;
   resize: none;
-  outline: none;
+  background: linear-gradient(180deg, rgba(20, 10, 35, 0.72), rgba(36, 18, 62, 0.72));
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 10px 18px rgba(0,0,0,0.2);
+  font-family: inherit;
+  text-align: left;
+}
+
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.62);
 }
 
 textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 15px rgba(255, 77, 109, 0.4);
+  box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.16), 0 0 24px rgba(255, 77, 109, 0.28);
+}
+
+#wish-warning {
+  width: 100%;
+  text-align: left;
+  margin-top: 0 !important;
+  margin-bottom: 2px !important;
+  padding-left: 4px;
+}
+
+#save-wish-btn {
+  align-self: center;
+  min-width: 260px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.4px;
+  background: linear-gradient(135deg, #ff4d6d 0%, #ff8fab 35%, #ffb703 100%);
+  box-shadow: 0 14px 25px rgba(255, 77, 109, 0.28), 0 0 18px rgba(255, 183, 3, 0.18);
+}
+
+#save-wish-btn:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 18px 28px rgba(255, 77, 109, 0.34), 0 0 22px rgba(255, 183, 3, 0.24);
 }
 
 .btn {
@@ -564,6 +821,44 @@ textarea:focus {
   gap: 40px;
   margin-top: 30px;
   flex-wrap: wrap;
+}
+
+.couple-image-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--text-gold);
+  border-radius: 24px;
+  padding: 14px;
+  max-width: 360px;
+  width: min(100%, 360px);
+  opacity: 0;
+  transform: translateY(30px) scale(0.96);
+  transition: all 0.8s ease-out;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+}
+
+.couple-image-card.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.couple-cut-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.couple-cut-image.img-missing {
+  min-height: 220px;
+  border: 2px dashed rgba(255, 77, 109, 0.6);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 77, 109, 0.18) 0 10px,
+    rgba(199, 125, 255, 0.18) 10px 20px
+  );
 }
 
 .avatar-card {
@@ -647,7 +942,7 @@ textarea:focus {
 .magazine-wrapper {
   position: relative;
   width: 100%;
-  min-height: 520px;
+  min-height: 760px;
   perspective: 1000px;
   margin-top: 30px;
 }
@@ -671,7 +966,7 @@ textarea:focus {
   border: 1px solid rgba(247, 208, 112, 0.3);
   border-radius: 20px;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .magazine-page.active {
@@ -694,7 +989,7 @@ textarea:focus {
 
 .page-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
+  font-size: 1.65rem;
   color: var(--text-gold);
   margin-bottom: 15px;
 }
@@ -708,17 +1003,17 @@ textarea:focus {
 }
 
 .timeline-events li {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.45;
   color: #e2e8f0;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .page-quote {
   font-family: 'Great Vibes', cursive;
-  font-size: 1.8rem;
+  font-size: 1.55rem;
   color: var(--secondary);
-  margin-top: 10px;
+  margin-top: 6px;
 }
 
 /* Magazine Navigation */
@@ -753,8 +1048,65 @@ textarea:focus {
 }
 
 @media (max-width: 600px) {
+  .couple-heart-frame {
+    width: min(90vw, 300px);
+    height: min(80vw, 270px);
+  }
+
+  .heart-scallop {
+    width: 244px;
+    height: 208px;
+  }
+
+  .heart-shape {
+    width: 232px;
+    height: 198px;
+  }
+
+  .couple-img {
+    inset: 18px 6px 0 4px;
+    width: calc(100% - 10px);
+    height: calc(100% - 14px);
+    object-position: 48% 96%;
+  }
+
   .login-card {
     padding: 25px 18px;
+  }
+
+  .wish-title {
+    font-size: 1.55rem;
+  }
+
+  .wish-intro {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .wish-decor {
+    font-size: 1.05rem;
+  }
+
+  .wish-decor-left {
+    top: 18px;
+    right: 18px;
+  }
+
+  .wish-decor-right {
+    bottom: 24px;
+    left: 18px;
+  }
+
+  textarea {
+    height: 120px;
+    padding: 16px;
+  }
+
+  #save-wish-btn {
+    min-width: 220px;
+    font-size: 0.92rem;
+    padding: 13px 18px;
   }
 
   .script-title {
@@ -766,15 +1118,20 @@ textarea:focus {
   }
 
   .magazine-page {
-    padding: 25px 15px;
+    padding: 24px 14px;
   }
 
   .page-title {
-    font-size: 1.4rem;
+    font-size: 1.18rem;
   }
 
   .timeline-events li {
-    font-size: 0.88rem;
+    font-size: 0.8rem;
+    line-height: 1.34;
+  }
+
+  .page-quote {
+    font-size: 1.28rem;
   }
 }
 
@@ -795,3 +1152,1002 @@ textarea:focus {
   60% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
+
+/* ===================================================
+   R3: Couple-Bears Heart Frame (login page decoration)
+   =================================================== */
+.couple-heart-frame {
+  position: relative;
+  width: 340px;
+  height: 300px;
+  margin: 0 auto 20px;
+  animation: bob 3s ease-in-out infinite;
+}
+
+/* Lacy scalloped white border surrounding the heart (purely decorative) */
+.heart-scallop {
+  position: absolute;
+  width: 272px;
+  height: 232px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  clip-path: path('M130 220 C 26 142, 0 70, 45 32 C 78 8, 115 25, 130 58 C 145 25, 182 8, 215 32 C 260 70, 234 142, 130 220 Z');
+  background:
+    radial-gradient(circle at 10px 10px, #fff 6px, transparent 7px) 0 0 / 14px 14px,
+    radial-gradient(circle at 10px 10px, #fff 4px, transparent 5px) 7px 7px / 14px 14px,
+    #ffe9ef;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  z-index: 0;
+}
+
+.heart-shape {
+  position: absolute;
+  width: 260px;
+  height: 220px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  clip-path: path('M130 220 C 26 142, 0 70, 45 32 C 78 8, 115 25, 130 58 C 145 25, 182 8, 215 32 C 260 70, 234 142, 130 220 Z');
+  background: linear-gradient(180deg, #fff2cc 0%, #ffd9b3 55%, #ffb892 100%);
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===================================================
+   Real Bubu & Dudu images (drop into src/surprise/assets/)
+   =================================================== */
+/* Fit the entire uploaded couple image INSIDE the heart and keep it centered.
+   `contain` avoids cropping, and inner inset space keeps the image away from
+   the narrow top lobes / pointy bottom of the heart clip-path. */
+.couple-img {
+  position: absolute;
+  inset: 24px 6px 0 4px;
+  width: calc(100% - 10px);
+  height: calc(100% - 18px);
+  object-fit: contain;
+  object-position: 48% 96%;
+  z-index: 2;
+  animation: bob 3s ease-in-out infinite;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+}
+/* When the couple image is shown, hide the fake buildings behind it. */
+.heart-shape:has(.couple-img:not(.img-missing)) .city-scene {
+  display: none;
+}
+
+.angry-img {
+  width: 160px;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  display: block;
+  border-radius: 18px;
+  border: 3px solid #ff4d6d;
+  background: #fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
+}
+
+/* Friendly placeholder when the file hasn't been dropped in yet. */
+.couple-img.img-missing,
+.angry-img.img-missing {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 77, 109, 0.18) 0 10px,
+    rgba(199, 125, 255, 0.18) 10px 20px
+  );
+  border: 2px dashed rgba(255, 77, 109, 0.6);
+  border-radius: 14px;
+  color: #ff4d6d;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.75rem;
+  padding: 10px;
+  min-height: 120px;
+}
+.couple-img.img-missing {
+  min-height: 160px;
+  width: calc(100% - 20px);
+  height: calc(100% - 24px);
+}
+
+/* Cartoon buildings scene behind the bears */
+.city-scene {
+  position: absolute;
+  left: 0; right: 0;
+  top: 10%;
+  height: 32%;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
+  z-index: 1;
+}
+.city-scene .cloud-1,
+.city-scene .cloud-2 {
+  position: absolute;
+  font-size: 1.1rem;
+  opacity: 0.9;
+  animation: bob 4s ease-in-out infinite;
+}
+.city-scene .cloud-1 { top: 2%;  left: 22%; }
+.city-scene .cloud-2 { top: 10%; right: 22%; animation-delay: 1s; }
+
+.city-scene .building {
+  position: absolute;
+  bottom: 0;
+  font-size: 1.8rem;
+  opacity: 0.95;
+}
+.city-scene .b1 { left: 22%; }
+.city-scene .b2 { left: 45%; transform: translateX(-50%); font-size: 2rem; }
+.city-scene .b3 { right: 22%; }
+
+.couple-bears {
+  position: absolute;
+  left: 0; right: 0;
+  /* Sit in the wide middle of the heart, well above the pointy bottom. */
+  top: 20%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.35));
+}
+
+/* Heart-frame chibis are large and clearly visible. */
+.couple-bears .chibi.chibi-with-body {
+  width: 92px;
+  height: 148px;
+}
+
+.chibi-dudu.dudu-left  { animation: bob 2.4s ease-in-out infinite; }
+.chibi-bubu.bubu-right { animation: bob 2.4s ease-in-out infinite 0.3s; }
+
+/* Little birthday cake between/below the bears */
+.heart-cake {
+  position: absolute;
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 70px;
+  text-align: center;
+}
+.heart-cake-tag {
+  display: inline-block;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #5a2a0f;
+  background: #fff6e0;
+  padding: 2px 5px;
+  border: 1px solid #c77dff;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+.heart-cake-body {
+  position: relative;
+  width: 56px;
+  height: 22px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #fff1c1 0%, #ffd166 55%, #d99a2b 100%);
+  border-radius: 6px 6px 4px 4px;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.35);
+}
+.heart-cake-body::before {
+  /* pink frosting drip */
+  content: '';
+  position: absolute;
+  top: -4px; left: 0; right: 0;
+  height: 6px;
+  background: #ff6f9c;
+  clip-path: polygon(0 0, 10% 100%, 20% 20%, 30% 100%, 40% 20%, 50% 100%, 60% 20%, 70% 100%, 80% 20%, 90% 100%, 100% 0);
+}
+.heart-cake-candle {
+  position: absolute;
+  top: -12px; left: 50%;
+  transform: translateX(-50%);
+  width: 3px; height: 10px;
+  background: #fff;
+  border-radius: 1px;
+}
+.heart-cake-candle::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 8px;
+  background: radial-gradient(circle at 50% 70%, #fff2a1 0%, #ffb703 50%, #ff4d6d 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  filter: drop-shadow(0 0 3px rgba(255,183,3,0.9));
+  animation: flicker 0.35s ease-in-out infinite alternate;
+}
+
+.gift-bow {
+  position: absolute;
+  top: 22px;
+  right: 18px;
+  font-size: 2.2rem;
+  filter: drop-shadow(0 4px 6px rgba(255, 77, 109, 0.5));
+  animation: bob 2.2s ease-in-out infinite;
+  z-index: 4;
+}
+
+/* ===================================================
+   Chibi Bubu (brown bear) & Dudu (white panda)
+   Pure-CSS chibi characters used in the heart frame
+   and the wrong-password door-peek scene.
+   =================================================== */
+.chibi {
+  position: relative;
+  width: 72px;
+  height: 64px;
+  /* All child sizes are in px so the whole figure scales via `transform`. */
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,0.3));
+}
+
+.chibi-head {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 62px;
+  height: 52px;
+  border-radius: 50% 50% 46% 46% / 55% 55% 45% 45%;
+  background: var(--chibi-fur, #b07149);
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,0.08),
+              inset 0 4px 0 rgba(255,255,255,0.18);
+}
+
+.chibi-ear {
+  position: absolute;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--chibi-fur, #b07149);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.08);
+}
+.chibi-ear::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--chibi-inner-ear, #d99a7a);
+}
+.chibi-ear-l { left: 6px; }
+.chibi-ear-r { right: 6px; }
+
+.chibi-eye {
+  position: absolute;
+  top: 18px;
+  width: 8px;
+  height: 10px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  box-shadow: inset 1px -1px 0 rgba(255,255,255,0.85);
+  z-index: 2;
+}
+.chibi-eye-l { left: 17px; }
+.chibi-eye-r { right: 17px; }
+
+.chibi-cheek {
+  position: absolute;
+  top: 28px;
+  width: 9px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff9bb3;
+  opacity: 0.8;
+  z-index: 2;
+}
+.chibi-cheek-l { left: 8px; }
+.chibi-cheek-r { right: 8px; }
+
+.chibi-muzzle {
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--chibi-muzzle, #f2d6b6);
+  z-index: 3;
+}
+.chibi-nose {
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 4px;
+  border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+  background: #1a1a1a;
+}
+.chibi-mouth {
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 5px;
+  border: 1.5px solid #1a1a1a;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: transparent;
+}
+
+/* ----- Bubu (brown bear) ----- */
+.chibi-bubu {
+  --chibi-fur: #b07149;
+  --chibi-inner-ear: #d99a7a;
+  --chibi-muzzle: #f2d6b6;
+}
+
+/* ----- Dudu (white panda) ----- */
+.chibi-dudu {
+  --chibi-fur: #ffffff;
+  --chibi-inner-ear: #ffd1e0;
+  --chibi-muzzle: #ffffff;
+}
+.chibi-dudu .chibi-ear {
+  background: #2a2a2a;
+}
+.chibi-dudu .chibi-ear::after {
+  background: #4a4a4a;
+}
+/* Panda black eye patches sit behind the eyes */
+.chibi-eye-patch {
+  position: absolute;
+  top: 14px;
+  width: 15px;
+  height: 17px;
+  border-radius: 50%;
+  background: #2a2a2a;
+  z-index: 1;
+  transform: rotate(-10deg);
+}
+.chibi-eye-patch-l { left: 12px; }
+.chibi-eye-patch-r { right: 12px; transform: rotate(10deg); }
+/* Dudu's eyes inside the patch — give them a tiny white sparkle */
+.chibi-dudu .chibi-eye {
+  box-shadow: inset 1px -1px 0 rgba(255,255,255,0.95);
+}
+
+/* Party hats as cute CSS cones */
+.party-hat-cone {
+  position: absolute;
+  left: 50%;
+  top: -14px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 22px solid #c77dff;
+  z-index: 3;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.25));
+}
+.party-hat-cone::after {
+  content: '✦';
+  position: absolute;
+  left: -4px;
+  top: -20px;
+  font-size: 10px;
+  color: var(--text-gold);
+  animation: sparkle 1.6s ease-in-out infinite;
+}
+.party-hat-cone-pink {
+  border-bottom-color: #ff4d6d;
+}
+
+/* Striped hat (orange/yellow/blue zigzag) — for Dudu in the heart frame.
+   Overlay realized with a tiny striped box glued on top of the cone. */
+.party-hat-striped {
+  border-bottom-color: #ff8c42;
+}
+.party-hat-striped::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  bottom: -20px;
+  width: 20px;
+  height: 18px;
+  background: repeating-linear-gradient(
+    -70deg,
+    #ffb703 0 4px,
+    #ff4d6d 4px 7px,
+    #c77dff 7px 10px
+  );
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+/* Layout tweaks for the two chibis inside the heart */
+.couple-bears {
+  gap: 4px;
+}
+.chibi-bubu.bubu-left  { animation: bob 2.4s ease-in-out infinite; }
+.chibi-dudu.dudu-right { animation: bob 2.4s ease-in-out infinite 0.3s; }
+
+/* Smaller sizing for the chibi head that peeks out of the door */
+.chibi.chibi-peek-size {
+  width: 44px;
+  height: 40px;
+  margin: 0 auto;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
+}
+.chibi.chibi-peek-size .chibi-head {
+  width: 40px;
+  height: 34px;
+}
+.chibi.chibi-peek-size .chibi-ear {
+  width: 13px; height: 13px; top: 1px;
+}
+.chibi.chibi-peek-size .chibi-ear-l { left: 4px; }
+.chibi.chibi-peek-size .chibi-ear-r { right: 4px; }
+.chibi.chibi-peek-size .chibi-eye {
+  top: 12px; width: 6px; height: 7px;
+}
+.chibi.chibi-peek-size .chibi-eye-l { left: 11px; }
+.chibi.chibi-peek-size .chibi-eye-r { right: 11px; }
+.chibi.chibi-peek-size .chibi-cheek {
+  top: 18px; width: 6px; height: 4px;
+}
+.chibi.chibi-peek-size .chibi-cheek-l { left: 5px; }
+.chibi.chibi-peek-size .chibi-cheek-r { right: 5px; }
+.chibi.chibi-peek-size .chibi-muzzle {
+  top: 17px; width: 15px; height: 10px;
+}
+.chibi.chibi-peek-size .chibi-nose {
+  width: 4px; height: 3px;
+}
+.chibi.chibi-peek-size .chibi-mouth {
+  top: 5px; width: 7px; height: 4px;
+}
+
+/* ===================================================
+   Full-body chibi (head + round tummy + paws + feet)
+   =================================================== */
+.chibi.chibi-with-body {
+  width: 90px;
+  height: 140px;
+}
+.chibi.chibi-with-body .chibi-head {
+  /* Head sits at the TOP, body below it (not bottom-anchored). */
+  bottom: auto;
+  top: 20px;
+  width: 78px;
+  height: 66px;
+}
+.chibi.chibi-with-body .chibi-ear {
+  width: 24px; height: 24px; top: 22px;
+}
+.chibi.chibi-with-body .chibi-ear-l { left: 4px; }
+.chibi.chibi-with-body .chibi-ear-r { right: 4px; }
+.chibi.chibi-with-body .chibi-eye {
+  top: 42px; width: 9px; height: 11px;
+}
+.chibi.chibi-with-body .chibi-eye-l { left: 22px; }
+.chibi.chibi-with-body .chibi-eye-r { right: 22px; }
+.chibi.chibi-with-body .chibi-eye-patch {
+  top: 36px; width: 17px; height: 20px;
+}
+.chibi.chibi-with-body .chibi-eye-patch-l { left: 16px; }
+.chibi.chibi-with-body .chibi-eye-patch-r { right: 16px; }
+.chibi.chibi-with-body .chibi-cheek {
+  top: 54px; width: 10px; height: 7px;
+}
+.chibi.chibi-with-body .chibi-cheek-l { left: 10px; }
+.chibi.chibi-with-body .chibi-cheek-r { right: 10px; }
+.chibi.chibi-with-body .chibi-muzzle {
+  top: 50px; width: 26px; height: 16px;
+}
+
+.chibi.chibi-with-body .party-hat-cone {
+  top: 4px;
+}
+
+/* Round tummy */
+.chibi-body {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 76px;
+  height: 64px;
+  border-radius: 48% 48% 46% 46% / 55% 55% 45% 45%;
+  background: var(--chibi-fur, #b07149);
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,0.1),
+              inset 0 4px 0 rgba(255,255,255,0.15);
+  z-index: 1;
+}
+/* Cream/white tummy patch */
+.chibi-body::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 70%;
+  border-radius: 50%;
+  background: var(--chibi-muzzle, #f2d6b6);
+  opacity: 0.85;
+}
+
+/* Little paws on either side of the tummy */
+.chibi-paw {
+  position: absolute;
+  top: 24%;
+  width: 18px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--chibi-fur, #b07149);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12);
+  z-index: 2;
+}
+.chibi-paw-l { left: -10px;  transform: rotate(-15deg); }
+.chibi-paw-r { right: -10px; transform: rotate(15deg); }
+
+/* Feet poking out at the bottom */
+.chibi-foot {
+  position: absolute;
+  bottom: -6px;
+  width: 24px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--chibi-fur, #b07149);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12);
+}
+.chibi-foot-l { left: 10px; }
+.chibi-foot-r { right: 10px; }
+
+/* Panda-specific body bits: ears + paws + feet stay black */
+.chibi-dudu .chibi-paw,
+.chibi-dudu .chibi-foot {
+  background: #2a2a2a;
+}
+.chibi-dudu .chibi-body {
+  background: #ffffff;
+}
+.chibi-dudu .chibi-body::before {
+  background: #ffffff;
+}
+
+
+/* ===================================================
+   R2: Wrong-Password "Bubu peeks from his house" scene
+   =================================================== */
+/* ===================================================
+   R2 (revised): "WRONG PASSCODE" scene with Dudu peeking
+   out from the side of a half-open door.
+   =================================================== */
+.bubu-scene {
+  margin-top: 18px;
+  padding: 20px 10px 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff6f8 100%);
+  border: 2px solid #ff4d6d;
+  box-shadow: 0 10px 28px rgba(255, 77, 109, 0.3);
+  animation: pop 0.5s ease;
+  text-align: center;
+  color: #222;
+}
+
+.wrong-passcode-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.55rem;
+  letter-spacing: 1.5px;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.dudu-door-stage {
+  position: relative;
+  width: 320px;
+  max-width: 100%;
+  height: 220px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Wooden door frame (the "doorway" opening) — sits on the RIGHT half
+   of the stage so Bubu has room to stand fully on the left. */
+.dudu-door-frame {
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  width: 110px;
+  height: 180px;
+  background: linear-gradient(90deg, #a05a2c 0%, #c37a3a 50%, #a05a2c 100%);
+  border: 4px solid #6a3a16;
+  border-radius: 6px 6px 2px 2px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+/* The door leaf itself — hinged on the right, swings open to the right
+   to reveal Dudu on the left side. */
+.dudu-door-leaf-v {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #c08a52 0%, #d9a46a 50%, #a46a32 100%);
+  transform-origin: right center;
+  animation: dududoorOpen 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+  box-shadow: inset 4px 0 0 rgba(0,0,0,0.25);
+}
+.dudu-door-panel {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 32%;
+  border: 2px solid #6a3a16;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+}
+.dudu-door-panel:nth-child(1) { top: 10%; }
+.dudu-door-panel:nth-child(2) { bottom: 10%; }
+.dudu-door-knob {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-gold);
+  box-shadow: 0 0 0 2px #6a3a16, 0 2px 2px rgba(0,0,0,0.4);
+}
+
+/* Bubu steps fully out of the door on the LEFT side of the stage,
+   so he is entirely visible (head → feet). */
+.dudu-peek-side {
+  position: absolute;
+  left: 20px;
+  bottom: 0;
+  z-index: 3;
+  opacity: 0;
+  transform: translateX(40px);
+  animation: duduPeekSide 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+}
+.dudu-peek-side .chibi,
+.dudu-peek-side .angry-img {
+  animation: duduShakeNo 0.6s ease-in-out 1.8s infinite;
+  transform-origin: center bottom;
+}
+
+/* A raised fist on the left paw while Bubu shakes "no" */
+.chibi-paw-fist {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  top: 10% !important;
+  left: -14px !important;
+  transform: rotate(-30deg) !important;
+  animation: fistShake 0.4s ease-in-out 2s infinite alternate;
+}
+
+/* Happy open-smile mouth with a tiny pink tongue (used in heart frame) */
+.chibi-mouth-happy {
+  background: #1a1a1a !important;
+  border: none !important;
+}
+.chibi-mouth-happy::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 50%;
+  background: #ff9bb3;
+  border-radius: 0 0 50% 50%;
+}
+
+/* Angry pout mouth for Dudu on wrong passcode */
+.chibi-mouth-pout {
+  width: 6px !important;
+  height: 4px !important;
+  border-radius: 50% !important;
+  background: #1a1a1a !important;
+  border: none !important;
+}
+
+/* Angry eyebrows above Dudu's eye-patches */
+.chibi-brow {
+  position: absolute;
+  top: 8px;
+  width: 10px;
+  height: 3px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  z-index: 4;
+}
+.chibi.chibi-peek-size .chibi-brow {
+  top: 5px;
+  width: 7px;
+  height: 2px;
+}
+.chibi-brow-l { left: 8px;  transform: rotate(18deg); }
+.chibi-brow-r { right: 8px; transform: rotate(-18deg); }
+.chibi.chibi-peek-size .chibi-brow-l { left: 5px; }
+.chibi.chibi-peek-size .chibi-brow-r { right: 5px; }
+
+/* Brow placement for the full-body (bigger) chibi */
+.chibi.chibi-with-body .chibi-brow {
+  top: 32px;
+  width: 14px;
+  height: 3px;
+}
+.chibi.chibi-with-body .chibi-brow-l { left: 16px; }
+.chibi.chibi-with-body .chibi-brow-r { right: 16px; }
+
+/* The big red Try Again button */
+.try-again-btn {
+  background: linear-gradient(180deg, #ff4d6d 0%, #c81d45 100%);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 10px 28px;
+  border-radius: 999px;
+  border: none;
+  box-shadow: 0 6px 14px rgba(200, 29, 69, 0.45);
+}
+.try-again-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 18px rgba(200, 29, 69, 0.55);
+}
+
+@keyframes dududoorOpen {
+  0%   { transform: perspective(300px) rotateY(0deg); }
+  100% { transform: perspective(300px) rotateY(85deg); }
+}
+@keyframes duduPeekSide {
+  /* Bubu starts hidden behind the door, slides left into full view. */
+  0%   { opacity: 0; transform: translateX(40px); }
+  60%  { opacity: 1; transform: translateX(-4px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes duduShakeNo {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-10deg); }
+  75%      { transform: rotate(10deg); }
+}
+@keyframes fistShake {
+  0%   { transform: rotate(-20deg); }
+  100% { transform: rotate(20deg); }
+}
+
+/* ===================================================
+   DEPRECATED OLD HOUSE (kept inert to avoid stray style)
+   =================================================== */
+.bubu-house, .bubu-roof-DEPRECATED {
+  display: none;
+}
+
+.bubu-house-deprecated {
+  position: relative;
+  width: 180px;
+  height: 160px;
+  margin: 0 auto 10px;
+}
+
+.bubu-roof-DEPRECATED-x {
+  position: absolute;
+  top: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 90px solid transparent;
+  border-right: 90px solid transparent;
+  border-bottom: 55px solid #d63f74;
+  filter: drop-shadow(0 4px 4px rgba(0,0,0,0.4));
+}
+
+.bubu-chimney {
+  position: absolute;
+  top: 6px;
+  right: 30px;
+  width: 16px;
+  height: 28px;
+  background: linear-gradient(180deg, #8e44d8, #c77dff);
+  border-radius: 3px 3px 0 0;
+  z-index: 0;
+}
+.bubu-smoke {
+  position: absolute;
+  top: -18px;
+  left: -8px;
+  font-size: 1rem;
+  animation: bob 1.6s ease-in-out infinite;
+}
+
+.bubu-body {
+  position: absolute;
+  bottom: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 100px;
+  background: linear-gradient(180deg, #ffe7a8 0%, #f7d070 100%);
+  border-radius: 6px;
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,0.12), 0 6px 14px rgba(0,0,0,0.35);
+}
+
+.bubu-window {
+  position: absolute;
+  top: 14px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #a7d8ff, #e9c9ff);
+  border: 2px solid #8e44d8;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sparkle 2s ease-in-out infinite;
+}
+.bubu-window-left  { left: 12px; }
+.bubu-window-right { right: 12px; animation-delay: 0.8s; }
+
+.bubu-door {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 46px;
+  height: 60px;
+  background: #2a140a;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+  border: 2px solid #3a1a08;
+  border-bottom: none;
+}
+
+.bubu-door-leaf {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #8b4513 0%, #a0522d 60%, #5a2a0f 100%);
+  transform-origin: left center;
+  animation: bubuDoorOpen 1.4s ease-in-out 0.1s forwards;
+  box-shadow: inset -4px 0 0 rgba(0,0,0,0.25);
+}
+.bubu-door-leaf::after {
+  content: '';
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--text-gold);
+}
+
+.bubu-peek {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  width: 100%;
+  text-align: center;
+  animation: bubuPeekUp 0.6s ease-out 1.2s forwards;
+}
+.bubu-face {
+  display: inline-block;
+  font-size: 1.8rem;
+  filter: drop-shadow(0 3px 3px rgba(0,0,0,0.4));
+  animation: bubuShakeNo 0.5s ease-in-out 2s infinite;
+  transform-origin: center bottom;
+}
+
+.bubu-ground {
+  position: absolute;
+  bottom: 0; left: -10px; right: -10px;
+  height: 10px;
+  background: linear-gradient(180deg, #4caf50 0%, #1b5e20 100%);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.bubu-flower {
+  position: absolute;
+  bottom: 2px;
+  font-size: 1rem;
+  animation: bob 2.2s ease-in-out infinite;
+}
+.bubu-flower-left  { left: 6px; }
+.bubu-flower-right { right: 6px; animation-delay: 0.6s; }
+
+.bubu-caption {
+  font-family: 'Playfair Display', serif;
+  color: var(--text-gold);
+  font-size: 1rem;
+  margin: 6px 0 12px;
+}
+
+@keyframes bubuDoorOpen {
+  0%   { transform: perspective(200px) rotateY(0deg); }
+  100% { transform: perspective(200px) rotateY(-110deg); }
+}
+
+@keyframes bubuPeekUp {
+  0%   { transform: translate(-50%, 100%); }
+  60%  { transform: translate(-50%, 10%); }
+  100% { transform: translate(-50%, 18%); }
+}
+
+@keyframes bubuShakeNo {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-14deg); }
+  75%      { transform: rotate(14deg); }
+}
+
+
+/* ===================================================
+   R1: Layer-by-layer cake "assembly" animation
+   (plays once when the cake section first appears)
+   =================================================== */
+.cake-stage.assembling .cake-plate,
+.cake-stage.assembling .tier-bottom,
+.cake-stage.assembling .tier-mid,
+.cake-stage.assembling .tier-top,
+.cake-stage.assembling .candle,
+.cake-stage.assembling .flame {
+  opacity: 0;
+}
+
+.cake-stage.assembling .cake-3d {
+  animation: none;
+}
+
+.cake-stage.assembling .cake-plate {
+  animation: cakeDropIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+}
+.cake-stage.assembling .tier-bottom {
+  animation: cakeDropIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
+}
+.cake-stage.assembling .tier-mid {
+  animation: cakeDropIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.3s forwards;
+}
+.cake-stage.assembling .tier-top {
+  animation: cakeDropIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.9s forwards;
+}
+.cake-stage.assembling .candle {
+  animation: candleDropIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) 2.5s forwards;
+}
+.cake-stage.assembling .flame {
+  animation: flameLightUp 0.5s ease-out 3.0s forwards,
+             flicker 0.35s ease-in-out 3.5s infinite alternate;
+}
+
+@keyframes cakeDropIn {
+  0%   { opacity: 0; transform: translateY(-140px) scale(0.85); }
+  70%  { opacity: 1; transform: translateY(8px)   scale(1.02); }
+  100% { opacity: 1; transform: translateY(0)     scale(1); }
+}
+
+/* Candle has translateX(-50%) in base style — preserve X while dropping. */
+@keyframes candleDropIn {
+  0%   { opacity: 0; transform: translate(-50%, -80px) scale(0.6); }
+  70%  { opacity: 1; transform: translate(-50%, 4px)   scale(1.05); }
+  100% { opacity: 1; transform: translate(-50%, 0)     scale(1); }
+}
+
+@keyframes flameLightUp {
+  0%   { opacity: 0; transform: translateX(-50%) scale(0.2); }
+  60%  { opacity: 1; transform: translateX(-50%) scale(1.3); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
