@@ -61,6 +61,64 @@ function updateCounter() {
 setInterval(updateCounter, 1000);
 updateCounter();
 
+// Balloon-order mini game for the TOP timer. The real values stay hidden
+// until balloons 1 → 5 are popped in order.
+const timerHeaderEl = getElement('timer-header');
+const timerSubtitleEl = getElement('timer-subtitle');
+const timerPopWarningEl = getElement('timer-pop-warning');
+const timerBalloons = [
+  getElement('balloon-years'),
+  getElement('balloon-days'),
+  getElement('balloon-hours'),
+  getElement('balloon-minutes'),
+  getElement('balloon-seconds'),
+];
+
+let nextBalloonOrder = 1;
+let timerUnlocked = false;
+
+function unlockTimerBalloons() {
+  timerUnlocked = true;
+  timerHeaderEl.classList.remove('timer-header-locked');
+  timerHeaderEl.classList.add('timer-header-unlocked');
+  timerSubtitleEl.textContent = 'Years of Magic, Resilient Growth & Togetherness';
+  timerPopWarningEl.style.display = 'none';
+
+  const cakeInstructionEl = document.getElementById('cake-instruction');
+  const giftBoxWrapEl = document.getElementById('gift-box-wrap');
+  if (cakeInstructionEl) {
+    cakeInstructionEl.textContent = 'Now tap the gift to open it and reveal the special thing 🎁';
+  }
+  if (giftBoxWrapEl) {
+    giftBoxWrapEl.classList.remove('locked-gift');
+  }
+}
+
+function handleBalloonPop(event) {
+  if (timerUnlocked) return;
+
+  const balloon = event.currentTarget;
+  const order = Number(balloon.dataset.order);
+
+  if (order !== nextBalloonOrder) {
+    timerPopWarningEl.textContent = `Please pop the balloons in order — next is ${nextBalloonOrder} 🎈`;
+    timerPopWarningEl.style.display = 'block';
+    return;
+  }
+
+  timerPopWarningEl.style.display = 'none';
+  balloon.classList.add('popped');
+  nextBalloonOrder += 1;
+
+  if (nextBalloonOrder > timerBalloons.length) {
+    unlockTimerBalloons();
+  }
+}
+
+timerBalloons.forEach((balloon) => {
+  balloon.addEventListener('click', handleBalloonPop);
+});
+
 /* ===================================================
    0. LOGIN GATE
    =================================================== */
@@ -273,24 +331,19 @@ function setupWelcomePage() {
     getElement('wish-section').style.display = 'none';
     getElement('timer-header').style.display = 'block';
     getElement('cake-section').style.display = 'block';
+    getElement('cake-emoji').classList.remove('gift-revealed', 'assembling', 'cut');
+
+    const giftBoxWrapEl = getElement('gift-box-wrap');
+    const cakeHeadingEl = getElement('cake-heading');
+    const cakeInstructionEl = getElement('cake-instruction');
+    giftBoxWrapEl.classList.remove('opened');
+    giftBoxWrapEl.classList.add('locked-gift');
+    cakeHeadingEl.textContent = 'Open the Gift to Reveal Something special 🎁🎂';
+    cakeInstructionEl.textContent = 'Pop all the balloons first, then open the gift to see the magic ✨';
 
     wishPopupOverlay.classList.add('hidden');
     setTimeout(() => {
       wishPopupOverlay.style.display = 'none';
-
-      // R1: Play the layer-by-layer cake assembly animation.
-      // Plate → bottom tier → mid tier → top tier → candle → flame light-up.
-      const cakeStage = getElement('cake-emoji');
-      cakeStage.classList.remove('assembling');
-      // Force reflow so the animation restarts if this fires again.
-      // eslint-disable-next-line no-unused-expressions
-      cakeStage.offsetWidth;
-      cakeStage.classList.add('assembling');
-      // Total duration ≈ 3.5s (last flame delay 3.0s + 0.5s). Remove the
-      // class afterwards so the default ambient float + flicker take over.
-      setTimeout(() => {
-        cakeStage.classList.remove('assembling');
-      }, 3800);
     }, 450);
   });
 }
@@ -304,10 +357,13 @@ const saveWishBtn = getElement('save-wish-btn');
 const wishInput = getElement('wish-input');
 const cakeEmoji = getElement('cake-emoji');
 const wishWarning = getElement('wish-warning');
+const cakeHeading = getElement('cake-heading');
+const cakeInstruction = getElement('cake-instruction');
+const giftBoxWrap = getElement('gift-box-wrap');
 
 saveWishBtn.addEventListener('click', () => {
   if (!wishInput.value.trim()) {
-    wishWarning.textContent = 'Please make a wish before cutting the cake ❤️';
+    wishWarning.textContent = 'Please make a wish before going ahead  ❤️';
     wishWarning.style.display = 'block';
     return;
   }
@@ -325,15 +381,17 @@ wishInput.addEventListener('input', () => {
 });
 
 let cakeCut = false;
+let giftOpened = false;
 
 cakeEmoji.addEventListener('click', () => {
+  if (!giftOpened) return;
   if (cakeCut) return;
 
   cakeCut = true;
   // R6: New animated multi-tier cake — apply cut animation class
   cakeEmoji.classList.add('cut');
-  getElement('cake-heading').textContent = 'Yay! Cake Cut Successfully! 🎉';
-  getElement('cake-instruction').textContent = 'Wish saved in our hearts forever!';
+  cakeHeading.textContent = 'Yay! Cake Cut Successfully! 🎉';
+  cakeInstruction.textContent = 'Wish saved in our hearts forever!';
 
   triggerConfetti();
   revealCouples();
@@ -347,6 +405,33 @@ cakeEmoji.addEventListener('click', () => {
 
   }, 1200);
 
+});
+
+giftBoxWrap.addEventListener('click', () => {
+  if (!timerUnlocked) {
+    timerPopWarningEl.textContent = 'Please pop all the balloons first before opening the gift 🎈';
+    timerPopWarningEl.style.display = 'block';
+    return;
+  }
+
+  if (giftOpened) return;
+
+  timerPopWarningEl.style.display = 'none';
+  giftOpened = true;
+  giftBoxWrap.classList.add('opened');
+  cakeEmoji.classList.add('gift-revealed');
+  cakeHeading.textContent = 'Tap the Cake to Cut It! 🔪🎂';
+  cakeInstruction.textContent = 'Your surprise cake is here now — tap it to cut and continue the celebration ✨';
+
+  // Existing layer-by-layer cake build animation now plays after the gift opens.
+  cakeEmoji.classList.remove('assembling');
+  // Force reflow so the animation restarts cleanly.
+  // eslint-disable-next-line no-unused-expressions
+  cakeEmoji.offsetWidth;
+  cakeEmoji.classList.add('assembling');
+  setTimeout(() => {
+    cakeEmoji.classList.remove('assembling');
+  }, 3800);
 });
 
 

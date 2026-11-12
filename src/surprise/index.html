@@ -154,28 +154,34 @@
     </div>
 
     <!-- HEADER & LIVE COUNTER SECTION -->
-    <header class="glass-card" id="timer-header" style="display: none;">
+    <header class="glass-card timer-header-locked" id="timer-header" style="display: none;">
       <h1 class="script-title">Happy Anniversary</h1>
-      <p class="sub-title">Years of Magic, Resilient Growth & Togetherness</p>
+      <p class="sub-title" id="timer-subtitle">Pop the balloons in order to see the magic ✨</p>
+      <p class="timer-pop-warning" id="timer-pop-warning" style="display: none;"></p>
 
       <div class="timer-grid">
         <div class="timer-box">
+          <button class="timer-balloon balloon-years" id="balloon-years" type="button" data-order="1" aria-label="Pop balloon 1 for years">1</button>
           <span class="timer-number" id="years">0</span>
           <span class="timer-label">Years</span>
         </div>
         <div class="timer-box">
+          <button class="timer-balloon balloon-days" id="balloon-days" type="button" data-order="2" aria-label="Pop balloon 2 for days">2</button>
           <span class="timer-number" id="days">0</span>
           <span class="timer-label">Days</span>
         </div>
         <div class="timer-box">
+          <button class="timer-balloon balloon-hours" id="balloon-hours" type="button" data-order="3" aria-label="Pop balloon 3 for hours">3</button>
           <span class="timer-number" id="hours">0</span>
           <span class="timer-label">Hours</span>
         </div>
         <div class="timer-box">
+          <button class="timer-balloon balloon-minutes" id="balloon-minutes" type="button" data-order="4" aria-label="Pop balloon 4 for minutes">4</button>
           <span class="timer-number" id="minutes">0</span>
           <span class="timer-label">Minutes</span>
         </div>
         <div class="timer-box">
+          <button class="timer-balloon balloon-seconds" id="balloon-seconds" type="button" data-order="5" aria-label="Pop balloon 5 for seconds">5</button>
           <span class="timer-number" id="seconds">0</span>
           <span class="timer-label">Seconds</span>
         </div>
@@ -198,7 +204,21 @@
       </div>
 
       <div class="cake-container" id="cake-section">
-        <h2 class="sub-title" id="cake-heading">Tap the Cake to Cut It! 🔪🎂</h2>
+        <h2 class="sub-title" id="cake-heading">Open the Gift to Reveal Something special 🎁🎂</h2>
+        <p class="cake-instruction" id="cake-instruction">Pop all the balloons first, then open the gift to see the magic ✨</p>
+
+        <button class="gift-box-wrap" id="gift-box-wrap" type="button" aria-label="Open gift box">
+          <div class="gift-box-lid"></div>
+          <div class="gift-box-ribbon gift-box-ribbon-vertical"></div>
+          <div class="gift-box-ribbon gift-box-ribbon-horizontal"></div>
+          <div class="gift-box-bow">
+            <span class="bow-loop bow-loop-left"></span>
+            <span class="bow-loop bow-loop-right"></span>
+            <span class="bow-knot"></span>
+          </div>
+          <div class="gift-box-base"></div>
+        </button>
+
         <div class="cake-stage" id="cake-emoji">
           <div class="cake-3d">
             <div class="cake-tier tier-top">
@@ -224,7 +244,6 @@
           <div class="cake-sparkle sparkle-2">💖</div>
           <div class="cake-sparkle sparkle-3">✨</div>
         </div>
-        <p class="cake-instruction" id="cake-instruction">Click to celebrate our special day!</p>
       </div>
 
       <!-- COUPLE IMAGE REVEAL AFTER CAKE CUT -->
