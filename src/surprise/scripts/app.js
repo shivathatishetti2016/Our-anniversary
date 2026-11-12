@@ -268,12 +268,15 @@ function setupWelcomePage() {
   const wishPopupOverlay = getElement('wish-popup-overlay');
 
   wishPopupGoBtn.addEventListener('click', () => {
+    // Prepare both the timer and cake BEFORE the popup fully fades away,
+    // so they are already rendered behind it and appear together.
+    getElement('wish-section').style.display = 'none';
+    getElement('timer-header').style.display = 'block';
+    getElement('cake-section').style.display = 'block';
+
     wishPopupOverlay.classList.add('hidden');
     setTimeout(() => {
       wishPopupOverlay.style.display = 'none';
-      // Hide wish and show only cake section
-      getElement('wish-section').style.display = 'none';
-      getElement('cake-section').style.display = 'block';
 
       // R1: Play the layer-by-layer cake assembly animation.
       // Plate → bottom tier → mid tier → top tier → candle → flame light-up.
@@ -309,7 +312,9 @@ saveWishBtn.addEventListener('click', () => {
     return;
   }
 
-  // Show wish popup overlay ("hope your wish come true")
+  // Show wish popup overlay ("hope your wish come true").
+  // The wish is treated as a private secret moment — nothing is stored
+  // or downloaded; browsers cannot append to a disk file from a static page.
   const wishPopupOverlay = getElement('wish-popup-overlay');
   wishPopupOverlay.classList.remove('hidden');
   wishPopupOverlay.style.display = 'flex';
