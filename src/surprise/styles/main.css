@@ -1434,7 +1434,7 @@ textarea:focus {
   width: 340px;
   height: 300px;
   margin: 0 auto 20px;
-  animation: bob 3s ease-in-out infinite;
+  animation: none;
 }
 
 /* Lacy scalloped white border surrounding the heart (purely decorative) */
@@ -1583,11 +1583,11 @@ textarea:focus {
 
 .gift-bow {
   position: absolute;
-  top: 22px;
-  right: 18px;
+  top: 50px;
+  right: 50px;
   font-size: 2.2rem;
   filter: drop-shadow(0 4px 6px rgba(255, 77, 109, 0.5));
-  animation: bob 2.2s ease-in-out infinite;
+  animation: none;
   z-index: 4;
 }
 
