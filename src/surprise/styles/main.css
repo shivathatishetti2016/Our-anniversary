@@ -31,6 +31,8 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: radial-gradient(circle at top, rgba(255, 77, 109, 0.22), rgba(8, 5, 17, 0.96));
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -46,6 +48,7 @@ body {
 .login-card {
   max-width: 520px;
   width: 100%;
+  margin: auto 0;
 }
 
 .login-kicker {
@@ -1321,6 +1324,11 @@ textarea:focus {
 }
 
 @media (max-width: 600px) {
+  .login-overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
   .couple-heart-frame {
     width: min(90vw, 300px);
     height: min(80vw, 270px);
@@ -1405,6 +1413,20 @@ textarea:focus {
 
   .page-quote {
     font-size: 1.28rem;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 601px) {
+  .login-overlay {
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .couple-heart-frame {
+    transform: scale(0.88);
+    transform-origin: top center;
+    margin-bottom: -28px;
   }
 }
 
