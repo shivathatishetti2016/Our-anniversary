@@ -150,6 +150,15 @@ const timerBalloons = [
 
 let nextBalloonOrder = 1;
 let timerUnlocked = false;
+let balloonVideoPlaying = false;
+
+const balloonVideoPaths = [
+  'videos/i_have_a_secreat.mp4',
+  'videos/duck_hearts.mp4',
+  'videos/duck_song.mp4',
+  'videos/special_delivery.mp4',
+  'videos/three_things.mp4',
+];
 
 function unlockTimerBalloons() {
   timerUnlocked = true;
@@ -166,10 +175,15 @@ function unlockTimerBalloons() {
   if (giftBoxWrapEl) {
     giftBoxWrapEl.classList.remove('locked-gift');
   }
+
+  const timerHeader = getElement('timer-header');
+  setTimeout(() => {
+    timerHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 function handleBalloonPop(event) {
-  if (timerUnlocked) return;
+  if (timerUnlocked || balloonVideoPlaying) return;
 
   const balloon = event.currentTarget;
   const order = Number(balloon.dataset.order);
@@ -184,8 +198,44 @@ function handleBalloonPop(event) {
   balloon.classList.add('popped');
   nextBalloonOrder += 1;
 
-  if (nextBalloonOrder > timerBalloons.length) {
-    unlockTimerBalloons();
+  playBalloonVideo(order, () => {
+    if (nextBalloonOrder > timerBalloons.length) {
+      unlockTimerBalloons();
+    }
+  });
+}
+
+function playBalloonVideo(order, onComplete) {
+  const videoPath = balloonVideoPaths[order - 1];
+  if (!videoPath) {
+    onComplete();
+    return;
+  }
+
+  balloonVideoPlaying = true;
+  balloonVideoSource.src = videoPath;
+  balloonVideo.load();
+  balloonVideo.currentTime = 0;
+  balloonVideoOverlay.style.display = 'flex';
+  balloonVideoOverlay.setAttribute('aria-hidden', 'false');
+
+  let completed = false;
+  const finishBalloonVideo = () => {
+    if (completed) return;
+    completed = true;
+    balloonVideo.pause();
+    balloonVideoOverlay.style.display = 'none';
+    balloonVideoOverlay.setAttribute('aria-hidden', 'true');
+    balloonVideoPlaying = false;
+    onComplete();
+  };
+
+  balloonVideo.onended = finishBalloonVideo;
+  balloonVideo.onerror = finishBalloonVideo;
+
+  const playPromise = balloonVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(finishBalloonVideo);
   }
 }
 
@@ -205,6 +255,18 @@ const loginEmojiState = getElement('login-emoji-state');
 const loginAttemptsEl = getElement('login-attempts');
 const loginHintBtn = getElement('login-hint-btn');
 const loginHintEl = getElement('login-hint');
+const introVideoOverlay = getElement('intro-video-overlay');
+const introVideo = getElement('intro-video');
+const balloonVideoOverlay = getElement('balloon-video-overlay');
+const balloonVideo = getElement('balloon-video');
+const balloonVideoSource = getElement('balloon-video-source');
+const duduKissVideoOverlay = getElement('dudu-kiss-video-overlay');
+const duduKissVideo = getElement('dudu-kiss-video');
+const askingQuestionVideo = getElement('asking-question-video');
+const takeCareVideoOverlay = getElement('take-care-video-overlay');
+const takeCareVideo = getElement('take-care-video');
+const givingFlowersVideoWrap = getElement('giving-flowers-video-wrap');
+const givingFlowersVideo = getElement('giving-flowers-video');
 
 // R2: Bubu wrong-password scene elements
 const bubuScene = getElement('bubu-scene');
@@ -299,6 +361,118 @@ function markLoginSuccess() {
   }
 }
 
+function showWelcomeOverlay() {
+  const welcomeOverlay = getElement('welcome-overlay');
+  welcomeOverlay.style.display = 'flex';
+}
+
+function showIntroVideo(isAutoplaySafe = false) {
+  introVideoOverlay.style.display = 'flex';
+  introVideoOverlay.setAttribute('aria-hidden', 'false');
+  // Browsers may block sound when playback starts after a page reload. Use
+  // muted playback only for that reload/session path; the first login starts
+  // from the password-submit gesture and can retain the video's audio.
+  introVideo.muted = isAutoplaySafe;
+  introVideo.currentTime = 0;
+
+  const finishIntroVideo = () => {
+    introVideo.pause();
+    introVideoOverlay.style.display = 'none';
+    introVideoOverlay.setAttribute('aria-hidden', 'true');
+    showWelcomeOverlay();
+  };
+
+  introVideo.onended = finishIntroVideo;
+  introVideo.onerror = finishIntroVideo;
+
+  const playPromise = introVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(finishIntroVideo);
+  }
+}
+
+function startGivingFlowersVideo() {
+  givingFlowersVideoWrap.style.display = 'block';
+  givingFlowersVideoWrap.setAttribute('aria-hidden', 'false');
+  givingFlowersVideo.loop = true;
+  givingFlowersVideo.muted = true;
+
+  const playPromise = givingFlowersVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(() => {
+      // Muted autoplay is normally allowed; if a browser still blocks it,
+      // leave the inline video visible so the user can start it manually.
+    });
+  }
+}
+
+function stopGivingFlowersVideo() {
+  givingFlowersVideo.pause();
+  givingFlowersVideo.currentTime = 0;
+  givingFlowersVideoWrap.style.display = 'none';
+  givingFlowersVideoWrap.setAttribute('aria-hidden', 'true');
+}
+
+function startAskingQuestionVideo() {
+  askingQuestionVideo.loop = true;
+  askingQuestionVideo.muted = true;
+  const playPromise = askingQuestionVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(() => {
+      // The inline video remains visible with native controls unavailable;
+      // muted autoplay is normally permitted by modern browsers.
+    });
+  }
+}
+
+function playDuduKissVideo(onComplete) {
+  duduKissVideo.currentTime = 0;
+  duduKissVideoOverlay.style.display = 'flex';
+  duduKissVideoOverlay.setAttribute('aria-hidden', 'false');
+
+  let completed = false;
+  const finishDuduKissVideo = () => {
+    if (completed) return;
+    completed = true;
+    duduKissVideo.pause();
+    duduKissVideoOverlay.style.display = 'none';
+    duduKissVideoOverlay.setAttribute('aria-hidden', 'true');
+    onComplete();
+  };
+
+  duduKissVideo.onended = finishDuduKissVideo;
+  duduKissVideo.onerror = finishDuduKissVideo;
+
+  const playPromise = duduKissVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(finishDuduKissVideo);
+  }
+}
+
+function playTakeCareVideo(onComplete) {
+  takeCareVideo.currentTime = 0;
+  takeCareVideoOverlay.style.display = 'flex';
+  takeCareVideoOverlay.setAttribute('aria-hidden', 'false');
+
+  let completed = false;
+  const finishTakeCareVideo = () => {
+    if (completed) return;
+    completed = true;
+    takeCareVideo.pause();
+    takeCareVideoOverlay.style.display = 'none';
+    takeCareVideoOverlay.setAttribute('aria-hidden', 'true');
+    onComplete();
+  };
+
+  takeCareVideo.onended = finishTakeCareVideo;
+  takeCareVideo.onerror = finishTakeCareVideo;
+
+  const playPromise = takeCareVideo.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(finishTakeCareVideo);
+  }
+}
+
 function setLoginState(isSuccess) {
   if (isSuccess) {
     // R9: Remember the successful login for the configured window.
@@ -309,12 +483,11 @@ function setLoginState(isSuccess) {
     loginMessage.textContent = 'Welcome! You unlocked the surprise 💖';
     loginEmojiState.textContent = '🥰✨';
     loginOverlay.classList.add('hidden');
+    // Start from the submit gesture so browsers allow the video to play.
+    showIntroVideo();
 
     setTimeout(() => {
       loginOverlay.style.display = 'none';
-      // Show the Welcome overlay (Congratulations/Welcome) right after login
-      const welcomeOverlay = getElement('welcome-overlay');
-      welcomeOverlay.style.display = 'flex';
     }, 450);
     return;
   }
@@ -361,12 +534,11 @@ loginHintBtn.addEventListener('click', () => {
 });
 
 // R9: If a valid session exists (within LOGIN_SESSION_MINUTES of the last
-// successful login), skip the login gate entirely and go straight to the
-// Welcome overlay.
+// successful login), skip the login gate but replay the intro before showing
+// the Welcome overlay. Muted playback keeps this reliable after a reload.
 if (isLoginSessionActive()) {
   loginOverlay.style.display = 'none';
-  const welcomeOverlay = getElement('welcome-overlay');
-  welcomeOverlay.style.display = 'flex';
+  showIntroVideo(true);
 }
 
 
@@ -414,6 +586,7 @@ function setupWelcomePage() {
       // Ensure only make a wish section is shown, hide timer, cake, couple, proposal, timeline
       getElement('timer-header').style.display = 'none';
       getElement('wish-section').style.display = 'block';
+      startGivingFlowersVideo();
       getElement('cake-section').style.display = 'none';
       getElement('couple-section').style.display = 'none';
       getElement('proposal-section').style.display = 'none';
@@ -431,6 +604,7 @@ function setupWelcomePage() {
     getElement('wish-section').style.display = 'none';
     getElement('timer-header').style.display = 'block';
     getElement('cake-section').style.display = 'block';
+    getElement('timer-header').scrollIntoView({ behavior: 'smooth', block: 'start' });
     getElement('cake-emoji').classList.remove('gift-revealed', 'assembling', 'cut');
     cakeCut = false;
     cakeReadyToCut = false;
@@ -470,9 +644,9 @@ saveWishBtn.addEventListener('click', () => {
     return;
   }
 
-  // Show wish popup overlay ("hope your wish come true").
-  // The wish is treated as a private secret moment — nothing is stored
-  // or downloaded; browsers cannot append to a disk file from a static page.
+  // Stop the looping flower video when the secret wish is submitted, then
+  // continue with the existing wish popup flow.
+  stopGivingFlowersVideo();
   const wishPopupOverlay = getElement('wish-popup-overlay');
   wishPopupOverlay.classList.remove('hidden');
   wishPopupOverlay.style.display = 'flex';
@@ -500,14 +674,16 @@ cakeEmoji.addEventListener('click', () => {
   triggerConfetti();
   revealCouples();
 
-  setTimeout(() => {
-    // Show proposal yes/no question section
-    const proposalSection = getElement('proposal-section');
-    proposalSection.style.display = 'block';
-    proposalSection.scrollIntoView({ behavior: 'smooth' });
-    // No button starts inline (side-by-side with Yes) and only runs away on hover.
-
-  }, 1200);
+  playDuduKissVideo(() => {
+    setTimeout(() => {
+      // Show proposal yes/no question section after the kiss video.
+      const proposalSection = getElement('proposal-section');
+      proposalSection.style.display = 'block';
+      startAskingQuestionVideo();
+      proposalSection.scrollIntoView({ behavior: 'smooth' });
+      // No button starts inline (side-by-side with Yes) and only runs away on hover.
+    }, 1200);
+  });
 
 });
 
@@ -781,14 +957,21 @@ function setupMagazine() {
 }
 
 function goToPage(index) {
-  if (index < 0 || index >= pages.length) return;
+  const lastPageIndex = pages.length - 1;
+  if (index < 0 || index > lastPageIndex) return;
+
+  if (currentPage === lastPageIndex && index > lastPageIndex) {
+    playTakeCareVideo(() => goToPage(lastPageIndex));
+    return;
+  }
 
   pages[currentPage].classList.remove('active');
   currentPage = index;
   pages[currentPage].classList.add('active');
 
   prevBtn.disabled = currentPage === 0;
-  nextBtn.disabled = currentPage === pages.length - 1;
+  // Keep Next enabled on the 2026 page so it can replay the Take Care video.
+  nextBtn.disabled = false;
 
   document.querySelectorAll('.dot').forEach((dot, dotIndex) => {
     dot.classList.toggle('active', dotIndex === currentPage);
@@ -796,7 +979,14 @@ function goToPage(index) {
 }
 
 prevBtn.addEventListener('click', () => goToPage(currentPage - 1));
-nextBtn.addEventListener('click', () => goToPage(currentPage + 1));
+nextBtn.addEventListener('click', () => {
+  if (currentPage === pages.length - 1) {
+    playTakeCareVideo(() => goToPage(currentPage));
+    return;
+  }
+
+  goToPage(currentPage + 1);
+});
 
 setupMagazine();
 

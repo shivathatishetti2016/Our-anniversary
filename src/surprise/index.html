@@ -100,6 +100,40 @@
     </div>
   </div>
 
+  <div class="intro-video-overlay" id="intro-video-overlay" style="display: none;" aria-hidden="true">
+    <video
+      id="intro-video"
+      class="intro-video"
+      preload="auto"
+      playsinline
+      aria-label="Our anniversary introduction"
+    >
+      <source src="videos/intro_with_flowers.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+
+  <div class="balloon-video-overlay" id="balloon-video-overlay" style="display: none;" aria-hidden="true">
+    <video id="balloon-video" class="balloon-video" preload="auto" playsinline aria-label="A special anniversary surprise">
+      <source id="balloon-video-source" src="" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+
+  <div class="dudu-kiss-video-overlay" id="dudu-kiss-video-overlay" style="display: none;" aria-hidden="true">
+    <video id="dudu-kiss-video" class="dudu-kiss-video" preload="auto" playsinline aria-label="Dudu kiss surprise">
+      <source src="videos/dudu_kiss.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+
+  <div class="take-care-video-overlay" id="take-care-video-overlay" style="display: none;" aria-hidden="true">
+    <video id="take-care-video" class="take-care-video" preload="auto" playsinline aria-label="Take care Bubu surprise">
+      <source src="videos/take_care_bubu.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
+  </div>
+
   <div class="welcome-overlay" id="welcome-overlay" style="display: none;">
     <div class="glass-card welcome-card">
       <div class="celebration-emoji-container">
@@ -215,7 +249,22 @@
         <div class="wish-input-group">
           <textarea id="wish-input" placeholder="Type your heartfelt wish for us here..."></textarea>
           <p class="wish-warning" id="wish-warning" style="display: none; color: var(--primary); font-weight: 600; margin-top: -5px; margin-bottom: 5px; font-size: 0.95rem;"></p>
-          <button class="btn" id="save-wish-btn">Blow Candles & Cut Cake 🎂</button>
+          <button class="btn" id="save-wish-btn">Go Ahead →</button>
+          <div class="giving-flowers-video-wrap" id="giving-flowers-video-wrap" style="display: none;" aria-hidden="true">
+            <video
+              id="giving-flowers-video"
+              class="giving-flowers-video"
+              preload="auto"
+              autoplay
+              loop
+              muted
+              playsinline
+              aria-label="A flower surprise for our secret wish"
+            >
+              <source src="videos/giving_flowers.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+          </div>
         </div>
       </div>
 
@@ -279,6 +328,21 @@
     <section class="glass-card proposal-box" id="proposal-section">
       <h2 class="script-title">Will You Love Me Forever?</h2>
       <p class="sub-title">Through every smile, distance, and milestone ahead...</p>
+      <div class="asking-question-video-wrap" id="asking-question-video-wrap" aria-hidden="true">
+        <video
+          id="asking-question-video"
+          class="asking-question-video"
+          preload="auto"
+          autoplay
+          loop
+          muted
+          playsinline
+          aria-label="Will you love me forever question"
+        >
+          <source src="videos/asking_question.mp4" type="video/mp4">
+          Your browser does not support video playback.
+        </video>
+      </div>
 
       <div class="proposal-buttons">
         <button class="btn" id="btn-yes">Yes, Absolutely! ❤️</button>
