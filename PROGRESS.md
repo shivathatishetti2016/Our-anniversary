@@ -143,6 +143,8 @@ Real chronological events already written into `index.html`:
 | 2026-11-15 | Added looping inline `asking_question.mp4` playback when the “Will You Love Me Forever?” proposal tile appears, and one-time full-screen `dudu_kiss.mp4` playback after the cake is cut and before the proposal tile is shown. |
 | 2026-11-15 | Fixed the balloon-stage reveal to scroll the timer header to the top when the balloon screen unlocks. Added full-screen `take_care_bubu.mp4` playback whenever Next is clicked on the final 2026 timeline page; after playback, the 2026 page remains active and Next stays enabled. |
 | 2026-11-15 | Separated the balloon and gift warnings: out-of-order balloon messages remain in the timer tile, while “Please pop all the balloons first before opening the gift 🎈” now appears inside the cake/gift tile. |
+| 2026-11-15 | Fixed the gift warning lifecycle: it disappears after every correctly popped balloon and reappears only when the locked gift is clicked before all balloons are completed. |
+| 2026-11-15 | Disabled the Unlock Surprise button while the password field is empty. It now enables only for non-whitespace input, preventing the wrong-password Dudu scene from appearing on an empty submission. |
 | 2026-11-15 | Removed the intro-video sound button and removed the app’s intentional mute behavior. `intro_with_flowers.mp4` is now always requested with audio enabled on both first login and remembered-session playback. |
 | 2026-11-15 | Fixed intro playback on mobile reloads: if audio autoplay is rejected, `intro_with_flowers.mp4` now retries automatically in muted mode instead of immediately hiding the video and showing the Welcome tile. |
 

@@ -195,6 +195,7 @@ function handleBalloonPop(event) {
   }
 
   timerPopWarningEl.style.display = 'none';
+  getElement('gift-warning').style.display = 'none';
   balloon.classList.add('popped');
   nextBalloonOrder += 1;
 
@@ -249,6 +250,7 @@ timerBalloons.forEach((balloon) => {
 const loginOverlay = getElement('login-overlay');
 const loginForm = getElement('login-form');
 const passwordInput = getElement('password-input');
+const loginBtn = getElement('login-btn');
 const loginFeedback = getElement('login-feedback');
 const loginMessage = getElement('login-message');
 const loginEmojiState = getElement('login-emoji-state');
@@ -332,6 +334,7 @@ function hideBubuScene() {
   bubuScene.style.display = 'none';
   loginForm.style.display = 'flex';
   loginFeedback.style.display = 'block';
+  loginBtn.disabled = !passwordInput.value.trim();
   passwordInput.focus();
 }
 
@@ -505,6 +508,7 @@ function setLoginState(isSuccess) {
 
   // R4: Clear password field and track attempts
   passwordInput.value = '';
+  loginBtn.disabled = true;
 
   wrongAttempts += 1;
   loginAttemptsEl.style.display = 'block';
@@ -523,6 +527,11 @@ loginForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const enteredPassword = passwordInput.value.trim();
+  if (!enteredPassword) {
+    loginBtn.disabled = true;
+    passwordInput.focus();
+    return;
+  }
 
   if (enteredPassword === LOGIN_PASSWORD) {
     setLoginState(true);
@@ -531,6 +540,12 @@ loginForm.addEventListener('submit', (event) => {
     passwordInput.focus();
   }
 });
+
+passwordInput.addEventListener('input', () => {
+  loginBtn.disabled = !passwordInput.value.trim();
+});
+
+loginBtn.disabled = !passwordInput.value.trim();
 
 // R4: Reveal hint on click
 loginHintBtn.addEventListener('click', () => {
