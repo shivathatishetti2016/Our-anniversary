@@ -1089,6 +1089,13 @@ textarea:focus {
   font-weight: 600;
 }
 
+.gift-warning {
+  margin: 8px auto 12px;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
 .gift-box-wrap {
   position: relative;
   width: 170px;

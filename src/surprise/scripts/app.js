@@ -366,13 +366,12 @@ function showWelcomeOverlay() {
   welcomeOverlay.style.display = 'flex';
 }
 
-function showIntroVideo(isAutoplaySafe = false) {
+function showIntroVideo() {
   introVideoOverlay.style.display = 'flex';
   introVideoOverlay.setAttribute('aria-hidden', 'false');
-  // Browsers may block sound when playback starts after a page reload. Use
-  // muted playback only for that reload/session path; the first login starts
-  // from the password-submit gesture and can retain the video's audio.
-  introVideo.muted = isAutoplaySafe;
+  // Try audio first. If a mobile browser rejects audio autoplay after a
+  // reload, retry automatically muted instead of hiding the intro video.
+  introVideo.muted = false;
   introVideo.currentTime = 0;
 
   const finishIntroVideo = () => {
@@ -387,7 +386,13 @@ function showIntroVideo(isAutoplaySafe = false) {
 
   const playPromise = introVideo.play();
   if (playPromise && typeof playPromise.catch === 'function') {
-    playPromise.catch(finishIntroVideo);
+    playPromise.catch(() => {
+      introVideo.muted = true;
+      const mutedPlayPromise = introVideo.play();
+      if (mutedPlayPromise && typeof mutedPlayPromise.catch === 'function') {
+        mutedPlayPromise.catch(finishIntroVideo);
+      }
+    });
   }
 }
 
@@ -535,10 +540,11 @@ loginHintBtn.addEventListener('click', () => {
 
 // R9: If a valid session exists (within LOGIN_SESSION_MINUTES of the last
 // successful login), skip the login gate but replay the intro before showing
-// the Welcome overlay. Muted playback keeps this reliable after a reload.
+// the Welcome overlay. If mobile blocks audio autoplay, the video retries
+// automatically muted so the intro is still shown.
 if (isLoginSessionActive()) {
   loginOverlay.style.display = 'none';
-  showIntroVideo(true);
+  showIntroVideo();
 }
 
 
@@ -614,6 +620,7 @@ function setupWelcomePage() {
     const cakeInstructionEl = getElement('cake-instruction');
     giftBoxWrapEl.classList.remove('opened');
     giftBoxWrapEl.classList.add('locked-gift');
+    getElement('gift-warning').style.display = 'none';
     cakeHeadingEl.textContent = 'Open the Gift to Reveal Your Cake 🎁🎂';
     cakeInstructionEl.textContent = 'Pop all the balloons first, then open the gift to see the magic ✨';
 
@@ -635,6 +642,7 @@ const cakeEmoji = getElement('cake-emoji');
 const wishWarning = getElement('wish-warning');
 const cakeHeading = getElement('cake-heading');
 const cakeInstruction = getElement('cake-instruction');
+const giftWarning = getElement('gift-warning');
 const giftBoxWrap = getElement('gift-box-wrap');
 
 saveWishBtn.addEventListener('click', () => {
@@ -689,14 +697,14 @@ cakeEmoji.addEventListener('click', () => {
 
 giftBoxWrap.addEventListener('click', () => {
   if (!timerUnlocked) {
-    timerPopWarningEl.textContent = 'Please pop all the balloons first before opening the gift 🎈';
-    timerPopWarningEl.style.display = 'block';
+    giftWarning.textContent = 'Please pop all the balloons first before opening the gift 🎈';
+    giftWarning.style.display = 'block';
     return;
   }
 
   if (giftOpened) return;
 
-  timerPopWarningEl.style.display = 'none';
+  giftWarning.style.display = 'none';
   giftOpened = true;
   giftBoxWrap.classList.add('opened');
   cakeEmoji.classList.add('gift-revealed');
