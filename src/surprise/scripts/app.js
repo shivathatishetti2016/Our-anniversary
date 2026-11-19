@@ -636,7 +636,7 @@ function setupWelcomePage() {
     giftBoxWrapEl.classList.remove('opened');
     giftBoxWrapEl.classList.add('locked-gift');
     getElement('gift-warning').style.display = 'none';
-    cakeHeadingEl.textContent = 'Open the Gift to Reveal Your Cake 🎁🎂';
+    cakeHeadingEl.textContent = 'Open the Gift to Reveal Your Surprise 🎁🎂';
     cakeInstructionEl.textContent = 'Pop all the balloons first, then open the gift to see the magic ✨';
 
     wishPopupOverlay.classList.add('hidden');
