@@ -13,7 +13,7 @@ const LOGIN_PASSWORD = 'Jyoshi@2016';
 // R9: How long a successful login is remembered (in minutes). Change this
 // single variable to tune the session skip window. Persisted in localStorage
 // so the session survives reloads / new-tab visits within the window.
-const LOGIN_SESSION_MINUTES = 5;
+const LOGIN_SESSION_MINUTES = 720;
 const LOGIN_SESSION_KEY = 'anniversary_login_at';
 
 const getElement = (id) => {
